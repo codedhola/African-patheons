@@ -2122,7 +2122,7 @@ def build_preview_rig():
         front=add_camera(rig, 'Preview_Cam_Front', (0.0, -28.5, 2.3), (0.0, -3.0, 2.7), 36),
         side=add_camera(rig, 'Preview_Cam_Side', (27.0, -3.5, 4.0), (0.0, -3.5, 2.4), 40),
         threequarter=add_camera(rig, 'Preview_Cam_ThreeQuarter', (17.0, -21.5, 13.0), (-0.6, -3.2, 1.6), 32),
-        threequarter_back=add_camera(rig, 'Preview_Cam_ThreeQuarterBack', (-17.0, 17.5, 12.0), (0.0, -2.0, 1.6), 32),
+        threequarter_back=add_camera(rig, 'Preview_Cam_ThreeQuarterBack', (-17.0, 17.5, 8.0), (0.0, -2.0, 1.8), 32),
         playerscale=add_camera(rig, 'Preview_Cam_PlayerScale', (5.0, -12.6, 1.9), (-0.7, -4.2, 1.45), 35),
         detail=add_camera(rig, 'Preview_Cam_Detail', (-0.85, -8.3, 1.7), (-2.05, -5.3, 0.78), 40),
         plan=add_camera(rig, 'Preview_Cam_Plan', (0.0, -4.0, 60.0), (0.0, -4.0, 0.0), 50, ortho=31.0),
