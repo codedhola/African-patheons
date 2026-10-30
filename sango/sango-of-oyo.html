@@ -1,0 +1,391 @@
+<title>Ṣàngó of Ọ̀yọ́</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: a dark gallery wall. Big renders hang on storm-black; captions are set like museum object labels. */
+:root {
+  --bg: #0a0c11;          /* storm black, a little blue */
+  --wall: #11141b;        /* label and viewer ground */
+  --ink: #ece6da;         /* white bead */
+  --muted: #a39c90;
+  --line: #262b37;
+  --red: #d2321f;         /* Ṣàngó red */
+  --red-deep: #8f1a12;
+  --bolt: #b8c8ff;        /* lightning, used for focus and links */
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--bolt); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--bolt); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* six red, six white: Ṣàngó's bead count, used once as a rule between sections */
+.beadrule { position: relative; height: 10px; max-width: 396px; }
+.beadrule::before, .beadrule::after { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 5px 5px, var(--c) 3.4px, transparent 3.9px) 0 0 / 11px 10px repeat-x;
+  -webkit-mask: linear-gradient(90deg, #000 0 66px, transparent 66px 132px) var(--o) 0 / 132px 10px repeat-x;
+          mask: linear-gradient(90deg, #000 0 66px, transparent 66px 132px) var(--o) 0 / 132px 10px repeat-x; }
+.beadrule::before { --c: var(--red); --o: 0px; }
+.beadrule::after { --c: var(--ink); --o: 66px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px var(--line); }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--red); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--red); color: var(--ink); background: color-mix(in srgb, var(--red) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--red); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--bolt); }
+.compass button:focus-visible { outline: 2px solid var(--bolt); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--bolt); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--red-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Yorùbá òrìṣà of thunder and lightning</p>
+      <h1>Ṣàngó <span class="of">of</span> Ọ̀yọ́</h1>
+      <p class="lede">A photoreal study of the thunder king in full regalia: a red aso-oke agbádá that hangs from his raised arm, a beaded crown with its veil, the double axe held high and the gourd rattle in his other hand.</p>
+      <dl class="facts">
+        <div><dt>Colours</dt><dd><span class="swatch" style="background:var(--red)"></span>Red and <span class="swatch" style="background:var(--ink)"></span>white</dd></div>
+        <div><dt>His numbers</dt><dd>Four and six, counted in beads</dd></div>
+        <div><dt>Emblem</dt><dd>Oṣé, the double axe</dd></div>
+        <div><dt>Kingship</dt><dd>Remembered as an early Aláàfin of Ọ̀yọ́</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="Ṣàngó standing on wet dark ground at night, right arm raised with a carved double axe, in a red agbádá with white squares that falls from his arm like a wing; a beaded red-and-white crown, a red leather bag at his hip and a gourd rattle in his left hand; lightning strikes far behind him.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the clothing, regalia and hair were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn him round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the figure turns.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Ṣàngó, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The embroidered teardrop on the chest, three strands of ìlẹ̀kẹ̀ over it and the làbà strap crossing to his right shoulder.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">His right side</button><p>The agbádá falling from the raised arm in one wide sheet, the way the gown's sleeves gather when the arm goes up.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The long back of the bead veil and the strap returning down his back.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">His left side</button><p>The sleeve hanging from the forearm that holds the ṣẹ̀rẹ̀, and the bag's leather fringe.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the crown portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of Ṣàngó in a tall conical crown of red and white beads with zigzags, a white double-axe emblem and a small beaded bird on top; strands of beads hang from the rim around his head."></button>
+        <figcaption class="label">
+          <h3>The beaded crown</h3>
+          <p class="term">Adé · glass seed beads</p>
+          <p>A conical crown of 15,532 separately modelled beads, with a fringe of bead strands and a bird on top. On a beaded crown in the High Museum, the bird at the peak identifies the king as a descendant of Odùduwà, and the veil makes him a living embodiment of that ancestor. Here the veil is cut short so his face stays visible. The zigzag lightning and the axe emblem are this study's own design.</p>
+          <p class="src">Source: <a href="https://high.org/collection/crown-of-obatala-ade-obatala">High Museum of Art</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/face.webp" aria-label="Open the face close-up at full size"><img src="img/face.webp" width="1100" height="1100" loading="lazy" alt="Close-up of a dark-skinned bearded face with six fine horizontal scars on each cheek, brown eyes under the beaded rim of the crown, red and white bead strands falling at the temples."></button>
+        <figcaption class="label">
+          <h3>Àbàjà marks</h3>
+          <p class="term">Ilà · six lines on each cheek</p>
+          <p>Six horizontal lines on each cheek, the Ọ̀yọ́ style associated with the Aláàfin. They are painted into the skin's height map so they catch light like healed cuts. Brows, lashes and the short coiled beard are close to 90,000 separate hair curves.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Yoruba_tribal_marks">Wikipedia: Yoruba tribal marks</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/ose.webp" aria-label="Open the double axe close-up at full size"><img src="img/ose.webp" width="1000" height="1100" loading="lazy" alt="A raised fist gripping a carved wooden wand topped by a double-bladed axe with incised chevrons; strands of red and white beads hang from under the blades, brass bangles on the wrist."></button>
+        <figcaption class="label">
+          <h3>The double axe</h3>
+          <p class="term">Oṣé · carved wood, glass beads, brass</p>
+          <p>Held high, as on Ben Enwonwu's bronze Ṣàngó in Lagos. Shrine carvings show a devotee carrying the oṣé above her head. The strands under the blades are strung in sixes.</p>
+          <p class="src">Sources: <a href="https://eyesofalagosboy.com/2024/04/02/photo-of-the-week-sango-in-the-sun/">Eyes of a Lagos Boy</a>, <a href="https://chazen.wisc.edu/collection/15969/sango-shrine-figure">Chazen Museum of Art</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/sere.webp" aria-label="Open the rattle and bag close-up at full size"><img src="img/sere.webp" width="1000" height="1000" loading="lazy" alt="A left hand holding a long-necked gourd rattle engraved with dark triangles and ringed with red and white beads; below it a red leather bag with a yellow and white flap and a fringe of leather strips."></button>
+        <figcaption class="label">
+          <h3>Rattle and bag</h3>
+          <p class="term">Ṣẹ̀rẹ̀ · làbà</p>
+          <p>The ṣẹ̀rẹ̀ is a gourd holding dried seeds, shaken to call Ṣàngó. A priest carried it and the oṣé in the làbà, a goat-leather bag embroidered with fine strips of leather dyed red and yellow. One dealer's account reads the red as Ṣàngó's destructive rage.</p>
+          <p class="src">Source: <a href="https://michaelbackmanltd.com/object/shango-shrine-laba-bag">Michael Backman Ltd</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/chest.webp" aria-label="Open the necklace and embroidery close-up at full size"><img src="img/chest.webp" width="1000" height="1000" loading="lazy" alt="The chest of the red agbádá: white satin-stitch embroidery of spirals and a double axe inside a teardrop panel, three necklaces of red and white beads in groups of six, and a red, yellow and white leather strap crossing diagonally."></button>
+        <figcaption class="label">
+          <h3>Ìlẹ̀kẹ̀ over the agbádá</h3>
+          <p class="term">Beads in sixes · strip-woven cloth</p>
+          <p>Red and white beads in groups of six on red cloth with white squares. Gowns like this are cut wide from narrow strip-woven cloth, richly embroidered, and worn with the sleeves bunched at the shoulders.</p>
+          <p class="src">Sources: <a href="https://en.wikipedia.org/wiki/Shango">Wikipedia: Shango</a>, <a href="https://smarthistory.org/ceremonial-robe-agbada-ileke-yoruba">Smarthistory</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>Classical shrine art shows Ṣàngó through his devotees and emblems rather than as a portrait, so any face given to him is an interpretation. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>Red cloth with white squares</b> for his ritual garments, made up here as agbádá, bùbá and ṣòkòtò. <span class="src"><a href="https://en.wikipedia.org/wiki/Shango">Wikipedia: Shango</a></span></li>
+          <li><b>Red and white beads in fours or sixes.</b> Every strand here counts six red, then six white. <span class="src"><a href="https://en.wikipedia.org/wiki/Shango">Wikipedia: Shango</a></span></li>
+          <li><b>The oṣé raised overhead.</b> <span class="src"><a href="https://eyesofalagosboy.com/2024/04/02/photo-of-the-week-sango-in-the-sun/">Eyes of a Lagos Boy</a>, <a href="https://chazen.wisc.edu/collection/15969/sango-shrine-figure">Chazen</a></span></li>
+          <li><b>The làbà and the ṣẹ̀rẹ̀:</b> a goat-leather bag embroidered with strips dyed red and yellow, carrying the axe and the seed-filled gourd. <span class="src"><a href="https://michaelbackmanltd.com/object/shango-shrine-laba-bag">Michael Backman Ltd</a></span></li>
+          <li><b>Àbàjà marks,</b> six lines a cheek. <span class="src"><a href="https://en.wikipedia.org/wiki/Yoruba_tribal_marks">Wikipedia: Yoruba tribal marks</a></span></li>
+          <li><b>A conical beaded crown with a veil and a bird on top.</b> <span class="src"><a href="https://high.org/collection/crown-of-obatala-ade-obatala">High Museum of Art</a></span></li>
+          <li><b>A wide gown of strip-woven cloth,</b> embroidered, sleeves bunched at the shoulders. <span class="src"><a href="https://smarthistory.org/ceremonial-robe-agbada-ileke-yoruba">Smarthistory</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study's choices</h3>
+        <ul>
+          <li><b>His face, build and beard.</b> No source describes how Ṣàngó looks; he is drawn as a strong man in his thirties.</li>
+          <li><b>The crown's motifs.</b> The zigzag lightning, the white axe emblem and the bird's shape are designed for this figure, not copied from one crown. The veil is cut short to show the face.</li>
+          <li><b>The embroidery.</b> Spirals and an oṣé inside a teardrop panel, in white thread, in the general manner of agbádá neck embroidery.</li>
+          <li><b>The cloth's scale.</b> 10.5 cm strips with two woven squares across each, each square with a red centre.</li>
+          <li><b>The pose and the storm.</b> The raised arm follows the statue; the wet ground and distant lightning set the scene for the god of thunder.</li>
+          <li><b>The bag's colours.</b> Its red body and the white on its flap and fringe are this study's; the source names red and yellow dyes.</li>
+          <li><b>Bangles and bracelets.</b> Brass and beads at the wrists are decoration, not a sourced attribute.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How he was made</h2>
+        <p>The body starts from MakeHuman's free base mesh, shaped and rigged, then posed bone by bone. The fists were closed around the handles by fitting the fingers to each grip.</p>
+        <p>The agbádá is one cloth pattern, a rectangle folded at the shoulders with a neck opening and sewn sides. It was draped on the body with the arms out, then simulated while the arms moved into the final pose, so every fold comes from the cloth hanging off the raised arm.</p>
+        <p>Beads, strands and strap were placed by small physics passes: the necklaces were dropped over the head and allowed to settle on the cloth, the crown's veil slides over the head and ears, and the strap was pulled taut over the shoulder.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Agbádá cloth, simulated vertices</th><td>14,219</td></tr>
+            <tr><th scope="row">Simulated frames, arms out to final pose</th><td>104</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Beads on the crown</th><td>15,532</td></tr>
+            <tr><th scope="row">Beads in the veil, 50 strands</th><td>1,456</td></tr>
+            <tr><th scope="row">Beads in the three necklaces</th><td>405</td></tr>
+            <tr><th scope="row">Beads on the axe, rattle and wrists</th><td>313</td></tr>
+            <tr><th scope="row">Beard and moustache curves</th><td>86,951</td></tr>
+            <tr><th scope="row">Brow and lash curves</th><td>2,845</td></tr>
+            <tr><th scope="row">Scalp curves, mostly under the crown</th><td>43,397</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>80 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Shango">Wikipedia: Shango</a>. Colours, beads in fours and sixes, ritual cloth, kingship of Ọ̀yọ́.</li>
+      <li><a href="https://chazen.wisc.edu/collection/15969/sango-shrine-figure">Chazen Museum of Art, University of Wisconsin: Ṣàngó shrine figure</a>.</li>
+      <li><a href="https://eyesofalagosboy.com/2024/04/02/photo-of-the-week-sango-in-the-sun/">Eyes of a Lagos Boy: Ben Enwonwu's Sango, Marina, Lagos (2024)</a>.</li>
+      <li><a href="https://michaelbackmanltd.com/object/shango-shrine-laba-bag">Michael Backman Ltd: Ṣàngó shrine làbà bag</a>. Goat leather embroidered with strips dyed red and yellow; what it carried; the meaning of red.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Yoruba_tribal_marks">Wikipedia: Yoruba tribal marks</a>.</li>
+      <li><a href="https://high.org/collection/crown-of-obatala-ade-obatala">High Museum of Art: Crown of Obatala (Adé Obatala)</a>. Conical beaded crown, veil, the bird at the top.</li>
+      <li><a href="https://smarthistory.org/ceremonial-robe-agbada-ileke-yoruba">Smarthistory: Ceremonial robe (agbádá ìlẹ̀kẹ̀), Yorùbá</a>. Strip-woven, embroidered gowns cut wide, sleeves bunched at the shoulders.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>, the CC0 base mesh, targets, rig and eye geometry used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Ṣàngó, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>
