@@ -1,0 +1,200 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}</style></head><body>
+
+<div style="position: relative; width: 1600px; height: 900px; overflow: hidden; background: #140a06; font-family: Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif; color: #f4efe6;">
+
+<svg width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Fighting stage: an Igbo village square at night under a thin crescent moon. A bonfire burns at the centre, throwing orange light over the beaten earth. Beneath a huge old tree lies the ikoro, an enormous slit drum cut from a log, with a drummer raising his sticks beside it. Two masquerades dance near the fire, one in long raffia with a horned headpiece, one in tiers of red, yellow and white cloth, while villagers watch in a ring at the edge of the square. Thatched houses and palms stand dark against the stars, and torches burn at the sides." style="position: absolute; left: 0; top: 0; display: block;">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#060920"></stop>
+<stop offset="0.6" stop-color="#141a3e"></stop>
+<stop offset="1" stop-color="#2c2a4c"></stop>
+</linearGradient>
+<radialGradient id="firelight" cx="0.5" cy="0.5" r="0.5">
+<stop offset="0" stop-color="#ffb35a" stop-opacity="0.65"></stop>
+<stop offset="0.45" stop-color="#ff8a3a" stop-opacity="0.22"></stop>
+<stop offset="1" stop-color="#ff8a3a" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="ground" cx="800" cy="660" r="820" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#7a4224"></stop>
+<stop offset="0.45" stop-color="#3e2214"></stop>
+<stop offset="1" stop-color="#140a06"></stop>
+</radialGradient>
+<pattern id="stars" width="320" height="220" patternUnits="userSpaceOnUse">
+<circle cx="20" cy="30" r="1.3" fill="#e8ecff"></circle><circle cx="110" cy="90" r="1" fill="#e8ecff"></circle><circle cx="190" cy="40" r="1.5" fill="#ffffff"></circle><circle cx="260" cy="150" r="1" fill="#e8ecff"></circle><circle cx="70" cy="180" r="1.2" fill="#e8ecff"></circle><circle cx="300" cy="70" r="1" fill="#ffffff"></circle><circle cx="150" cy="140" r="1.3" fill="#e8ecff"></circle>
+</pattern>
+<radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+<stop offset="0.55" stop-color="#000000" stop-opacity="0"></stop>
+<stop offset="1" stop-color="#05030a" stop-opacity="0.7"></stop>
+</radialGradient>
+<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+<filter id="smoke" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"></feGaussianBlur></filter>
+<symbol id="person" overflow="visible">
+<circle cx="0" cy="-58" r="9" fill="#120a0c"></circle>
+<path d="M-14 -46 C -16 -30, -18 -14, -18 0 L 18 0 C 18 -14, 16 -30, 14 -46 Z" fill="#120a0c"></path>
+<path d="M-12 -44 C -14 -30, -16 -14, -16 0" fill="none" stroke="#ff9a4a" stroke-width="2" opacity="0.9"></path>
+</symbol>
+</defs>
+
+<!-- night sky and crescent moon -->
+<rect x="0" y="0" width="1600" height="640" fill="url(#sky)"></rect>
+<rect x="0" y="0" width="1600" height="440" fill="url(#stars)"></rect>
+<circle cx="1300" cy="120" r="30" fill="#f4ecd0"></circle>
+<circle cx="1314" cy="112" r="28" fill="#070b22"></circle>
+
+<!-- village houses and palms around the square -->
+<g fill="#10142c" stroke="#080a1a" stroke-width="2">
+<path d="M560 560 L 640 500 L 720 560 Z"></path><rect x="576" y="556" width="128" height="50"></rect>
+<path d="M880 556 L 970 490 L 1060 556 Z"></path><rect x="896" y="552" width="148" height="54"></rect>
+<path d="M1100 566 L 1170 512 L 1240 566 Z"></path><rect x="1114" y="562" width="112" height="44"></rect>
+<path d="M1260 556 L 1350 494 L 1440 556 Z"></path><rect x="1276" y="552" width="148" height="54"></rect>
+</g>
+<g fill="#0c1024">
+<path d="M770 600 C 766 540, 770 480, 778 440 L 786 440 C 780 480, 780 540, 784 600 Z"></path>
+<path d="M782 442 C 758 422, 730 422, 710 436 C 734 430, 758 432, 780 446 Z M782 442 C 806 422, 834 422, 854 436 C 830 430, 806 432, 784 446 Z M782 442 C 770 414, 750 402, 730 400 C 750 410, 768 424, 780 444 Z M782 442 C 794 414, 814 402, 834 400 C 814 410, 796 424, 784 444 Z"></path>
+<path d="M1480 600 C 1476 530, 1480 470, 1488 430 L 1496 430 C 1490 470, 1490 530, 1494 600 Z"></path>
+<path d="M1492 432 C 1468 412, 1440 412, 1420 426 C 1444 420, 1468 422, 1490 436 Z M1492 432 C 1516 412, 1544 412, 1564 426 C 1540 420, 1516 422, 1494 436 Z M1492 432 C 1480 404, 1460 392, 1440 390 C 1460 400, 1478 414, 1490 434 Z M1492 432 C 1504 404, 1524 392, 1544 390 C 1524 400, 1506 414, 1494 434 Z"></path>
+</g>
+
+<!-- the huge old tree over the ikoro -->
+<g fill="#0a0d1e" stroke="#05060f" stroke-width="2">
+<path d="M300 640 C 310 560, 300 480, 320 420 C 330 390, 340 370, 330 340 L 380 340 C 376 380, 392 420, 400 480 C 410 560, 420 610, 450 640 Z"></path>
+<path d="M60 360 C 30 300, 80 230, 160 236 C 190 170, 300 150, 360 190 C 420 150, 540 170, 560 240 C 620 250, 650 310, 620 360 C 600 400, 540 410, 500 396 C 460 420, 380 424, 340 404 C 300 424, 220 422, 180 400 C 130 414, 80 400, 60 360 Z"></path>
+</g>
+<path d="M398 480 C 408 560, 420 610, 448 640" fill="none" stroke="#ff8a4a" stroke-width="3" opacity="0.6"></path>
+<path d="M560 300 C 600 320, 620 344, 616 360" fill="none" stroke="#ff8a4a" stroke-width="2" opacity="0.4"></path>
+
+<!-- the ikoro slit drum and its drummer -->
+<g stroke="#120804" stroke-width="3" stroke-linejoin="round">
+<path d="M226 600 C 226 578, 244 566, 270 566 L 500 566 C 528 566, 546 580, 546 604 C 546 630, 528 644, 500 644 L 270 644 C 244 644, 226 628, 226 600 Z" fill="#5a3420"></path>
+<ellipse cx="530" cy="605" rx="16" ry="38" fill="#7a4a2a"></ellipse>
+<ellipse cx="530" cy="605" rx="10" ry="26" fill="none" stroke="#3a2010" stroke-width="2"></ellipse>
+<path d="M280 574 L 486 574" fill="none" stroke="#120804" stroke-width="7" stroke-linecap="round"></path>
+<path d="M236 600 C 224 590, 222 574, 236 566 C 244 576, 246 590, 238 600 Z" fill="#6a3e22"></path>
+</g>
+<g fill="none" stroke="#ff9a4a" stroke-width="2.5" opacity="0.8">
+<path d="M500 568 C 526 570, 544 584, 546 604"></path>
+<path d="M300 640 L 500 640"></path>
+</g>
+<g fill="none" stroke="#3a2010" stroke-width="2" opacity="0.8">
+<path d="M300 600 L 320 620 L 340 600 L 360 620 L 380 600 L 400 620 L 420 600 L 440 620 L 460 600"></path>
+</g>
+<g stroke="#0a0606" stroke-width="2" stroke-linejoin="round">
+<circle cx="390" cy="482" r="11" fill="#120a0c"></circle>
+<path d="M376 496 L 404 496 L 410 566 L 370 566 Z" fill="#120a0c"></path>
+<path d="M378 500 L 348 462 M402 500 L 432 458" fill="none" stroke="#120a0c" stroke-width="7" stroke-linecap="round"></path>
+<path d="M348 462 L 340 440 M432 458 L 444 438" fill="none" stroke="#8a5a34" stroke-width="4" stroke-linecap="round"></path>
+</g>
+<path d="M404 498 L 408 562" fill="none" stroke="#ff9a4a" stroke-width="2" opacity="0.8"></path>
+
+<!-- villagers watching from the edge of the square -->
+<use href="#person" x="580" y="652"></use>
+<use href="#person" transform="translate(612 650) scale(0.9)"></use>
+<use href="#person" x="1000" y="652"></use>
+<use href="#person" transform="translate(1034 650) scale(0.86)"></use>
+<use href="#person" x="1068" y="652"></use>
+<use href="#person" transform="translate(1180 652) scale(0.95)"></use>
+<use href="#person" transform="translate(1214 650) scale(0.85)"></use>
+<use href="#person" x="1250" y="652"></use>
+<use href="#person" transform="translate(1320 652) scale(0.9)"></use>
+<use href="#person" x="1356" y="652"></use>
+<use href="#person" transform="translate(548 650) scale(0.85)"></use>
+
+<!-- the bonfire -->
+<ellipse cx="800" cy="640" rx="560" ry="260" fill="url(#firelight)"></ellipse>
+<g fill="#5a5060" opacity="0.4" filter="url(#smoke)">
+<circle cx="806" cy="520" r="26"></circle><circle cx="790" cy="460" r="34"></circle><circle cx="812" cy="390" r="40"></circle>
+</g>
+
+<!-- two masquerades dancing by the fire -->
+<g stroke="#120804" stroke-width="2" stroke-linejoin="round">
+<path d="M610 664 C 612 610, 626 560, 640 520 L 680 520 C 694 560, 708 610, 710 664 Z" fill="#6a3a1e"></path>
+<path d="M640 526 C 632 504, 640 480, 660 478 C 680 480, 688 504, 680 526 C 672 532, 648 532, 640 526 Z" fill="#f2ece0"></path>
+<path d="M642 488 C 630 466, 628 444, 640 428 C 642 448, 648 466, 656 482 Z" fill="#2a1a10"></path>
+<path d="M678 488 C 690 466, 692 444, 680 428 C 678 448, 672 466, 664 482 Z" fill="#2a1a10"></path>
+<path d="M600 560 L 570 520" fill="none" stroke="#6a3a1e" stroke-width="7" stroke-linecap="round"></path>
+<path d="M560 506 C 550 496, 556 484, 568 486 C 578 494, 580 506, 570 514 Z" fill="#f2ece0"></path>
+</g>
+<g fill="none" stroke-linecap="round">
+<g stroke="#a8682e" stroke-width="2.5">
+<path d="M620 650 L 626 590 M632 656 L 636 580 M644 660 L 646 572 M656 660 L 656 566 M668 660 L 666 570 M680 658 L 676 578 M692 654 L 686 586 M702 650 L 696 596"></path>
+</g>
+<g stroke="#e0a050" stroke-width="1.5" opacity="0.8">
+<path d="M626 650 L 630 594 M650 660 L 650 570 M674 660 L 672 574 M698 652 L 692 592"></path>
+</g>
+</g>
+<g fill="#1a1410"><path d="M644 500 C 648 494, 656 494, 657 500 C 654 504, 648 504, 644 500 Z"></path><path d="M676 500 C 672 494, 664 494, 663 500 C 666 504, 672 504, 676 500 Z"></path></g>
+<path d="M660 498 L 660 514" stroke="#b8a890" stroke-width="2"></path>
+<path d="M652 520 C 656 524, 664 524, 668 520 C 664 518, 656 518, 652 520 Z" fill="#a8281e"></path>
+<path d="M644 508 L 650 516 M676 508 L 670 516" stroke="#1a1410" stroke-width="1.5"></path>
+
+<g stroke="#120804" stroke-width="2" stroke-linejoin="round">
+<path d="M920 664 C 916 640, 922 618, 932 606 L 1008 606 C 1018 618, 1024 640, 1020 664 Z" fill="#c8302a"></path>
+<path d="M928 610 C 926 592, 932 578, 942 570 L 998 570 C 1008 578, 1014 592, 1012 610 Z" fill="#e2b444"></path>
+<path d="M940 574 C 940 560, 946 548, 954 542 L 986 542 C 994 548, 1000 560, 1000 574 Z" fill="#f2ece0"></path>
+<circle cx="970" cy="526" r="18" fill="#f2ece0"></circle>
+<path d="M944 512 C 940 486, 952 466, 970 460 C 988 466, 1000 486, 996 512 C 988 498, 952 498, 944 512 Z" fill="#c8302a"></path>
+<path d="M952 470 L 940 446 M970 460 L 970 434 M988 470 L 1000 446" fill="none" stroke="#e2b444" stroke-width="3" stroke-linecap="round"></path>
+</g>
+<g fill="#1a1410"><path d="M958 522 C 961 517, 967 517, 968 522 C 966 526, 961 526, 958 522 Z"></path><path d="M982 522 C 979 517, 973 517, 972 522 C 974 526, 979 526, 982 522 Z"></path></g>
+<path d="M964 535 C 967 538, 973 538, 976 535 C 973 533, 967 533, 964 535 Z" fill="#a8281e"></path>
+<path d="M956 528 L 960 536 M984 528 L 980 536" stroke="#e2b444" stroke-width="2"></path>
+<g fill="none" stroke="#120804" stroke-width="1.5">
+<path d="M926 630 L 1014 630 M932 590 L 1008 590 M944 558 L 996 558"></path>
+</g>
+<g fill="#f2ece0"><circle cx="940" cy="640" r="2.5"></circle><circle cx="960" cy="644" r="2.5"></circle><circle cx="980" cy="644" r="2.5"></circle><circle cx="1000" cy="640" r="2.5"></circle></g>
+
+<!-- beaten earth of the square, the fighting floor -->
+<path d="M0 660 C 300 654, 600 664, 800 660 C 1000 656, 1300 664, 1600 658 L 1600 900 L 0 900 Z" fill="url(#ground)"></path>
+<path d="M0 660 C 300 654, 600 664, 800 660 C 1000 656, 1300 664, 1600 658" fill="none" stroke="#0a0604" stroke-width="3"></path>
+<ellipse cx="800" cy="700" rx="420" ry="90" fill="url(#firelight)"></ellipse>
+<g stroke="#140804" stroke-width="3" stroke-linejoin="round">
+<path d="M740 676 L 860 652 L 866 664 L 746 688 Z" fill="#4a2a18"></path>
+<path d="M744 652 L 862 676 L 856 688 L 738 664 Z" fill="#3a2010"></path>
+</g>
+<g filter="url(#glow)">
+<path d="M800 668 C 760 650, 752 610, 772 574 C 776 600, 788 612, 794 600 C 790 570, 800 540, 822 520 C 816 556, 834 572, 840 600 C 846 586, 852 576, 850 560 C 868 590, 860 640, 820 668 Z" fill="#ff7a2a"></path>
+<path d="M802 664 C 780 650, 776 620, 790 596 C 794 616, 802 622, 806 612 C 806 594, 812 578, 824 566 C 822 590, 834 604, 834 624 C 834 644, 822 658, 802 664 Z" fill="#ffc35a"></path>
+<path d="M804 660 C 794 650, 794 634, 802 620 C 806 632, 812 634, 814 626 C 818 640, 816 652, 804 660 Z" fill="#fff2c0"></path>
+</g>
+<g fill="#ffd36b" filter="url(#glow)">
+<circle cx="790" cy="500" r="2.2"></circle><circle cx="820" cy="460" r="2"></circle><circle cx="780" cy="420" r="1.8"></circle><circle cx="840" cy="400" r="1.6"></circle><circle cx="806" cy="360" r="1.6"></circle>
+</g>
+<g fill="none" stroke="#5a3420" stroke-width="2" opacity="0.6">
+<path d="M380 760 C 440 754, 500 762, 560 756"></path>
+<path d="M1040 780 C 1100 774, 1160 782, 1220 776"></path>
+<path d="M600 860 C 680 852, 760 862, 840 856"></path>
+</g>
+
+<!-- torches at the sides -->
+<g>
+<path d="M150 900 L 150 560" stroke="#1a0e08" stroke-width="10"></path>
+<path d="M1450 900 L 1450 560" stroke="#1a0e08" stroke-width="10"></path>
+<ellipse cx="150" cy="560" rx="130" ry="110" fill="url(#firelight)"></ellipse>
+<ellipse cx="1450" cy="560" rx="130" ry="110" fill="url(#firelight)"></ellipse>
+<g filter="url(#glow)">
+<path d="M150 500 C 138 520, 132 538, 138 556 L 162 556 C 168 538, 162 520, 150 500 Z" fill="#ff8a2a"></path>
+<path d="M150 518 C 144 530, 142 542, 146 554 L 154 554 C 158 542, 156 530, 150 518 Z" fill="#ffd36b"></path>
+<path d="M1450 500 C 1438 520, 1432 538, 1438 556 L 1462 556 C 1468 538, 1462 520, 1450 500 Z" fill="#ff8a2a"></path>
+<path d="M1450 518 C 1444 530, 1442 542, 1446 554 L 1454 554 C 1458 542, 1456 530, 1450 518 Z" fill="#ffd36b"></path>
+</g>
+</g>
+
+<!-- house eave framing the top right, tree roots framing the left -->
+<g stroke="#05030a" stroke-width="3" stroke-linejoin="round">
+<path d="M1300 -10 L 1620 -10 L 1620 200 C 1540 176, 1440 120, 1300 -10 Z" fill="#1a1208"></path>
+</g>
+<g fill="#2a1a10">
+<path d="M1300 -10 L 1320 10 L 1330 -6 L 1350 26 L 1362 4 L 1380 40 L 1394 16 L 1412 56 L 1428 30 L 1446 72 L 1462 44 L 1480 88 L 1496 60 L 1516 104 L 1532 76 L 1552 120 L 1568 92 L 1588 136 L 1604 110 L 1620 150 L 1620 -10 Z"></path>
+</g>
+<g fill="#0a0606" stroke="#030202" stroke-width="2" stroke-linejoin="round">
+<path d="M-20 900 L -20 700 C 20 710, 60 740, 90 790 C 120 840, 150 870, 200 900 Z"></path>
+<path d="M-20 820 C 40 816, 100 836, 140 880 L 120 900 L -20 900 Z"></path>
+</g>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#vig)"></rect>
+</svg>
+
+
+
+</div>
+</body></html>

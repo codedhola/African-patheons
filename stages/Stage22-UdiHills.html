@@ -1,0 +1,177 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}</style></head><body>
+
+<div style="position: relative; width: 1600px; height: 900px; overflow: hidden; background: #5a3a24; font-family: Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif; color: #f4efe6;">
+
+<svg width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Fighting stage: a sandstone ledge on the edge of the Udi Hills at dawn. Beyond the edge the land drops away to a valley full of mist, with flat-topped escarpments of layered sandstone fading into the distance, a thin stream spilling over one cliff and the faint lights of a city far below. Grass tufts and rounded boulders cover the ledge, a pile of big boulders frames the left and a lone savanna tree frames the right as the sun rises." style="position: absolute; left: 0; top: 0; display: block;">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#263866"></stop>
+<stop offset="0.4" stop-color="#7a6a9c"></stop>
+<stop offset="0.75" stop-color="#ee9c72"></stop>
+<stop offset="1" stop-color="#f8d294"></stop>
+</linearGradient>
+<radialGradient id="sunglow" cx="0.5" cy="0.5" r="0.5">
+<stop offset="0" stop-color="#fff2c4" stop-opacity="0.95"></stop>
+<stop offset="0.35" stop-color="#ffc884" stop-opacity="0.45"></stop>
+<stop offset="1" stop-color="#ff9a6a" stop-opacity="0"></stop>
+</radialGradient>
+<linearGradient id="ledge" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#d2986a"></stop>
+<stop offset="0.45" stop-color="#a06c44"></stop>
+<stop offset="1" stop-color="#5a3a24"></stop>
+</linearGradient>
+<linearGradient id="scarpfar" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#9a7a9a"></stop>
+<stop offset="1" stop-color="#7a6488"></stop>
+</linearGradient>
+<linearGradient id="scarpmid" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#8a5e6a"></stop>
+<stop offset="1" stop-color="#5e4462"></stop>
+</linearGradient>
+<linearGradient id="mistband" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#f0d4d6" stop-opacity="0"></stop>
+<stop offset="0.4" stop-color="#f0d4d6" stop-opacity="1"></stop>
+<stop offset="1" stop-color="#f0d4d6" stop-opacity="1"></stop>
+</linearGradient>
+<radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+<stop offset="0.62" stop-color="#000000" stop-opacity="0"></stop>
+<stop offset="1" stop-color="#160e1e" stop-opacity="0.5"></stop>
+</radialGradient>
+<filter id="mist" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="14"></feGaussianBlur></filter>
+<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+<symbol id="tuft" overflow="visible">
+<path fill="currentColor" d="M-18 0 C -20 -16, -26 -28, -32 -36 C -20 -28, -14 -16, -10 0 Z M-8 0 C -8 -20, -6 -34, -10 -46 C 0 -34, 0 -18, 2 0 Z M2 0 C 6 -18, 12 -30, 20 -40 C 18 -28, 12 -14, 10 0 Z M10 0 C 18 -10, 26 -16, 36 -20 C 26 -12, 20 -6, 18 0 Z"></path>
+</symbol>
+</defs>
+
+<!-- dawn sky -->
+<rect x="0" y="0" width="1600" height="700" fill="url(#sky)"></rect>
+<ellipse cx="1250" cy="500" rx="480" ry="300" fill="url(#sunglow)"></ellipse>
+<circle cx="1250" cy="500" r="40" fill="#fff0c0" filter="url(#glow)"></circle>
+<g fill="#c87a8a" opacity="0.6">
+<path d="M120 160 C 260 140, 460 142, 600 156 C 460 170, 260 172, 120 160 Z"></path>
+<path d="M760 230 C 900 212, 1100 214, 1240 228 C 1100 242, 900 244, 760 230 Z"></path>
+</g>
+<g fill="#2a2440">
+<path d="M640 200 C 630 192, 618 190, 606 192 C 618 196, 628 202, 636 210 L 640 206 L 644 210 C 652 202, 662 196, 674 192 C 662 190, 650 192, 640 200 Z"></path>
+<path d="M700 170 C 692 164, 682 162, 672 164 C 682 168, 690 172, 696 178 L 700 174 L 704 178 C 710 172, 718 168, 728 164 C 718 162, 708 164, 700 170 Z"></path>
+</g>
+
+<!-- far flat-topped escarpments -->
+<path d="M0 520 L 0 470 L 140 466 L 160 476 L 380 470 L 420 486 L 600 482 L 640 470 L 900 466 L 940 480 L 1160 474 L 1200 462 L 1460 458 L 1490 470 L 1600 468 L 1600 520 Z" fill="url(#scarpfar)"></path>
+<path d="M0 470 L 140 466 M160 476 L 380 470 M420 486 L 600 482 M640 470 L 900 466 M940 480 L 1160 474 M1200 462 L 1460 458 M1490 470 L 1600 468" stroke="#f2b8a0" stroke-width="2.5" opacity="0.8"></path>
+<g fill="none" stroke="#6e5a82" stroke-width="2" opacity="0.6">
+<path d="M0 488 L 380 486 M420 500 L 900 496 M940 494 L 1460 490 M1490 488 L 1600 486"></path>
+</g>
+<!-- nearer escarpment with a stream spilling over it -->
+<path d="M0 600 L 0 520 C 40 516, 80 512, 120 514 L 160 530 L 420 524 L 470 540 L 700 534 L 740 520 L 1080 514 L 1120 528 L 1380 522 L 1420 506 L 1600 504 L 1600 600 Z" fill="url(#scarpmid)"></path>
+<path d="M0 520 C 40 516, 80 512, 120 514 M160 530 L 420 524 M470 540 L 700 534 M740 520 L 1080 514 M1120 528 L 1380 522 M1420 506 L 1600 504" fill="none" stroke="#f6b08a" stroke-width="3" opacity="0.85"></path>
+<g fill="none" stroke="#4e3a56" stroke-width="2.5" opacity="0.7">
+<path d="M0 548 L 420 544 M470 560 L 1080 552 M1120 548 L 1600 540"></path>
+<path d="M0 570 L 1600 566"></path>
+</g>
+<!-- a great mesa of layered sandstone, a stream spilling over its edge -->
+<path d="M870 640 L 884 470 C 890 440, 900 418, 930 404 L 1180 392 C 1210 396, 1236 412, 1250 440 L 1296 640 Z" fill="#8a5e6a" stroke="#3e2a3a" stroke-width="2.5" stroke-linejoin="round"></path>
+<path d="M1180 392 C 1210 396, 1236 412, 1250 440 L 1296 640 L 1230 640 L 1196 440 C 1192 420, 1188 404, 1180 392 Z" fill="#b8786e"></path>
+<path d="M930 404 L 1180 392" stroke="#f6b08a" stroke-width="4" stroke-linecap="round"></path>
+<g fill="none" stroke="#5e4250" stroke-width="2.5" opacity="0.8">
+<path d="M886 450 L 1196 440 M884 480 L 1204 472 M882 512 L 1210 504 M880 546 L 1218 538 M878 580 L 1226 572"></path>
+</g>
+<g fill="none" stroke="#e8a08a" stroke-width="2" opacity="0.7">
+<path d="M1206 452 L 1246 470 M1212 490 L 1258 510 M1218 530 L 1270 552"></path>
+</g>
+<g fill="none" stroke="#4a3242" stroke-width="2" opacity="0.7">
+<path d="M960 410 L 966 470 L 958 530 M1040 400 L 1036 460 L 1046 520"></path>
+</g>
+<path d="M1100 396 C 1098 440, 1104 500, 1098 560 C 1096 590, 1100 610, 1098 630" fill="none" stroke="#f6f2ff" stroke-width="6" stroke-linecap="round" opacity="0.9"></path>
+<path d="M1102 400 C 1100 450, 1106 510, 1100 570" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path>
+<g fill="#4e5a3a">
+<ellipse cx="960" cy="400" rx="22" ry="9"></ellipse><ellipse cx="1150" cy="390" rx="18" ry="8"></ellipse><ellipse cx="1010" cy="396" rx="12" ry="6"></ellipse>
+</g>
+
+<path d="M190 610 L 198 506 C 202 490, 212 482, 228 478 L 390 474 C 406 478, 418 488, 422 504 L 436 610 Z" fill="#7a5e7a" stroke="#3e2a3a" stroke-width="2" stroke-linejoin="round"></path>
+<path d="M228 478 L 390 474" stroke="#f6b08a" stroke-width="3" stroke-linecap="round"></path>
+<g fill="none" stroke="#5e4458" stroke-width="2" opacity="0.8"><path d="M198 520 L 420 516 M196 550 L 426 546 M194 580 L 430 576"></path></g>
+
+<!-- valley full of mist, a city far below -->
+<g fill="#f6dce0" opacity="0.9" filter="url(#mist)">
+<ellipse cx="300" cy="610" rx="420" ry="46"></ellipse>
+<ellipse cx="900" cy="620" rx="460" ry="50"></ellipse>
+<ellipse cx="1400" cy="610" rx="320" ry="44"></ellipse>
+</g>
+<rect x="0" y="580" width="1600" height="126" fill="url(#mistband)"></rect>
+<g fill="#ffd890" filter="url(#glow)" opacity="0.9">
+<circle cx="1230" cy="626" r="2"></circle><circle cx="1246" cy="630" r="1.6"></circle><circle cx="1262" cy="624" r="2"></circle><circle cx="1280" cy="632" r="1.6"></circle><circle cx="1300" cy="626" r="1.8"></circle><circle cx="1318" cy="634" r="1.6"></circle><circle cx="1336" cy="628" r="2"></circle>
+</g>
+<g fill="#fae6e6" opacity="0.8" filter="url(#mist)">
+<ellipse cx="800" cy="660" rx="700" ry="34"></ellipse>
+</g>
+
+<!-- the sandstone ledge, the fighting floor -->
+<path d="M0 690 L 60 682 L 120 688 L 200 680 L 300 686 L 420 678 L 540 684 L 660 676 L 780 682 L 900 676 L 1020 684 L 1140 678 L 1260 684 L 1380 676 L 1500 682 L 1600 678 L 1600 900 L 0 900 Z" fill="url(#ledge)"></path>
+<path d="M0 690 L 60 682 L 120 688 L 200 680 L 300 686 L 420 678 L 540 684 L 660 676 L 780 682 L 900 676 L 1020 684 L 1140 678 L 1260 684 L 1380 676 L 1500 682 L 1600 678" fill="none" stroke="#f6c294" stroke-width="3"></path>
+<g fill="none" stroke="#8a5a38" stroke-width="2.5" stroke-linecap="round" opacity="0.8">
+<path d="M80 730 C 300 722, 520 728, 740 722"></path>
+<path d="M860 740 C 1080 732, 1300 738, 1520 732"></path>
+<path d="M200 810 C 460 802, 720 808, 980 802"></path>
+<path d="M1060 850 C 1240 844, 1420 848, 1580 844"></path>
+</g>
+<g fill="none" stroke="#e2aa7a" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
+<path d="M84 726 C 300 718, 520 724, 740 718"></path>
+<path d="M204 806 C 460 798, 720 804, 980 798"></path>
+</g>
+<!-- cracks and pebbles in the sandstone -->
+<g fill="none" stroke="#4a2e1c" stroke-width="2" stroke-linejoin="round">
+<path d="M520 740 L 540 752 L 534 770 L 556 784"></path>
+<path d="M1100 760 L 1116 776 L 1108 792"></path>
+<path d="M300 850 L 322 862 L 316 880"></path>
+<path d="M1380 820 L 1400 834 L 1394 852"></path>
+</g>
+<g fill="#8a5e40" stroke="#3a2416" stroke-width="1.5">
+<ellipse cx="480" cy="716" rx="9" ry="4"></ellipse><ellipse cx="820" cy="760" rx="12" ry="5"></ellipse><ellipse cx="1240" cy="730" rx="10" ry="4"></ellipse><ellipse cx="760" cy="880" rx="14" ry="5"></ellipse>
+</g>
+<!-- small boulders and grass on the ledge -->
+<g stroke="#3a2416" stroke-width="2.5" stroke-linejoin="round">
+<path d="M690 690 C 692 670, 712 662, 732 666 C 750 670, 756 684, 750 694 Z" fill="#b48062"></path>
+<path d="M940 692 C 944 676, 960 670, 976 674 C 990 678, 994 690, 988 696 Z" fill="#a8765a"></path>
+</g>
+<g style="color: #b8a04a" stroke="#4a3a14" stroke-width="1">
+<use href="#tuft" transform="translate(560 700) scale(0.9)"></use>
+<use href="#tuft" transform="translate(860 696) scale(0.8)"></use>
+<use href="#tuft" transform="translate(1200 700) scale(1)"></use>
+<use href="#tuft" transform="translate(420 760) scale(1.1)"></use>
+<use href="#tuft" transform="translate(1000 820) scale(1.2)"></use>
+<use href="#tuft" transform="translate(640 870) scale(1.4)"></use>
+<use href="#tuft" transform="translate(1320 780) scale(1.1)"></use>
+</g>
+
+<!-- pile of boulders framing the left -->
+<g stroke="#2a1a14" stroke-width="3" stroke-linejoin="round">
+<path d="M-30 900 L -30 600 C 0 560, 60 548, 110 560 C 150 570, 170 610, 160 650 L 140 900 Z" fill="#8a6a5a"></path>
+<path d="M60 900 C 50 820, 80 760, 140 740 C 200 722, 260 750, 270 810 C 276 850, 266 880, 250 900 Z" fill="#9a7462"></path>
+<path d="M-30 560 C -20 510, 30 486, 80 496 C 120 504, 136 540, 120 570 C 90 580, 30 580, -30 576 Z" fill="#a07a66"></path>
+</g>
+<g fill="none" stroke="#f2b08a" stroke-width="3" stroke-linecap="round" opacity="0.8">
+<path d="M-20 520 C 0 500, 40 490, 78 498"></path>
+<path d="M150 744 C 190 730, 236 740, 260 772"></path>
+</g>
+<g fill="none" stroke="#6a4c40" stroke-width="2" opacity="0.7">
+<path d="M10 650 L 120 646 M20 700 L 130 696"></path>
+</g>
+
+<!-- lone savanna tree framing the right -->
+<g stroke="#140c10" stroke-width="3" stroke-linejoin="round">
+<path d="M1490 900 C 1500 780, 1494 640, 1506 500 C 1512 430, 1518 370, 1530 320 L 1560 320 C 1552 400, 1552 520, 1556 660 C 1560 780, 1568 850, 1584 900 Z" fill="#3a2a24"></path>
+<path d="M1516 400 C 1490 370, 1460 352, 1430 342 L 1436 328 C 1468 338, 1498 358, 1524 386 Z" fill="#3a2a24"></path>
+<path d="M1360 320 C 1336 274, 1370 222, 1430 224 C 1440 176, 1520 150, 1580 176 C 1620 160, 1660 184, 1650 220 L 1650 380 C 1610 390, 1570 376, 1540 380 C 1500 392, 1450 380, 1420 362 C 1380 366, 1350 342, 1360 320 Z" fill="#3e4a2e"></path>
+</g>
+<path d="M1366 316 C 1360 280, 1390 236, 1430 232" fill="none" stroke="#f2a87a" stroke-width="2.5" opacity="0.8"></path>
+<g style="color: #8a7a3a"><use href="#tuft" transform="translate(1460 900) scale(1.8)"></use><use href="#tuft" transform="translate(1560 904) scale(1.6)"></use></g>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#vig)"></rect>
+</svg>
+
+
+
+</div>
+</body></html>

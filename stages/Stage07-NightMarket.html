@@ -1,0 +1,246 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}</style></head><body>
+
+<div style="position: relative; width: 1600px; height: 900px; overflow: hidden; background: #1a0e08; font-family: Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif; color: #f4efe6;">
+
+<svg width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Fighting stage: a market square at night under a full moon, beside the long wall and lit gatehouse of the palace. Thatched market stalls glow with small oil lamps; women traders sit behind piles of yams, baskets of pepper, calabashes and pots, rolls of cloth and baskets of kola. Corn roasts on a grill in the near left, calabashes hang from a stall roof, and lengths of dyed cloth hang on a rail at the near right. Warm pools of lamplight lie on the beaten earth." style="position: absolute; left: 0; top: 0; display: block;">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#080c26"></stop>
+<stop offset="0.6" stop-color="#1a2148"></stop>
+<stop offset="1" stop-color="#2e3360"></stop>
+</linearGradient>
+<radialGradient id="moonhalo" cx="0.5" cy="0.5" r="0.5">
+<stop offset="0" stop-color="#f6eed2" stop-opacity="0.5"></stop>
+<stop offset="1" stop-color="#f6eed2" stop-opacity="0"></stop>
+</radialGradient>
+<linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#3a2418"></stop>
+<stop offset="0.5" stop-color="#26160e"></stop>
+<stop offset="1" stop-color="#140a06"></stop>
+</linearGradient>
+<radialGradient id="pool" cx="0.5" cy="0.5" r="0.5">
+<stop offset="0" stop-color="#ffb35a" stop-opacity="0.55"></stop>
+<stop offset="0.55" stop-color="#ff9a40" stop-opacity="0.18"></stop>
+<stop offset="1" stop-color="#ff9a40" stop-opacity="0"></stop>
+</radialGradient>
+<pattern id="stars" width="400" height="300" patternUnits="userSpaceOnUse">
+<circle cx="20" cy="30" r="1.4" fill="#e8ecff"></circle>
+<circle cx="90" cy="110" r="1" fill="#e8ecff"></circle>
+<circle cx="160" cy="50" r="1.6" fill="#ffffff"></circle>
+<circle cx="230" cy="170" r="1" fill="#e8ecff"></circle>
+<circle cx="300" cy="80" r="1.3" fill="#e8ecff"></circle>
+<circle cx="370" cy="200" r="1" fill="#e8ecff"></circle>
+<circle cx="60" cy="230" r="1.2" fill="#e8ecff"></circle>
+<circle cx="200" cy="260" r="1" fill="#ffffff"></circle>
+<circle cx="340" cy="20" r="1" fill="#e8ecff"></circle>
+<circle cx="130" cy="190" r="1.4" fill="#ffffff"></circle>
+</pattern>
+<pattern id="cloth1" width="20" height="20" patternUnits="userSpaceOnUse">
+<rect width="20" height="20" fill="#24357a"></rect>
+<circle cx="10" cy="10" r="5" fill="none" stroke="#dfe6f6" stroke-width="2"></circle>
+</pattern>
+<pattern id="cloth2" width="16" height="16" patternUnits="userSpaceOnUse">
+<rect width="16" height="16" fill="#a8281e"></rect>
+<path d="M0 8 L16 8 M8 0 L8 16" stroke="#f2c230" stroke-width="2"></path>
+</pattern>
+<radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+<stop offset="0.55" stop-color="#000000" stop-opacity="0"></stop>
+<stop offset="1" stop-color="#05040e" stop-opacity="0.6"></stop>
+</radialGradient>
+<filter id="glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+<filter id="smoke" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8"></feGaussianBlur></filter>
+<symbol id="stall" overflow="visible">
+<g stroke="#0c0604" stroke-width="2.5" stroke-linejoin="round">
+<rect x="0" y="-112" width="9" height="112" fill="#2a1a10"></rect>
+<rect x="191" y="-112" width="9" height="112" fill="#2a1a10"></rect>
+<path d="M-18 -110 L 218 -110 L 200 -150 L 0 -150 Z" fill="#3a2a1c"></path>
+<rect x="8" y="-30" width="184" height="30" fill="#3a2414"></rect>
+</g>
+<path d="M-14 -112 L 214 -112" stroke="#d07a3a" stroke-width="3"></path>
+<path d="M-18 -110 L -10 -96 L -2 -110 L 6 -96 L 14 -110 L 22 -96 L 30 -110 L 38 -96 L 46 -110 L 54 -96 L 62 -110 L 70 -96 L 78 -110 L 86 -96 L 94 -110 L 102 -96 L 110 -110 L 118 -96 L 126 -110 L 134 -96 L 142 -110 L 150 -96 L 158 -110 L 166 -96 L 174 -110 L 182 -96 L 190 -110 L 198 -96 L 206 -110 L 214 -96 L 218 -110 Z" fill="#2e2016" stroke="#0c0604" stroke-width="1.5"></path>
+<path d="M10 -30 L 190 -30" stroke="#b8642c" stroke-width="2.5"></path>
+</symbol>
+<symbol id="trader" overflow="visible">
+<g stroke="#0c0604" stroke-width="2" stroke-linejoin="round">
+<path d="M-12 -62 C -26 -74, -10 -92, 0 -84 C 10 -92, 26 -74, 12 -62 Z" fill="currentColor"></path>
+<circle cx="0" cy="-54" r="9" fill="#2a1810"></circle>
+<path d="M-16 -42 L 16 -42 L 24 0 L -24 0 Z" fill="currentColor"></path>
+</g>
+<path d="M9 -60 C 12 -54, 12 -48, 8 -44" fill="none" stroke="#ffb35a" stroke-width="2"></path>
+</symbol>
+<symbol id="lamp" overflow="visible">
+<path d="M-10 0 C -10 -8, 10 -8, 10 0 Z" fill="#7a3a1e" stroke="#0c0604" stroke-width="1.5"></path>
+<g filter="url(#glow)">
+<path d="M0 -26 C -5 -18, -6 -12, -3 -8 L 3 -8 C 6 -12, 5 -18, 0 -26 Z" fill="#ffb84a"></path>
+<path d="M0 -20 C -2 -16, -2 -12, -1 -9 L 1 -9 C 2 -12, 2 -16, 0 -20 Z" fill="#fff0b0"></path>
+</g>
+</symbol>
+</defs>
+
+<!-- night sky and moon -->
+<rect x="0" y="0" width="1600" height="560" fill="url(#sky)"></rect>
+<rect x="0" y="0" width="1600" height="420" fill="url(#stars)"></rect>
+<circle cx="1240" cy="130" r="150" fill="url(#moonhalo)"></circle>
+<circle cx="1240" cy="130" r="54" fill="#f4ecd0"></circle>
+<g fill="#ddd2b0"><circle cx="1222" cy="116" r="9"></circle><circle cx="1258" cy="146" r="7"></circle><circle cx="1250" cy="108" r="4"></circle></g>
+
+<!-- palms and roofs beyond the palace wall -->
+<g fill="#0e1228">
+<path d="M196 470 C 192 400, 190 340, 200 290 L 208 290 C 200 340, 202 400, 206 470 Z"></path>
+<path d="M204 292 C 180 270, 150 270, 128 290 C 154 280, 180 282, 204 298 Z"></path>
+<path d="M204 292 C 228 270, 258 270, 280 290 C 254 280, 228 282, 204 298 Z"></path>
+<path d="M204 292 C 194 262, 176 246, 156 242 C 178 254, 192 272, 202 296 Z"></path>
+<path d="M204 292 C 214 262, 232 246, 252 242 C 230 254, 216 272, 206 296 Z"></path>
+<path d="M1456 470 C 1452 410, 1450 360, 1460 310 L 1468 310 C 1460 360, 1462 410, 1466 470 Z"></path>
+<path d="M1464 312 C 1440 290, 1410 290, 1388 310 C 1414 300, 1440 302, 1464 318 Z"></path>
+<path d="M1464 312 C 1488 290, 1518 290, 1540 310 C 1514 300, 1488 302, 1464 318 Z"></path>
+<path d="M1464 312 C 1454 282, 1436 266, 1416 262 C 1438 274, 1452 292, 1462 316 Z"></path>
+<path d="M1464 312 C 1474 282, 1492 266, 1512 262 C 1490 274, 1476 292, 1466 316 Z"></path>
+</g>
+<g fill="#151b38" stroke="#0a0d20" stroke-width="2">
+<path d="M300 440 L 400 380 L 500 440 Z"></path>
+<path d="M520 440 L 600 392 L 680 440 Z"></path>
+<path d="M920 440 L 1000 392 L 1080 440 Z"></path>
+<path d="M1100 440 L 1210 374 L 1320 440 Z"></path>
+</g>
+
+<!-- palace wall and gatehouse -->
+<rect x="0" y="434" width="1600" height="100" fill="#2a2038" stroke="#120c1c" stroke-width="2"></rect>
+<path d="M0 434 L 1600 434" stroke="#3e3050" stroke-width="6"></path>
+<g stroke="#120c1c" stroke-width="2.5" stroke-linejoin="round">
+<rect x="712" y="380" width="176" height="154" fill="#33263f"></rect>
+<path d="M694 386 L 800 310 L 906 386 Z" fill="#2a1e30"></path>
+<path d="M764 534 L 764 456 C 764 432, 836 432, 836 456 L 836 534 Z" fill="#ffb35a"></path>
+</g>
+<path d="M776 534 L 776 460 C 776 444, 824 444, 824 460 L 824 534 Z" fill="#ffe0a0" filter="url(#glow)"></path>
+<g fill="#ffb35a">
+<rect x="650" y="452" width="14" height="18"></rect>
+<rect x="936" y="452" width="14" height="18"></rect>
+</g>
+<rect x="0" y="534" width="1600" height="92" fill="#24160e"></rect>
+<path d="M0 534 L 1600 534" stroke="#120c1c" stroke-width="2"></path>
+<ellipse cx="800" cy="546" rx="160" ry="44" fill="url(#pool)"></ellipse>
+
+<!-- market stalls, back row -->
+<use href="#stall" x="120" y="626"></use>
+<use href="#stall" x="400" y="626"></use>
+<use href="#stall" x="1000" y="626"></use>
+<use href="#stall" x="1280" y="626"></use>
+<use href="#trader" transform="translate(250 604) scale(0.85)" style="color: #c8a03a"></use>
+<use href="#trader" transform="translate(500 604) scale(0.85)" style="color: #2f4f9a"></use>
+<use href="#trader" transform="translate(1140 604) scale(0.85)" style="color: #a8281e"></use>
+<use href="#trader" transform="translate(1440 604) scale(0.85)" style="color: #3f7a46"></use>
+
+<!-- yams and pepper -->
+<g stroke="#0c0604" stroke-width="1.5">
+<ellipse cx="160" cy="590" rx="22" ry="8" fill="#7a5232"></ellipse>
+<ellipse cx="196" cy="590" rx="22" ry="8" fill="#6a4628"></ellipse>
+<ellipse cx="178" cy="580" rx="22" ry="8" fill="#8a5e3a"></ellipse>
+<path d="M232 596 C 232 580, 268 580, 268 596 Z" fill="#c8302a"></path>
+<path d="M272 596 C 272 582, 304 582, 304 596 Z" fill="#e0602a"></path>
+</g>
+<use href="#lamp" x="222" y="596"></use>
+<!-- calabashes and pots -->
+<g stroke="#0c0604" stroke-width="1.5">
+<circle cx="440" cy="584" r="14" fill="#c89848"></circle>
+<circle cx="470" cy="588" r="10" fill="#b8883a"></circle>
+<path d="M540 596 C 528 596, 520 584, 524 572 C 528 560, 552 560, 556 572 C 560 584, 552 596, 544 596 Z" fill="#8a4a2a"></path>
+<path d="M566 596 C 558 596, 552 588, 554 580 C 556 572, 572 572, 574 580 C 576 588, 572 596, 568 596 Z" fill="#9a5a34"></path>
+</g>
+<use href="#lamp" x="590" y="596"></use>
+<!-- rolls of cloth -->
+<g stroke="#0c0604" stroke-width="1.5">
+<rect x="1020" y="574" width="40" height="22" rx="10" fill="url(#cloth1)"></rect>
+<rect x="1064" y="574" width="40" height="22" rx="10" fill="url(#cloth2)"></rect>
+<rect x="1042" y="556" width="40" height="20" rx="10" fill="#e0b02a"></rect>
+</g>
+<use href="#lamp" x="1180" y="596"></use>
+<!-- kola baskets -->
+<g stroke="#0c0604" stroke-width="1.5">
+<path d="M1300 596 C 1300 610, 1350 610, 1350 596 L 1346 582 L 1304 582 Z" fill="#a87a3e"></path>
+<path d="M1360 596 C 1360 610, 1410 610, 1410 596 L 1406 582 L 1364 582 Z" fill="#a87a3e"></path>
+</g>
+<g fill="#d8706a" stroke="#3a1208" stroke-width="1">
+<ellipse cx="1314" cy="580" rx="5" ry="3.5"></ellipse><ellipse cx="1326" cy="578" rx="5" ry="3.5"></ellipse><ellipse cx="1338" cy="580" rx="5" ry="3.5"></ellipse>
+</g>
+<g fill="#efe4c8" stroke="#3a3020" stroke-width="1">
+<ellipse cx="1374" cy="580" rx="5" ry="3.5"></ellipse><ellipse cx="1386" cy="578" rx="5" ry="3.5"></ellipse><ellipse cx="1398" cy="580" rx="5" ry="3.5"></ellipse>
+</g>
+<use href="#lamp" x="1290" y="596"></use>
+
+<!-- market ground, the fighting floor -->
+<rect x="0" y="626" width="1600" height="274" fill="url(#ground)"></rect>
+<path d="M0 626 L 1600 626" stroke="#0c0604" stroke-width="3"></path>
+<g>
+<ellipse cx="220" cy="660" rx="200" ry="40" fill="url(#pool)"></ellipse>
+<ellipse cx="560" cy="660" rx="180" ry="36" fill="url(#pool)"></ellipse>
+<ellipse cx="1140" cy="660" rx="190" ry="38" fill="url(#pool)"></ellipse>
+<ellipse cx="1340" cy="660" rx="170" ry="34" fill="url(#pool)"></ellipse>
+<ellipse cx="200" cy="820" rx="260" ry="80" fill="url(#pool)"></ellipse>
+</g>
+<g fill="none" stroke="#4a2e1e" stroke-width="2" opacity="0.8">
+<path d="M380 720 C 460 714, 540 722, 620 716"></path>
+<path d="M900 760 C 980 754, 1060 762, 1140 756"></path>
+<path d="M640 850 C 740 842, 840 852, 940 846"></path>
+</g>
+<g stroke="#0c0604" stroke-width="1.5">
+<ellipse cx="760" cy="700" rx="10" ry="4" fill="#4a2e1e"></ellipse>
+<ellipse cx="1280" cy="830" rx="12" ry="5" fill="#4a2e1e"></ellipse>
+<path d="M700 790 C 704 782, 716 782, 720 790 Z" fill="#c8302a"></path>
+<path d="M980 700 C 990 692, 1004 694, 1006 702 C 996 708, 986 708, 980 700 Z" fill="#6a5a2a"></path>
+</g>
+
+<!-- near stall roof with hanging calabashes, left -->
+<g stroke="#0c0604" stroke-width="2.5" stroke-linejoin="round">
+<path d="M-20 0 L 340 0 L 340 70 C 240 84, 100 90, -20 92 Z" fill="#2e2016"></path>
+<path d="M30 80 L 30 900" fill="none" stroke="#1a100a" stroke-width="16"></path>
+</g>
+<path d="M-20 92 C 100 90, 240 84, 340 70" fill="none" stroke="#c8703a" stroke-width="3"></path>
+<g fill="none" stroke="#8a6a4a" stroke-width="1.5">
+<path d="M120 86 L 120 150 M200 82 L 200 130 M280 76 L 280 170"></path>
+</g>
+<g stroke="#0c0604" stroke-width="2">
+<circle cx="120" cy="164" r="16" fill="#b8883a"></circle>
+<path d="M188 130 C 188 152, 212 152, 212 130 Z" fill="#a87a3e"></path>
+<ellipse cx="280" cy="184" rx="14" ry="16" fill="#c89848"></ellipse>
+</g>
+<path d="M112 152 C 116 148, 124 148, 128 152" fill="none" stroke="#ffd08a" stroke-width="2"></path>
+
+<!-- corn roasting on a grill, near left -->
+<g stroke="#0c0604" stroke-width="2" stroke-linejoin="round">
+<path d="M110 860 L 130 820 L 270 820 L 290 860 Z" fill="#3a2a20"></path>
+<rect x="124" y="808" width="152" height="14" fill="#4a3428"></rect>
+</g>
+<g fill="#ff7a2a" filter="url(#glow)">
+<ellipse cx="170" cy="808" rx="14" ry="4"></ellipse><ellipse cx="216" cy="808" rx="16" ry="4"></ellipse><ellipse cx="256" cy="808" rx="10" ry="3"></ellipse>
+</g>
+<g stroke="#3a2410" stroke-width="1.5">
+<rect x="140" y="794" width="44" height="12" rx="6" fill="#e8b84a"></rect>
+<rect x="192" y="794" width="44" height="12" rx="6" fill="#d8a43a"></rect>
+<rect x="166" y="782" width="44" height="12" rx="6" fill="#f0c860"></rect>
+</g>
+<g fill="#c8c0d0" opacity="0.35" filter="url(#smoke)">
+<circle cx="196" cy="760" r="20"></circle>
+<circle cx="210" cy="716" r="26"></circle>
+<circle cx="196" cy="664" r="30"></circle>
+</g>
+
+<!-- cloth rail, right -->
+<g stroke="#0c0604" stroke-width="2.5" stroke-linejoin="round">
+<path d="M1300 60 L 1620 60" fill="none" stroke="#2a1a10" stroke-width="8"></path>
+<path d="M1566 60 L 1566 900" fill="none" stroke="#1a100a" stroke-width="16"></path>
+<path d="M1320 64 L 1380 64 L 1384 250 L 1352 236 L 1318 252 Z" fill="url(#cloth1)"></path>
+<path d="M1396 64 L 1452 64 L 1456 210 L 1424 198 L 1392 212 Z" fill="url(#cloth2)"></path>
+<path d="M1468 64 L 1530 64 L 1532 270 L 1500 256 L 1466 272 Z" fill="#e0b02a"></path>
+</g>
+<g fill="none" stroke="#7a5a12" stroke-width="2">
+<path d="M1472 100 L 1528 100 M1472 140 L 1528 140 M1472 180 L 1528 180 M1472 220 L 1528 220"></path>
+</g>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#vig)"></rect>
+</svg>
+
+
+
+</div>
+</body></html>

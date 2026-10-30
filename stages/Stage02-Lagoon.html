@@ -1,0 +1,321 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}</style></head><body>
+
+<div style="position: relative; width: 1600px; height: 900px; overflow: hidden; background: #2c3060; font-family: Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif; color: #f4efe6;">
+
+<svg width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Fighting stage: a wooden jetty on a coastal lagoon at sunrise. Behind the jetty, stilt houses with steep palm-leaf roofs stand over the water on the left, fishermen in dugout canoes cast nets in the middle distance, and mangroves with arching roots crowd the right. The sun rises over a far line of mangrove forest; egrets fly across a pink and violet sky." style="position: absolute; left: 0; top: 0; display: block;">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#22254d"></stop>
+<stop offset="0.35" stop-color="#4b3a73"></stop>
+<stop offset="0.66" stop-color="#a6587e"></stop>
+<stop offset="0.88" stop-color="#ee8a6a"></stop>
+<stop offset="1" stop-color="#f8c074"></stop>
+</linearGradient>
+<linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#f3b27c"></stop>
+<stop offset="0.22" stop-color="#c47388"></stop>
+<stop offset="0.6" stop-color="#5c4b7c"></stop>
+<stop offset="1" stop-color="#2c3060"></stop>
+</linearGradient>
+<radialGradient id="sunglow" cx="0.5" cy="0.5" r="0.5">
+<stop offset="0" stop-color="#fff0c0" stop-opacity="0.95"></stop>
+<stop offset="0.3" stop-color="#ffc884" stop-opacity="0.5"></stop>
+<stop offset="1" stop-color="#ff9a6a" stop-opacity="0"></stop>
+</radialGradient>
+<linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#8a5a48"></stop>
+<stop offset="0.5" stop-color="#6a4034"></stop>
+<stop offset="1" stop-color="#3a2020"></stop>
+</linearGradient>
+<pattern id="net" width="10" height="10" patternUnits="userSpaceOnUse">
+<path d="M0 0 L10 10 M10 0 L0 10" stroke="#e8c0a8" stroke-width="1" fill="none"></path>
+</pattern>
+<pattern id="planks" width="220" height="64" patternUnits="userSpaceOnUse">
+<path d="M0 31 L220 31 M0 63 L220 63" stroke="#3a2018" stroke-width="2.5"></path>
+<path d="M70 0 L70 31 M170 32 L170 63" stroke="#3a2018" stroke-width="2"></path>
+<circle cx="63" cy="9" r="1.6" fill="#2a1410"></circle><circle cx="77" cy="9" r="1.6" fill="#2a1410"></circle>
+<circle cx="163" cy="41" r="1.6" fill="#2a1410"></circle><circle cx="177" cy="41" r="1.6" fill="#2a1410"></circle>
+<path d="M0 3 L220 3 M0 35 L220 35" stroke="#a87460" stroke-width="1.5" opacity="0.55"></path>
+<path d="M110 14 C 130 12, 150 16, 168 13 M20 48 C 40 46, 60 50, 84 47" stroke="#5a3428" stroke-width="1.2" fill="none" opacity="0.7"></path>
+</pattern>
+<radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+<stop offset="0.62" stop-color="#000000" stop-opacity="0"></stop>
+<stop offset="1" stop-color="#120a1e" stop-opacity="0.55"></stop>
+</radialGradient>
+<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+<filter id="mist" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="10"></feGaussianBlur></filter>
+</defs>
+
+<!-- sunrise sky -->
+<rect x="0" y="0" width="1600" height="480" fill="url(#sky)"></rect>
+<g fill="#c8668a" opacity="0.85">
+<path d="M120 150 C 240 128, 420 132, 560 146 C 470 160, 300 164, 120 150 Z"></path>
+<path d="M880 110 C 1040 88, 1260 92, 1420 108 C 1300 124, 1060 126, 880 110 Z"></path>
+<path d="M640 230 C 760 212, 940 214, 1060 228 C 960 242, 780 244, 640 230 Z"></path>
+<path d="M1180 280 C 1300 266, 1460 268, 1580 280 C 1480 292, 1300 292, 1180 280 Z"></path>
+<path d="M60 300 C 160 288, 300 290, 400 300 C 320 310, 160 312, 60 300 Z"></path>
+</g>
+<g fill="#f5a988" opacity="0.8">
+<path d="M180 152 C 280 146, 420 146, 520 150 C 420 156, 300 158, 180 152 Z"></path>
+<path d="M940 112 C 1080 104, 1260 106, 1380 110 C 1260 116, 1080 118, 940 112 Z"></path>
+<path d="M700 232 C 800 226, 940 226, 1020 230 C 940 236, 800 238, 700 232 Z"></path>
+<path d="M1220 282 C 1320 276, 1460 276, 1540 280 C 1460 286, 1320 288, 1220 282 Z"></path>
+</g>
+<ellipse cx="1060" cy="470" rx="420" ry="260" fill="url(#sunglow)"></ellipse>
+<circle cx="1060" cy="470" r="46" fill="#ffe7a8" filter="url(#glow)"></circle>
+
+<!-- egrets -->
+<g fill="#fbf3ea" stroke="#3a2640" stroke-width="1.2" stroke-linejoin="round">
+<path d="M600 200 C 588 190, 576 188, 564 192 C 578 194, 590 200, 598 208 C 606 198, 620 190, 636 188 C 622 186, 610 190, 600 200 Z"></path>
+<path d="M660 236 C 650 228, 640 226, 630 230 C 642 232, 652 236, 658 242 C 664 234, 676 228, 690 226 C 678 224, 668 228, 660 236 Z"></path>
+<path d="M716 186 C 708 180, 700 178, 692 180 C 702 182, 710 186, 714 192 C 720 186, 730 182, 740 180 C 730 178, 722 180, 716 186 Z"></path>
+</g>
+
+<!-- far mangrove shore -->
+<path d="M0 470 L 0 452 C 40 444, 80 448, 120 442 C 170 436, 220 446, 270 440 C 330 432, 380 444, 440 438 C 500 432, 560 446, 620 442 C 680 436, 740 448, 800 444 C 880 440, 940 450, 1000 446 C 1060 442, 1120 450, 1180 444 C 1240 438, 1300 448, 1360 440 C 1420 434, 1480 446, 1540 440 C 1570 437, 1590 440, 1600 442 L 1600 470 Z" fill="#5c406f"></path>
+<g fill="#4e3562">
+<path d="M330 440 C 332 420, 330 404, 334 390 L 338 390 C 336 404, 338 420, 336 440 Z"></path>
+<path d="M334 392 C 320 384, 306 388, 298 396 C 312 392, 324 392, 334 396 Z"></path>
+<path d="M336 392 C 350 384, 364 388, 372 396 C 358 392, 346 392, 336 396 Z"></path>
+<path d="M335 392 C 330 380, 320 374, 312 374 C 322 380, 330 386, 334 394 Z"></path>
+<path d="M1460 440 C 1462 418, 1460 402, 1464 386 L 1468 386 C 1466 402, 1468 418, 1466 440 Z"></path>
+<path d="M1464 388 C 1450 380, 1436 384, 1428 392 C 1442 388, 1454 388, 1464 392 Z"></path>
+<path d="M1466 388 C 1480 380, 1494 384, 1502 392 C 1488 388, 1476 388, 1466 392 Z"></path>
+</g>
+
+<!-- lagoon water -->
+<rect x="0" y="470" width="1600" height="240" fill="url(#water)"></rect>
+<g fill="#ffe2a2" opacity="0.85">
+<rect x="1024" y="476" width="72" height="4" rx="2"></rect>
+<rect x="1010" y="490" width="100" height="4" rx="2"></rect>
+<rect x="1030" y="504" width="60" height="3" rx="1.5"></rect>
+<rect x="996" y="520" width="128" height="4" rx="2"></rect>
+<rect x="1020" y="538" width="80" height="3" rx="1.5"></rect>
+<rect x="984" y="558" width="150" height="4" rx="2"></rect>
+<rect x="1010" y="580" width="96" height="3" rx="1.5"></rect>
+<rect x="970" y="604" width="176" height="4" rx="2"></rect>
+<rect x="1000" y="630" width="120" height="3" rx="1.5"></rect>
+<rect x="960" y="658" width="200" height="4" rx="2"></rect>
+</g>
+<g stroke="#f6c4a4" stroke-width="2" stroke-linecap="round" opacity="0.4">
+<path d="M80 500 L 200 500"></path>
+<path d="M420 520 L 520 520"></path>
+<path d="M700 506 L 780 506"></path>
+<path d="M1240 512 L 1380 512"></path>
+<path d="M140 600 L 260 600"></path>
+<path d="M620 646 L 760 646"></path>
+<path d="M1300 640 L 1460 640"></path>
+<path d="M820 690 L 940 690"></path>
+</g>
+<g fill="#f8d2c4" opacity="0.4" filter="url(#mist)">
+<ellipse cx="300" cy="490" rx="260" ry="16"></ellipse>
+<ellipse cx="840" cy="500" rx="300" ry="14"></ellipse>
+<ellipse cx="1380" cy="492" rx="240" ry="14"></ellipse>
+</g>
+
+<!-- stilt houses with palm-leaf roofs -->
+<g fill="#3a2442" opacity="0.45">
+<path d="M150 640 L 370 640 L 360 700 L 160 700 Z"></path>
+<path d="M410 646 L 600 646 L 592 690 L 418 690 Z"></path>
+</g>
+<g stroke="#1c1022" stroke-width="2.5" stroke-linejoin="round">
+<g fill="#2e1c34">
+<rect x="164" y="540" width="7" height="104"></rect>
+<rect x="204" y="540" width="7" height="104"></rect>
+<rect x="244" y="540" width="7" height="104"></rect>
+<rect x="284" y="540" width="7" height="104"></rect>
+<rect x="324" y="540" width="7" height="104"></rect>
+<rect x="356" y="540" width="7" height="104"></rect>
+<rect x="420" y="552" width="6" height="96"></rect>
+<rect x="460" y="552" width="6" height="96"></rect>
+<rect x="500" y="552" width="6" height="96"></rect>
+<rect x="540" y="552" width="6" height="96"></rect>
+<rect x="584" y="552" width="6" height="96"></rect>
+</g>
+<rect x="150" y="532" width="226" height="12" fill="#3c2638"></rect>
+<rect x="404" y="546" width="200" height="10" fill="#3c2638"></rect>
+<path d="M376 540 L 404 552" fill="none" stroke="#3c2638" stroke-width="6"></path>
+<rect x="172" y="466" width="182" height="68" fill="#4c2f40"></rect>
+<rect x="420" y="490" width="166" height="58" fill="#4c2f40"></rect>
+</g>
+<g stroke="#5e3a4c" stroke-width="2">
+<path d="M188 470 L188 532 M204 470 L204 532 M220 470 L220 532 M236 470 L236 532 M292 470 L292 532 M308 470 L308 532 M324 470 L324 532 M340 470 L340 532"></path>
+<path d="M436 494 L436 546 M452 494 L452 546 M468 494 L468 546 M532 494 L532 546 M548 494 L548 546 M564 494 L564 546"></path>
+</g>
+<path d="M248 478 L 278 478 L 278 532 L 248 532 Z" fill="#ffb466" stroke="#1c1022" stroke-width="2.5" filter="url(#glow)"></path>
+<path d="M488 504 L 512 504 L 512 532 L 488 532 Z" fill="#ffb466" stroke="#1c1022" stroke-width="2.5"></path>
+<g stroke="#1c1022" stroke-width="2.5" stroke-linejoin="round">
+<path d="M140 482 L 263 390 L 386 482 Z" fill="#3a2232"></path>
+<path d="M394 504 L 503 424 L 612 504 Z" fill="#3a2232"></path>
+</g>
+<g fill="#3a2232" stroke="#1c1022" stroke-width="1.5">
+<path d="M140 480 L 150 498 L 160 482 L 172 500 L 184 482 L 196 500 L 208 482 L 220 498 L 232 482 L 244 500 L 256 482 L 268 500 L 280 482 L 292 500 L 304 482 L 316 498 L 328 482 L 340 500 L 352 482 L 364 498 L 376 482 L 386 494 L 386 480 Z"></path>
+<path d="M394 502 L 404 518 L 414 504 L 426 520 L 438 504 L 450 520 L 462 504 L 474 520 L 486 504 L 498 520 L 510 504 L 522 520 L 534 504 L 546 520 L 558 504 L 570 520 L 582 504 L 594 518 L 604 504 L 612 514 L 612 502 Z"></path>
+</g>
+<g fill="none" stroke="#f3a06e" stroke-width="2.5" stroke-linecap="round" opacity="0.9">
+<path d="M266 392 L 384 480"></path>
+<path d="M506 426 L 610 502"></path>
+</g>
+<g fill="none" stroke="#5a3a4a" stroke-width="2">
+<path d="M170 466 L 263 400 M 200 466 L 263 416 M 356 466 L 263 400 M 326 466 L 263 416"></path>
+</g>
+<!-- ladder and tied canoe -->
+<g stroke="#2a1830" stroke-width="4" fill="none">
+<path d="M374 544 L 392 640 M 388 544 L 406 640"></path>
+<path d="M378 566 L 394 566 M 382 588 L 398 588 M 386 610 L 402 610"></path>
+</g>
+<path d="M430 646 C 470 660, 560 660, 616 646 C 600 656, 560 666, 520 666 C 480 666, 450 658, 430 646 Z" fill="#2a1830" stroke="#140a18" stroke-width="2"></path>
+
+<!-- net drying on poles -->
+<g stroke="#2a1830" stroke-width="5" stroke-linecap="round">
+<path d="M686 650 L 690 520"></path>
+<path d="M774 650 L 770 524"></path>
+</g>
+<path d="M690 528 C 716 544, 744 544, 770 530 L 770 600 C 744 610, 716 608, 690 596 Z" fill="url(#net)" stroke="#e8c0a8" stroke-width="1.5" opacity="0.85"></path>
+
+<!-- fishermen in dugouts -->
+<g fill="#24172e" stroke="#140a18" stroke-width="2" stroke-linejoin="round">
+<path d="M780 588 C 830 600, 920 600, 960 586 C 944 600, 900 610, 860 610 C 820 610, 796 602, 780 588 Z"></path>
+<circle cx="872" cy="512" r="9"></circle>
+<path d="M864 522 L 880 522 L 884 560 L 878 588 L 870 588 L 868 566 L 862 588 L 854 588 L 858 556 Z"></path>
+<path d="M880 530 L 908 504" fill="none" stroke="#24172e" stroke-width="6" stroke-linecap="round"></path>
+<path d="M866 530 L 846 552" fill="none" stroke="#24172e" stroke-width="6" stroke-linecap="round"></path>
+<path d="M1150 566 C 1180 574, 1240 574, 1270 564 C 1256 574, 1230 580, 1206 580 C 1180 580, 1162 576, 1150 566 Z"></path>
+<circle cx="1208" cy="542" r="7"></circle>
+<path d="M1200 550 L 1216 550 L 1218 568 L 1198 568 Z"></path>
+<path d="M1220 534 L 1236 584" fill="none" stroke="#24172e" stroke-width="3"></path>
+</g>
+<path d="M910 502 C 950 470, 1010 470, 1040 500 C 1010 520, 960 528, 910 502 Z" fill="url(#net)" stroke="#f2cdb6" stroke-width="1.5" opacity="0.7"></path>
+<g fill="none" stroke="#f6c4a4" stroke-width="2" opacity="0.6">
+<path d="M790 616 C 840 624, 900 624, 950 616"></path>
+<path d="M1160 586 C 1190 592, 1230 592, 1262 586"></path>
+</g>
+
+<!-- mangroves on the right -->
+<g fill="#2a2440" opacity="0.4">
+<path d="M1180 600 C 1260 620, 1400 624, 1600 610 L 1600 700 L 1180 700 Z"></path>
+</g>
+<g fill="none" stroke="#231d36" stroke-width="5" stroke-linecap="round">
+<path d="M1300 520 C 1280 560, 1250 590, 1236 630"></path>
+<path d="M1310 520 C 1300 570, 1290 600, 1286 640"></path>
+<path d="M1330 520 C 1350 566, 1350 600, 1340 640"></path>
+<path d="M1350 520 C 1384 560, 1396 600, 1392 636"></path>
+<path d="M1420 516 C 1396 560, 1380 600, 1370 640"></path>
+<path d="M1440 516 C 1446 566, 1440 604, 1430 644"></path>
+<path d="M1462 516 C 1494 560, 1504 600, 1500 640"></path>
+<path d="M1530 510 C 1510 560, 1500 600, 1490 640"></path>
+<path d="M1550 510 C 1570 560, 1576 600, 1570 640"></path>
+<path d="M1580 510 C 1600 556, 1610 600, 1606 640"></path>
+</g>
+<g fill="none" stroke="#231d36" stroke-width="9" stroke-linecap="round">
+<path d="M1310 524 C 1312 500, 1318 480, 1320 456"></path>
+<path d="M1440 520 C 1436 494, 1440 470, 1446 440"></path>
+<path d="M1540 514 C 1544 490, 1540 466, 1546 444"></path>
+</g>
+<path d="M1200 470 C 1180 420, 1210 370, 1260 372 C 1270 320, 1340 300, 1380 330 C 1410 290, 1490 286, 1520 320 C 1560 300, 1620 310, 1620 360 L 1620 470 C 1600 488, 1580 480, 1566 494 C 1548 510, 1524 498, 1508 488 C 1490 506, 1462 508, 1446 492 C 1426 508, 1398 506, 1384 490 C 1366 504, 1336 504, 1322 490 C 1304 502, 1276 500, 1262 486 C 1246 496, 1220 492, 1210 482 C 1202 478, 1198 474, 1200 470 Z" fill="#2a2440" stroke="#140f22" stroke-width="2.5"></path>
+<g fill="#302a4a">
+<path d="M1230 472 C 1220 450, 1236 430, 1258 434 C 1268 414, 1298 414, 1306 436 C 1326 434, 1338 452, 1328 470 Z"></path>
+<path d="M1352 446 C 1342 424, 1360 404, 1384 408 C 1396 388, 1428 390, 1434 412 C 1456 410, 1468 430, 1458 448 Z"></path>
+<path d="M1478 470 C 1468 448, 1486 428, 1508 432 C 1520 412, 1552 414, 1558 436 C 1580 434, 1592 454, 1582 472 Z"></path>
+<path d="M1280 392 C 1272 372, 1288 354, 1308 358 C 1318 340, 1346 342, 1352 362 C 1372 360, 1382 378, 1374 394 Z"></path>
+<path d="M1440 362 C 1432 342, 1448 324, 1468 328 C 1478 310, 1506 312, 1512 332 C 1532 330, 1542 348, 1534 364 Z"></path>
+</g>
+<g fill="none" stroke="#c86a7a" stroke-width="3" stroke-linecap="round" opacity="0.85">
+<path d="M1206 462 C 1200 420, 1224 380, 1262 380"></path>
+<path d="M1272 330 C 1300 306, 1350 304, 1378 332"></path>
+<path d="M1390 324 C 1420 296, 1480 292, 1516 322"></path>
+<path d="M1232 466 C 1224 448, 1240 432, 1258 436"></path>
+<path d="M1282 388 C 1276 370, 1292 356, 1310 360"></path>
+<path d="M1354 442 C 1346 424, 1362 408, 1384 410"></path>
+<path d="M1442 358 C 1436 340, 1452 326, 1470 330"></path>
+<path d="M1480 466 C 1472 448, 1488 432, 1508 434"></path>
+</g>
+<g fill="#2a2440" stroke="#140f22" stroke-width="1.5">
+<path d="M1214 480 L 1222 500 L 1230 484 Z"></path>
+<path d="M1250 488 L 1258 510 L 1268 490 Z"></path>
+<path d="M1300 494 L 1310 516 L 1318 494 Z"></path>
+<path d="M1352 496 L 1360 518 L 1370 496 Z"></path>
+<path d="M1414 500 L 1424 522 L 1432 500 Z"></path>
+<path d="M1470 500 L 1478 520 L 1488 500 Z"></path>
+<path d="M1530 496 L 1540 516 L 1548 494 Z"></path>
+<path d="M1586 484 L 1594 504 L 1602 484 Z"></path>
+</g>
+<g fill="none" stroke="#231d36" stroke-width="2.5" stroke-linecap="round">
+<path d="M1262 488 C 1264 520, 1258 552, 1262 580"></path>
+<path d="M1384 492 C 1388 526, 1382 556, 1386 590"></path>
+<path d="M1508 490 C 1504 520, 1510 552, 1506 584"></path>
+</g>
+
+<!-- the jetty, the fighting floor -->
+<rect x="0" y="690" width="1600" height="210" fill="url(#deck)"></rect>
+<rect x="0" y="694" width="1600" height="206" fill="url(#planks)"></rect>
+<rect x="0" y="682" width="1600" height="14" fill="#4a2a24" stroke="#1e0e0e" stroke-width="2.5"></rect>
+<path d="M0 684 L 1600 684" stroke="#f3a06e" stroke-width="2" opacity="0.7"></path>
+<g stroke="#1e0e0e" stroke-width="2.5" stroke-linejoin="round">
+<rect x="226" y="626" width="22" height="64" rx="4" fill="#4a2a24"></rect>
+<rect x="790" y="634" width="20" height="56" rx="4" fill="#4a2a24"></rect>
+<rect x="1352" y="626" width="22" height="64" rx="4" fill="#4a2a24"></rect>
+</g>
+<g fill="none" stroke="#c8a074" stroke-width="3">
+<path d="M226 646 L 248 640 M 226 654 L 248 648"></path>
+<path d="M790 652 L 810 646"></path>
+<path d="M1352 646 L 1374 640 M 1352 654 L 1374 648"></path>
+</g>
+<path d="M248 650 C 280 672, 300 700, 296 730" fill="none" stroke="#c8a074" stroke-width="3"></path>
+
+<!-- coiled rope, fish basket, paddle and pot on the deck -->
+<g fill="none" stroke="#c8a074" stroke-width="4">
+<ellipse cx="190" cy="770" rx="44" ry="12"></ellipse>
+<ellipse cx="190" cy="764" rx="32" ry="9"></ellipse>
+<ellipse cx="190" cy="758" rx="20" ry="6"></ellipse>
+</g>
+<g stroke="#1e0e0e" stroke-width="2.5" stroke-linejoin="round">
+<path d="M1350 742 C 1350 782, 1430 782, 1430 742 Z" fill="#a8743e"></path>
+<ellipse cx="1390" cy="742" rx="40" ry="10" fill="#6a4420"></ellipse>
+<path d="M1370 736 C 1380 724, 1400 724, 1408 736 Z" fill="#c8c8d8"></path>
+<path d="M1386 740 C 1396 730, 1414 730, 1420 740 Z" fill="#b0b4c8"></path>
+<path d="M300 700 L 340 600" fill="none" stroke="#4a2a24" stroke-width="7" stroke-linecap="round"></path>
+<path d="M330 610 C 344 584, 360 574, 366 580 C 368 594, 356 614, 340 626 Z" fill="#5a3428"></path>
+<path d="M1220 836 C 1206 836, 1196 820, 1200 806 C 1204 790, 1236 790, 1240 806 C 1244 820, 1234 836, 1220 836 Z" fill="#9a4a2a"></path>
+<ellipse cx="1220" cy="796" rx="14" ry="4" fill="#5a2a18"></ellipse>
+</g>
+<g fill="none" stroke="#e0b08a" stroke-width="1.5" opacity="0.8">
+<path d="M1362 756 L 1418 756 M 1360 766 L 1420 766"></path>
+</g>
+
+<!-- conical fish traps stacked at the right end -->
+<g stroke="#1e0e0e" stroke-width="2.5" stroke-linejoin="round">
+<path d="M1476 734 C 1530 742, 1580 756, 1620 766 L 1620 778 C 1580 790, 1530 806, 1476 814 Z" fill="#8a5a30"></path>
+<ellipse cx="1476" cy="774" rx="16" ry="40" fill="#3a2010"></ellipse>
+<path d="M1500 676 C 1546 682, 1590 694, 1620 702 L 1620 712 C 1590 722, 1546 734, 1500 740 Z" fill="#7a4e2a"></path>
+<ellipse cx="1500" cy="708" rx="13" ry="32" fill="#3a2010"></ellipse>
+</g>
+<g fill="none" stroke="#c49058" stroke-width="2">
+<path d="M1510 742 L 1510 806 M 1544 750 L 1544 798 M 1578 758 L 1578 790"></path>
+<path d="M1530 684 L 1530 732 M 1564 692 L 1564 724 M 1596 700 L 1596 716"></path>
+</g>
+<ellipse cx="1476" cy="774" rx="16" ry="40" fill="none" stroke="#c49058" stroke-width="3"></ellipse>
+<ellipse cx="1500" cy="708" rx="13" ry="32" fill="none" stroke="#c49058" stroke-width="3"></ellipse>
+
+<!-- leaning coconut palm framing the left -->
+<g fill="#1a1226" stroke="#0e0816" stroke-width="2" stroke-linejoin="round">
+<path d="M-10 900 C 10 760, 40 560, 120 330 L 136 334 C 62 560, 34 760, 22 900 Z"></path>
+<path d="M128 330 C 90 290, 40 290, 0 320 C 40 304, 84 306, 128 336 Z"></path>
+<path d="M128 330 C 170 296, 230 300, 270 336 C 226 316, 180 318, 128 338 Z"></path>
+<path d="M128 330 C 110 270, 70 240, 20 236 C 70 254, 104 286, 126 334 Z"></path>
+<path d="M128 330 C 150 270, 196 248, 246 250 C 196 266, 160 294, 130 336 Z"></path>
+<path d="M128 330 C 100 340, 70 380, 64 420 C 86 384, 108 360, 130 338 Z"></path>
+<path d="M128 330 C 160 344, 190 384, 196 424 C 172 388, 152 364, 128 338 Z"></path>
+</g>
+<g fill="#3a2a20" stroke="#0e0816" stroke-width="1.5">
+<circle cx="124" cy="344" r="8"></circle><circle cx="138" cy="348" r="7"></circle><circle cx="130" cy="356" r="7"></circle>
+</g>
+<path d="M126 340 C 70 560, 40 760, 28 900" fill="none" stroke="#f3a06e" stroke-width="2" opacity="0.6"></path>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#vig)"></rect>
+</svg>
+
+
+
+</div>
+</body></html>

@@ -1,0 +1,212 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}</style></head><body>
+
+<div style="position: relative; width: 1600px; height: 900px; overflow: hidden; background: #173634; font-family: Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif; color: #f4efe6;">
+
+<svg width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Fighting stage: a clearing deep in the high forest, cool and misty. Rows of tall straight trunks fade into blue-green fog. At the centre stands a giant iroko tree with wide buttress roots, a clay pot, a calabash, kola nuts and cowries left as offerings at its foot, and two amber eyes glinting in the dark between its roots. Lianas loop down from the canopy, pale light falls from above, fireflies drift, and a mossy fallen log and ferns frame the floor." style="position: absolute; left: 0; top: 0; display: block;">
+<defs>
+<linearGradient id="fog" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#0e2826"></stop>
+<stop offset="0.35" stop-color="#3e6e68"></stop>
+<stop offset="0.62" stop-color="#7eaca2"></stop>
+<stop offset="1" stop-color="#3a6460"></stop>
+</linearGradient>
+<linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#3a3a26"></stop>
+<stop offset="0.5" stop-color="#26241a"></stop>
+<stop offset="1" stop-color="#14120c"></stop>
+</linearGradient>
+<linearGradient id="iroko" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0" stop-color="#2e2a22"></stop>
+<stop offset="0.55" stop-color="#4c4436"></stop>
+<stop offset="1" stop-color="#2a261e"></stop>
+</linearGradient>
+<linearGradient id="shaft" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#d8f4e8" stop-opacity="0.55"></stop>
+<stop offset="1" stop-color="#d8f4e8" stop-opacity="0"></stop>
+</linearGradient>
+<radialGradient id="vig" cx="0.5" cy="0.5" r="0.72">
+<stop offset="0.55" stop-color="#000000" stop-opacity="0"></stop>
+<stop offset="1" stop-color="#020a0a" stop-opacity="0.7"></stop>
+</radialGradient>
+<filter id="mist" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="14"></feGaussianBlur></filter>
+<filter id="glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+</defs>
+
+<!-- fog and the far trunks -->
+<rect x="0" y="0" width="1600" height="700" fill="url(#fog)"></rect>
+<g fill="#6e9e94">
+<rect x="96" y="0" width="16" height="640"></rect>
+<rect x="210" y="0" width="22" height="640"></rect>
+<rect x="336" y="0" width="14" height="640"></rect>
+<rect x="470" y="0" width="20" height="640"></rect>
+<rect x="566" y="0" width="12" height="640"></rect>
+<rect x="1030" y="0" width="14" height="640"></rect>
+<rect x="1120" y="0" width="22" height="640"></rect>
+<rect x="1262" y="0" width="16" height="640"></rect>
+<rect x="1384" y="0" width="24" height="640"></rect>
+<rect x="1500" y="0" width="14" height="640"></rect>
+</g>
+<g fill="#9cc6ba" opacity="0.6" filter="url(#mist)">
+<ellipse cx="300" cy="560" rx="340" ry="40"></ellipse>
+<ellipse cx="1300" cy="560" rx="340" ry="40"></ellipse>
+</g>
+<g fill="#40706a" stroke="#24484a" stroke-width="2">
+<path d="M150 650 C 152 500, 146 300, 152 0 L 192 0 C 188 300, 194 500, 198 650 Z"></path>
+<path d="M404 650 C 406 500, 400 300, 406 0 L 438 0 C 434 300, 440 500, 442 650 Z"></path>
+<path d="M1176 650 C 1178 500, 1172 300, 1178 0 L 1222 0 C 1218 300, 1224 500, 1226 650 Z"></path>
+<path d="M1440 650 C 1442 500, 1436 300, 1442 0 L 1476 0 C 1472 300, 1478 500, 1480 650 Z"></path>
+</g>
+
+<!-- pale light from the canopy -->
+<path d="M1060 0 L 1130 0 L 860 700 L 760 700 Z" fill="url(#shaft)" opacity="0.5"></path>
+<path d="M1170 0 L 1210 0 L 1020 700 L 960 700 Z" fill="url(#shaft)" opacity="0.4"></path>
+<path d="M940 0 L 970 0 L 640 700 L 590 700 Z" fill="url(#shaft)" opacity="0.35"></path>
+
+<!-- the giant iroko and its buttress roots -->
+<g stroke="#100c08" stroke-width="3" stroke-linejoin="round">
+<path d="M712 0 L 892 0 C 884 160, 888 340, 904 470 C 912 540, 930 590, 960 640 L 640 640 C 670 590, 690 540, 698 470 C 712 340, 716 160, 712 0 Z" fill="url(#iroko)"></path>
+<path d="M700 470 C 680 540, 620 600, 520 652 L 640 656 C 670 610, 700 560, 716 500 Z" fill="#3a342a"></path>
+<path d="M726 520 C 714 580, 680 630, 620 668 L 724 668 C 740 630, 748 580, 746 530 Z" fill="#4a4234"></path>
+<path d="M902 470 C 922 540, 980 600, 1080 652 L 960 656 C 930 610, 900 560, 886 500 Z" fill="#3a342a"></path>
+<path d="M872 520 C 884 580, 918 630, 980 668 L 876 668 C 860 630, 852 580, 854 530 Z" fill="#4a4234"></path>
+<path d="M792 560 C 788 610, 780 650, 760 676 L 840 676 C 822 650, 812 610, 808 560 Z" fill="#544a3a"></path>
+</g>
+<g fill="#100c08">
+<path d="M724 668 C 730 640, 740 610, 752 590 C 764 620, 768 650, 762 676 Z"></path>
+<path d="M876 668 C 870 640, 860 610, 848 590 C 836 620, 832 650, 838 676 Z"></path>
+<path d="M640 656 C 660 630, 684 600, 704 568 C 712 600, 700 630, 672 662 Z"></path>
+</g>
+<g fill="#ffcc4a" filter="url(#glow)">
+<ellipse cx="744" cy="634" rx="3.5" ry="2.2"></ellipse>
+<ellipse cx="756" cy="634" rx="3.5" ry="2.2"></ellipse>
+</g>
+<g fill="none" stroke="#5e5444" stroke-width="3" stroke-linecap="round">
+<path d="M760 40 C 754 160, 760 300, 752 440"></path>
+<path d="M812 20 C 818 160, 810 320, 818 480"></path>
+<path d="M860 60 C 856 180, 864 320, 860 440"></path>
+</g>
+<path d="M880 0 C 872 160, 876 340, 892 470" fill="none" stroke="#6e624e" stroke-width="3" stroke-linecap="round"></path>
+<g fill="#2e4a2a">
+<ellipse cx="730" cy="300" rx="20" ry="8"></ellipse>
+<ellipse cx="868" cy="380" rx="18" ry="7"></ellipse>
+<ellipse cx="760" cy="520" rx="22" ry="8"></ellipse>
+</g>
+
+<!-- forest floor, the fighting floor -->
+<path d="M0 668 C 200 660, 420 672, 640 666 C 860 660, 1080 672, 1300 666 C 1440 662, 1540 668, 1600 664 L 1600 900 L 0 900 Z" fill="url(#ground)"></path>
+<g fill="#a8d2c2" opacity="0.35" filter="url(#mist)">
+<ellipse cx="500" cy="676" rx="420" ry="20"></ellipse>
+<ellipse cx="1200" cy="680" rx="380" ry="18"></ellipse>
+</g>
+<!-- offerings at the foot of the iroko -->
+<g stroke="#140e08" stroke-width="2" stroke-linejoin="round">
+<path d="M782 690 C 772 690, 764 678, 768 666 C 772 654, 800 654, 804 666 C 808 678, 800 690, 790 690 Z" fill="#9a5a34"></path>
+<ellipse cx="786" cy="658" rx="12" ry="3.5" fill="#5a2a14"></ellipse>
+<path d="M816 680 C 816 696, 852 696, 852 680 Z" fill="#c8964a"></path>
+<ellipse cx="834" cy="680" rx="18" ry="4" fill="#7a5222"></ellipse>
+</g>
+<g fill="#b8503a" stroke="#3a1208" stroke-width="1">
+<ellipse cx="828" cy="677" rx="4" ry="2.5"></ellipse><ellipse cx="838" cy="676" rx="4" ry="2.5"></ellipse><ellipse cx="846" cy="678" rx="3.5" ry="2.2"></ellipse>
+</g>
+<g fill="#f2ecde" stroke="#3a3020" stroke-width="0.8">
+<ellipse cx="756" cy="694" rx="3" ry="2"></ellipse><ellipse cx="766" cy="698" rx="3" ry="2"></ellipse><ellipse cx="808" cy="698" rx="3" ry="2"></ellipse><ellipse cx="862" cy="694" rx="3" ry="2"></ellipse>
+</g>
+<g fill="none" stroke="#14100a" stroke-width="7" stroke-linecap="round">
+<path d="M640 672 C 560 700, 480 704, 380 696"></path>
+<path d="M960 672 C 1040 702, 1140 708, 1240 700"></path>
+</g>
+<g fill="none" stroke="#4a4230" stroke-width="3" stroke-linecap="round">
+<path d="M640 668 C 560 696, 480 700, 380 692"></path>
+<path d="M960 668 C 1040 698, 1140 704, 1240 696"></path>
+</g>
+<g fill="#3e5a2a" opacity="0.85">
+<ellipse cx="300" cy="740" rx="90" ry="10"></ellipse>
+<ellipse cx="1000" cy="820" rx="120" ry="12"></ellipse>
+<ellipse cx="1360" cy="740" rx="80" ry="9"></ellipse>
+</g>
+<g stroke="#140e08" stroke-width="1">
+<path d="M460 780 C 470 770, 486 772, 490 780 C 480 788, 468 788, 460 780 Z" fill="#7a5a26"></path>
+<path d="M700 840 C 710 830, 726 832, 730 840 C 720 848, 708 848, 700 840 Z" fill="#8a6a2a"></path>
+<path d="M1180 780 C 1190 770, 1206 772, 1210 780 C 1200 788, 1188 788, 1180 780 Z" fill="#6a4a22"></path>
+<path d="M900 740 C 908 730, 922 732, 926 740 C 918 748, 906 748, 900 740 Z" fill="#8a6a2a"></path>
+<path d="M560 880 C 570 870, 586 872, 590 880 C 580 888, 568 888, 560 880 Z" fill="#6a4a22"></path>
+</g>
+<!-- mushrooms -->
+<g stroke="#140e08" stroke-width="1.5">
+<path d="M1300 742 L 1302 726 L 1306 726 L 1308 742 Z" fill="#e8dcc0"></path>
+<path d="M1292 728 C 1294 714, 1314 714, 1316 728 Z" fill="#e8a050"></path>
+<path d="M1322 744 L 1323 732 L 1326 732 L 1327 744 Z" fill="#e8dcc0"></path>
+<path d="M1316 734 C 1318 724, 1332 724, 1334 734 Z" fill="#e8a050"></path>
+</g>
+
+<!-- lianas -->
+<g fill="none" stroke="#0e1e18" stroke-width="9" stroke-linecap="round">
+<path d="M520 0 C 540 200, 640 280, 720 200 C 760 160, 760 100, 740 0"></path>
+<path d="M1060 0 C 1030 160, 1000 260, 1040 340 C 1070 400, 1100 380, 1100 300"></path>
+<path d="M300 0 C 310 120, 290 240, 300 360"></path>
+</g>
+<g fill="none" stroke="#2a4a38" stroke-width="3" stroke-linecap="round">
+<path d="M522 4 C 542 200, 640 276, 716 198"></path>
+<path d="M1058 4 C 1028 160, 998 258, 1038 336"></path>
+</g>
+
+<!-- dark canopy overhead -->
+<path d="M0 0 L 1600 0 L 1600 70 C 1560 92, 1520 74, 1490 96 C 1460 116, 1420 96, 1396 80 C 1360 100, 1320 92, 1290 70 C 1250 88, 1210 80, 1180 60 C 1140 76, 1100 66, 1070 48 C 1030 62, 990 54, 960 40 C 920 54, 880 46, 850 34 C 810 46, 770 40, 740 30 C 700 44, 660 40, 630 50 C 600 66, 560 62, 530 76 C 500 92, 460 86, 430 100 C 400 116, 360 108, 330 120 C 300 134, 250 128, 220 112 C 190 128, 150 124, 120 104 C 90 116, 50 108, 20 90 L 0 86 Z" fill="#081816"></path>
+<g fill="#10261f" stroke="#020806" stroke-width="1.5">
+<ellipse cx="430" cy="100" rx="30" ry="12" transform="rotate(-18 430 100)"></ellipse>
+<ellipse cx="220" cy="114" rx="28" ry="11" transform="rotate(14 220 114)"></ellipse>
+<ellipse cx="1290" cy="72" rx="30" ry="12" transform="rotate(16 1290 72)"></ellipse>
+<ellipse cx="1490" cy="96" rx="28" ry="11" transform="rotate(-14 1490 96)"></ellipse>
+<ellipse cx="960" cy="42" rx="26" ry="10" transform="rotate(10 960 42)"></ellipse>
+</g>
+
+<!-- near trunks framing the stage -->
+<g stroke="#030a0a" stroke-width="3">
+<path d="M-20 0 L 90 0 C 84 200, 80 400, 86 600 C 90 720, 110 820, 140 900 L -20 900 Z" fill="#0e2220"></path>
+<path d="M1620 0 L 1514 0 C 1520 200, 1524 400, 1518 600 C 1514 720, 1494 820, 1464 900 L 1620 900 Z" fill="#0e2220"></path>
+</g>
+<g fill="none" stroke="#1e3a36" stroke-width="3" stroke-linecap="round">
+<path d="M40 40 C 34 200, 46 400, 38 640"></path>
+<path d="M1560 40 C 1566 200, 1554 400, 1562 640"></path>
+</g>
+
+<!-- mossy fallen log in the near left -->
+<g stroke="#0a0806" stroke-width="3" stroke-linejoin="round">
+<path d="M-30 800 C 60 784, 180 780, 270 792 C 290 800, 292 846, 270 856 C 180 868, 60 866, -30 856 Z" fill="#3a2e20"></path>
+<ellipse cx="270" cy="824" rx="22" ry="32" fill="#6a5236"></ellipse>
+<ellipse cx="270" cy="824" rx="12" ry="18" fill="none" stroke="#3a2e20" stroke-width="2"></ellipse>
+<path d="M-30 800 C 60 784, 180 780, 256 790 C 230 800, 120 802, -30 812 Z" fill="#4e7a34"></path>
+</g>
+<g stroke="#140e08" stroke-width="1.5">
+<path d="M120 850 C 120 838, 140 836, 144 848 Z" fill="#e8a050"></path>
+<path d="M146 852 C 146 842, 162 842, 164 852 Z" fill="#e8a050"></path>
+</g>
+
+<!-- ferns in the near right -->
+<g fill="#1e3e2a" stroke="#050f0a" stroke-width="2" stroke-linejoin="round">
+<path d="M1420 900 C 1440 830, 1490 790, 1560 780 C 1500 804, 1456 850, 1438 900 Z"></path>
+<path d="M1400 900 C 1390 830, 1350 790, 1290 776 C 1340 806, 1376 850, 1384 900 Z"></path>
+<path d="M1450 900 C 1490 860, 1550 846, 1610 852 C 1550 862, 1500 880, 1470 900 Z"></path>
+</g>
+
+<!-- fireflies -->
+<g fill="#d8ff8a" filter="url(#glow)">
+<circle cx="360" cy="520" r="2.5"></circle>
+<circle cx="520" cy="420" r="2"></circle>
+<circle cx="610" cy="560" r="2.5"></circle>
+<circle cx="980" cy="480" r="2"></circle>
+<circle cx="1060" cy="580" r="2.5"></circle>
+<circle cx="1260" cy="460" r="2"></circle>
+<circle cx="1320" cy="600" r="2.5"></circle>
+<circle cx="280" cy="620" r="2"></circle>
+<circle cx="900" cy="600" r="2"></circle>
+<circle cx="700" cy="380" r="2"></circle>
+</g>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#vig)"></rect>
+</svg>
+
+
+
+</div>
+</body></html>

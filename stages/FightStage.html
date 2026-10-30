@@ -1,0 +1,434 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}</style></head><body>
+
+<div style="position: relative; width: 1600px; height: 900px; overflow: hidden; background: #151a33; font-family: Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif; color: #f4efe6;">
+
+<svg width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="A 2D fighting game scene at dusk in an old Yorùbá compound courtyard. On the left Ṣàngó, in red with white squares and a red-and-white beaded crown, raises his double axe crackling with lightning and hurls a glowing thunderstone. On the right Ògún, bare-chested with a palm-frond fringe, iron chain and bangles, braces behind his raised machete. Behind them stand old mud huts with steep shaggy thatch, a porch on rough timber posts, a tall gatehouse with carved posts and a clay snake on its wall, crumbling mud walls, a great tree, clay pots and a mortar; bàtá drummers and a crowd watch, torches burn, and storm clouds and distant lightning fill the sky." style="position: absolute; left: 0; top: 0; display: block;">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#111530"></stop>
+<stop offset="0.45" stop-color="#2d2a4c"></stop>
+<stop offset="0.72" stop-color="#6a3f58"></stop>
+<stop offset="0.9" stop-color="#b9643a"></stop>
+<stop offset="1" stop-color="#d98a43"></stop>
+</linearGradient>
+<linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#6a3520"></stop>
+<stop offset="0.5" stop-color="#4b2415"></stop>
+<stop offset="1" stop-color="#2c140b"></stop>
+</linearGradient>
+<radialGradient id="torchlight" cx="0.5" cy="0.5" r="0.5">
+<stop offset="0" stop-color="#ffb35c" stop-opacity="0.55"></stop>
+<stop offset="0.5" stop-color="#ff9440" stop-opacity="0.18"></stop>
+<stop offset="1" stop-color="#ff9440" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="boltlight" cx="0.5" cy="0.5" r="0.5">
+<stop offset="0" stop-color="#cfe0ff" stop-opacity="0.7"></stop>
+<stop offset="0.45" stop-color="#8fb4ff" stop-opacity="0.2"></stop>
+<stop offset="1" stop-color="#8fb4ff" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="doorglow" cx="0.5" cy="0.7" r="0.6">
+<stop offset="0" stop-color="#ffd27a"></stop>
+<stop offset="0.6" stop-color="#f09a3e"></stop>
+<stop offset="1" stop-color="#9a4a1e"></stop>
+</radialGradient>
+<filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur stdDeviation="5" result="b"></feGaussianBlur>
+<feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+<feGaussianBlur stdDeviation="2.5"></feGaussianBlur>
+</filter>
+<filter id="haze" x="-50%" y="-50%" width="200%" height="200%">
+<feGaussianBlur stdDeviation="7"></feGaussianBlur>
+</filter>
+<pattern id="redsq" width="18" height="18" patternUnits="userSpaceOnUse">
+<rect width="18" height="18" fill="#b8231a"></rect>
+<rect x="5" y="5" width="8" height="8" fill="#efe8da"></rect>
+<rect x="7.5" y="7.5" width="3" height="3" fill="#b8231a"></rect>
+</pattern>
+<pattern id="beadsRW" width="9" height="9" patternUnits="userSpaceOnUse">
+<rect width="9" height="9" fill="#c62a1f"></rect>
+<circle cx="4.5" cy="4.5" r="2.2" fill="#f2ece0"></circle>
+</pattern>
+<pattern id="thatchdark" width="14" height="14" patternUnits="userSpaceOnUse">
+<rect width="14" height="14" fill="#3a2216"></rect>
+<path d="M0 14 L6 0 M7 14 L13 0" stroke="#52331f" stroke-width="1.6" fill="none"></path>
+</pattern>
+<pattern id="thatchold" width="16" height="16" patternUnits="userSpaceOnUse">
+<rect width="16" height="16" fill="#41271a"></rect>
+<path d="M0 16 L5 0 M6 16 L10 2 M11 16 L15 0" stroke="#5c3b24" stroke-width="1.5" fill="none"></path>
+<path d="M2 12 L4 6" stroke="#2c190f" stroke-width="1.2" fill="none"></path>
+</pattern>
+<pattern id="fringeA" width="14" height="20" patternUnits="userSpaceOnUse">
+<path d="M0 0 L5 19 L8 7 L14 0 Z" fill="#2a170d"></path>
+</pattern>
+<pattern id="fringeB" width="11" height="20" patternUnits="userSpaceOnUse">
+<path d="M3 0 L7 14 L11 0 Z" fill="#4a2e1c"></path>
+</pattern>
+</defs>
+
+<!-- sky, storm and distant lightning -->
+<rect x="0" y="0" width="1600" height="660" fill="url(#sky)"></rect>
+<path d="M0 0 L1600 0 L1600 120 C 1500 150, 1420 110, 1330 140 C 1250 165, 1160 120, 1060 150 C 960 178, 880 128, 780 150 C 690 170, 610 120, 520 146 C 430 172, 340 128, 250 150 C 160 172, 80 130, 0 150 Z" fill="#0d1026"></path>
+<path d="M0 150 C 80 130, 160 172, 250 150 C 340 128, 430 172, 520 146 C 610 120, 690 170, 780 150 C 880 128, 960 178, 1060 150 C 1160 120, 1250 165, 1330 140 C 1420 110, 1500 150, 1600 120 L1600 200 C 1500 225, 1400 190, 1300 214 C 1200 236, 1110 196, 1010 220 C 910 244, 820 200, 720 222 C 620 244, 520 204, 420 226 C 320 248, 220 206, 120 228 C 70 238, 30 226, 0 232 Z" fill="#1a1d3c" opacity="0.9"></path>
+<g filter="url(#glow)" fill="none" stroke="#e4ecff" stroke-width="2.4" stroke-linejoin="round">
+<path d="M1265 140 L1252 186 L1270 196 L1246 246 L1262 252 L1236 316"></path>
+<path d="M1252 186 L1226 214"></path>
+<path d="M1262 252 L1290 280"></path>
+</g>
+
+<!-- inselberg on the horizon -->
+<path d="M0 560 C 40 500, 90 430, 170 420 C 250 412, 320 470, 380 560 Z" fill="#2a2342"></path>
+<path d="M330 560 C 360 520, 400 500, 440 503 C 480 506, 510 535, 530 560 Z" fill="#30294a"></path>
+
+<!-- roofs of the town beyond -->
+<g fill="#1f130d" stroke="#140b07" stroke-width="2">
+<path d="M160 572 L206 504 L280 504 L322 572 Z"></path>
+<path d="M610 524 L656 452 L736 452 L782 524 Z"></path>
+<path d="M948 528 L992 462 L1068 462 L1112 528 Z"></path>
+<path d="M1228 566 L1268 500 L1336 500 L1378 566 Z"></path>
+</g>
+
+<!-- a great old tree behind the huts -->
+<path d="M548 650 C 544 600, 538 540, 552 474 C 556 454, 562 444, 566 440" fill="none" stroke="#17100c" stroke-width="22"></path>
+<path d="M554 486 C 526 476, 506 458, 494 438" fill="none" stroke="#17100c" stroke-width="10"></path>
+<path d="M558 476 C 592 462, 616 446, 628 426" fill="none" stroke="#17100c" stroke-width="10"></path>
+<path d="M434 446 C 424 406, 454 372, 496 374 C 508 342, 560 332, 588 354 C 620 338, 668 352, 672 390 C 704 402, 704 444, 674 456 C 654 476, 604 474, 584 464 C 560 480, 514 480, 496 466 C 460 474, 434 466, 434 446 Z" fill="#1b1922"></path>
+
+<!-- smoke from a cooking fire -->
+<path d="M1028 478 C 1016 448, 1042 428, 1032 400 C 1024 376, 1050 356, 1040 326 C 1034 306, 1052 290, 1046 268" fill="none" stroke="#9a92a2" stroke-width="16" opacity="0.18" filter="url(#haze)"></path>
+
+<!-- crumbling compound walls at both ends -->
+<path d="M104 650 L104 606 L122 600 L136 612 L152 602 L166 616 L184 608 L198 624 L214 618 L226 632 L240 630 L240 650 Z" fill="#552a18" stroke="#160c08" stroke-width="2"></path>
+<path d="M1344 650 L1344 602 L1364 598 L1376 608 L1394 600 L1406 614 L1422 606 L1434 624 L1452 618 L1464 634 L1484 630 L1484 650 Z" fill="#552a18" stroke="#160c08" stroke-width="2"></path>
+<g fill="#4a2414" stroke="#160c08" stroke-width="1.5">
+<ellipse cx="250" cy="646" rx="9" ry="5"></ellipse><ellipse cx="236" cy="648" rx="6" ry="4"></ellipse>
+<ellipse cx="1492" cy="646" rx="9" ry="5"></ellipse><ellipse cx="1478" cy="648" rx="6" ry="4"></ellipse>
+</g>
+
+<!-- hut, left: steep old thatch, daub fallen away to show the wattle -->
+<path d="M268 562 C 266 590, 270 622, 266 650 L 454 650 C 450 620, 454 590, 452 562 Z" fill="#5f301c" stroke="#160c08" stroke-width="2"></path>
+<path d="M292 590 C 300 582, 322 584, 330 592 C 334 606, 330 622, 318 628 C 304 630, 292 622, 290 608 Z" fill="#2e170c"></path>
+<path d="M294 598 L328 598 M292 611 L330 611 M296 623 L322 623 M303 586 L301 628 M314 584 L314 630 M324 588 L326 626" fill="none" stroke="#9a6a3e" stroke-width="2"></path>
+<path d="M420 574 L414 590 L420 602 L412 622" fill="none" stroke="#2a150b" stroke-width="1.6"></path>
+<path d="M352 650 L352 606 C 354 598, 376 598, 378 606 L378 650 Z" fill="#1a0c06"></path>
+<path d="M236 560 L300 462 L420 462 L484 560 Z" fill="url(#thatchold)" stroke="#160c08" stroke-width="2"></path>
+<path d="M258 528 L462 528 M280 496 L440 496" fill="none" stroke="#24140c" stroke-width="2"></path>
+<rect x="236" y="560" width="248" height="20" fill="url(#fringeA)"></rect>
+<rect x="236" y="560" width="248" height="20" fill="url(#fringeB)"></rect>
+<g fill="#7a3a1e" stroke="#160c08" stroke-width="1.5">
+<path d="M444 650 C 438 632, 446 620, 458 620 C 470 620, 478 632, 472 650 Z"></path>
+<path d="M454 621 L462 621 L461 614 L455 614 Z"></path>
+<path d="M472 650 C 468 638, 474 630, 484 630 C 494 630, 500 638, 496 650 Z"></path>
+</g>
+
+<!-- porch house: a lean-to on rough timber posts -->
+<path d="M510 520 L562 440 L690 440 L742 520 Z" fill="url(#thatchold)" stroke="#160c08" stroke-width="2"></path>
+<rect x="510" y="520" width="232" height="20" fill="url(#fringeA)"></rect>
+<path d="M520 520 L732 520 L732 650 L520 650 Z" fill="#6a351f" stroke="#160c08" stroke-width="2"></path>
+<path d="M520 580 L732 580 L732 650 L520 650 Z" fill="#3a1d10"></path>
+<path d="M596 650 L596 600 C 598 592, 624 592, 626 600 L626 650 Z" fill="url(#doorglow)"></path>
+<path d="M496 580 L522 540 L730 540 L756 580 Z" fill="url(#thatchdark)" stroke="#160c08" stroke-width="2"></path>
+<rect x="496" y="580" width="260" height="20" fill="url(#fringeA)"></rect>
+<rect x="496" y="580" width="260" height="20" fill="url(#fringeB)"></rect>
+<g fill="none" stroke="#24130a" stroke-width="9" stroke-linecap="round">
+<path d="M512 598 L510 650"></path>
+<path d="M578 598 L581 650"></path>
+<path d="M664 598 L662 650"></path>
+<path d="M740 598 L743 650"></path>
+</g>
+
+<!-- the gatehouse: tallest roof, carved posts, a clay snake on the wall -->
+<path d="M720 500 L792 378 L840 378 L912 500 Z" fill="url(#thatchold)" stroke="#160c08" stroke-width="2"></path>
+<path d="M742 464 L890 464 M762 430 L870 430 M780 400 L852 400" fill="none" stroke="#24140c" stroke-width="2"></path>
+<path d="M804 380 C 806 362, 826 362, 828 380 Z" fill="#5c3b24" stroke="#160c08" stroke-width="2"></path>
+<rect x="720" y="500" width="192" height="20" fill="url(#fringeA)"></rect>
+<rect x="720" y="500" width="192" height="20" fill="url(#fringeB)"></rect>
+<path d="M740 514 C 738 560, 742 610, 738 650 L 894 650 C 890 610, 894 560, 892 514 Z" fill="#7a3d22" stroke="#160c08" stroke-width="2"></path>
+<path d="M752 548 C 768 536, 784 560, 800 548 C 816 536, 832 560, 848 548 C 860 540, 870 542, 876 548" fill="none" stroke="#e8dcc4" stroke-width="5" stroke-linecap="round"></path>
+<ellipse cx="881" cy="548" rx="7" ry="5" fill="#e8dcc4"></ellipse>
+<path d="M786 650 L786 586 C 790 572, 842 572, 846 586 L846 650 Z" fill="url(#doorglow)" stroke="#160c08" stroke-width="2"></path>
+<g fill="#24130b" stroke="#120906" stroke-width="1.5">
+<rect x="760" y="566" width="14" height="84"></rect><ellipse cx="767" cy="584" rx="10" ry="11"></ellipse><ellipse cx="767" cy="614" rx="9" ry="10"></ellipse><circle cx="767" cy="562" r="7"></circle>
+<rect x="858" y="566" width="14" height="84"></rect><ellipse cx="865" cy="584" rx="10" ry="11"></ellipse><ellipse cx="865" cy="614" rx="9" ry="10"></ellipse><circle cx="865" cy="562" r="7"></circle>
+</g>
+
+<!-- hut with a sagging ridge and a newer patch of thatch -->
+<path d="M905 548 C 903 590, 907 620, 903 650 L 1107 650 C 1103 620, 1107 590, 1105 548 Z" fill="#66341e" stroke="#160c08" stroke-width="2"></path>
+<path d="M1060 566 L1054 588 L1062 600 L1054 620" fill="none" stroke="#2a150b" stroke-width="1.6"></path>
+<path d="M990 650 L990 600 C 992 592, 1016 592, 1018 600 L1018 650 Z" fill="#1a0c06"></path>
+<path d="M890 540 L952 458 C 984 470, 1028 470, 1060 458 L1122 540 Z" fill="url(#thatchold)" stroke="#160c08" stroke-width="2"></path>
+<path d="M980 484 L1030 484 L1042 520 L970 520 Z" fill="#6a4a2a" stroke="#2c190f" stroke-width="1.5"></path>
+<path d="M984 494 L986 488 M996 506 L1000 494 M1012 512 L1016 496 M1026 504 L1028 492" fill="none" stroke="#8a6638" stroke-width="1.5"></path>
+<rect x="890" y="540" width="232" height="20" fill="url(#fringeA)"></rect>
+<rect x="890" y="540" width="232" height="20" fill="url(#fringeB)"></rect>
+<g stroke="#120906" stroke-width="1.5">
+<path d="M1062 614 L1090 614 L1085 630 L1090 650 L1062 650 L1067 630 Z" fill="#4a2c18"></path>
+<path d="M1078 612 L1094 560" fill="none" stroke="#5a3a22" stroke-width="5" stroke-linecap="round"></path>
+</g>
+
+<!-- hut, right, with firewood stacked by the wall -->
+<path d="M1158 562 C 1156 592, 1160 622, 1156 650 L 1334 650 C 1330 622, 1334 592, 1332 562 Z" fill="#5f301c" stroke="#160c08" stroke-width="2"></path>
+<path d="M1280 588 C 1288 582, 1308 584, 1314 592 C 1318 606, 1314 620, 1304 626 C 1292 628, 1282 620, 1280 606 Z" fill="#2e170c"></path>
+<path d="M1282 596 L1312 596 M1281 609 L1315 609 M1286 620 L1308 620 M1290 586 L1290 626 M1302 584 L1302 628" fill="none" stroke="#9a6a3e" stroke-width="2"></path>
+<path d="M1230 650 L1230 606 C 1232 598, 1254 598, 1256 606 L1256 650 Z" fill="#1a0c06"></path>
+<path d="M1140 560 L1198 466 L1298 466 L1352 560 Z" fill="url(#thatchold)" stroke="#160c08" stroke-width="2"></path>
+<path d="M1160 528 L1332 528 M1180 496 L1312 496" fill="none" stroke="#24140c" stroke-width="2"></path>
+<rect x="1140" y="560" width="212" height="20" fill="url(#fringeA)"></rect>
+<rect x="1140" y="560" width="212" height="20" fill="url(#fringeB)"></rect>
+<g stroke="#120906" stroke-width="1.5" fill="#5a3a22">
+<rect x="1296" y="636" width="54" height="7" rx="3"></rect>
+<rect x="1300" y="629" width="48" height="7" rx="3"></rect>
+<rect x="1304" y="622" width="40" height="7" rx="3"></rect>
+<rect x="1296" y="643" width="56" height="7" rx="3"></rect>
+</g>
+
+<!-- bàtá drummers by the porch -->
+<g fill="#1b0f09">
+<circle cx="372" cy="590" r="12"></circle>
+<path d="M356 602 C 362 596, 382 596, 388 602 L 396 650 L 348 650 Z"></path>
+<path d="M330 612 L 352 606 L 392 616 L 414 612 L 414 634 L 392 630 L 352 640 L 330 634 Z"></path>
+<circle cx="462" cy="588" r="12"></circle>
+<path d="M446 600 C 452 594, 472 594, 478 600 L 486 650 L 438 650 Z"></path>
+<path d="M420 614 L 442 608 L 482 618 L 504 614 L 504 636 L 482 632 L 442 642 L 420 636 Z"></path>
+</g>
+<g fill="none" stroke="#e09a55" stroke-width="2" opacity="0.8">
+<path d="M330 612 L 352 606 L 392 616 L 414 612"></path>
+<path d="M420 614 L 442 608 L 482 618 L 504 614"></path>
+</g>
+
+<!-- crowd along the courtyard edge -->
+<g fill="#160d08">
+<circle cx="560" cy="604" r="11"></circle><path d="M545 615 C 552 610, 568 610, 575 615 L 580 650 L 540 650 Z"></path><path d="M548 598 C 546 586, 574 584, 573 598 C 566 593, 556 593, 548 598 Z"></path>
+<circle cx="640" cy="608" r="10"></circle><path d="M626 618 C 632 613, 648 613, 654 618 L 659 650 L 621 650 Z"></path>
+<circle cx="690" cy="602" r="11"></circle><path d="M675 613 C 682 608, 698 608, 705 613 L 710 650 L 670 650 Z"></path><path d="M678 596 C 676 584, 704 582, 703 596 C 696 591, 686 591, 678 596 Z"></path>
+<circle cx="732" cy="608" r="10"></circle><path d="M718 618 C 724 613, 740 613, 746 618 L 751 650 L 713 650 Z"></path>
+<circle cx="900" cy="606" r="10"></circle><path d="M886 616 C 892 611, 908 611, 914 616 L 919 650 L 881 650 Z"></path>
+<circle cx="944" cy="602" r="11"></circle><path d="M929 613 C 936 608, 952 608, 959 613 L 964 650 L 924 650 Z"></path><path d="M932 596 C 930 584, 958 582, 957 596 C 950 591, 940 591, 932 596 Z"></path>
+<circle cx="1036" cy="604" r="11"></circle><path d="M1021 615 C 1028 610, 1044 610, 1051 615 L 1056 650 L 1016 650 Z"></path>
+<circle cx="1128" cy="602" r="11"></circle><path d="M1113 613 C 1120 608, 1136 608, 1143 613 L 1148 650 L 1108 650 Z"></path>
+<circle cx="1176" cy="608" r="10"></circle><path d="M1162 618 C 1168 613, 1184 613, 1190 618 L 1195 650 L 1157 650 Z"></path><path d="M1165 602 C 1163 591, 1189 589, 1188 602 C 1182 597, 1172 597, 1165 602 Z"></path>
+<circle cx="1222" cy="604" r="11"></circle><path d="M1207 615 C 1214 610, 1230 610, 1237 615 L 1242 650 L 1202 650 Z"></path>
+</g>
+
+<!-- courtyard floor, beaten earth with stones -->
+<rect x="0" y="650" width="1600" height="250" fill="url(#floor)"></rect>
+<path d="M0 650 L1600 650" stroke="#2a130a" stroke-width="3"></path>
+<g fill="none" stroke="#7a4028" stroke-width="2" opacity="0.5">
+<path d="M90 720 C 150 716, 210 722, 260 718"></path>
+<path d="M640 832 C 720 826, 820 830, 900 826"></path>
+<path d="M1310 740 C 1370 736, 1430 742, 1490 738"></path>
+<path d="M300 870 C 380 864, 460 868, 520 864"></path>
+<path d="M1080 880 C 1160 874, 1240 878, 1300 874"></path>
+</g>
+<g fill="#5a2c1a" stroke="#2a130a" stroke-width="1.5">
+<ellipse cx="160" cy="742" rx="10" ry="5"></ellipse>
+<ellipse cx="702" cy="690" rx="8" ry="4"></ellipse>
+<ellipse cx="842" cy="862" rx="12" ry="5"></ellipse>
+<ellipse cx="1452" cy="812" rx="10" ry="5"></ellipse>
+<ellipse cx="1262" cy="702" rx="7" ry="3.5"></ellipse>
+<ellipse cx="330" cy="806" rx="9" ry="4"></ellipse>
+</g>
+
+<!-- oil palms framing the stage -->
+<g fill="#0c0a12" stroke="#0c0a12">
+<path d="M70 900 C 66 780, 62 640, 80 470" fill="none" stroke-width="16"></path>
+<path d="M80 470 C 40 440, 0 452, -20 490 C 20 466, 50 464, 80 474 Z"></path>
+<path d="M80 470 C 120 440, 165 450, 190 486 C 150 464, 115 462, 80 474 Z"></path>
+<path d="M80 470 C 56 420, 18 404, -6 412 C 30 424, 56 440, 80 470 Z"></path>
+<path d="M80 470 C 104 420, 146 404, 170 412 C 134 424, 104 440, 80 470 Z"></path>
+<path d="M80 470 C 74 430, 82 398, 94 380 C 90 410, 88 440, 80 470 Z"></path>
+<path d="M80 470 C 50 480, 26 516, 22 552 C 40 518, 60 498, 80 476 Z"></path>
+<path d="M80 470 C 112 480, 136 516, 140 552 C 122 518, 102 498, 80 476 Z"></path>
+<path d="M1532 900 C 1536 780, 1540 650, 1524 486" fill="none" stroke-width="16"></path>
+<path d="M1524 486 C 1484 456, 1440 466, 1416 502 C 1456 480, 1490 478, 1524 490 Z"></path>
+<path d="M1524 486 C 1564 456, 1610 466, 1630 504 C 1590 480, 1558 478, 1524 490 Z"></path>
+<path d="M1524 486 C 1500 436, 1462 420, 1438 428 C 1474 440, 1500 456, 1524 486 Z"></path>
+<path d="M1524 486 C 1548 436, 1590 420, 1614 428 C 1578 440, 1548 456, 1524 486 Z"></path>
+<path d="M1524 486 C 1518 446, 1526 414, 1538 396 C 1534 426, 1532 456, 1524 486 Z"></path>
+<path d="M1524 486 C 1494 496, 1470 532, 1466 568 C 1484 534, 1504 514, 1524 492 Z"></path>
+<path d="M1524 486 C 1556 496, 1580 532, 1584 568 C 1566 534, 1546 514, 1524 492 Z"></path>
+</g>
+
+<!-- torches at both ends of the courtyard -->
+<ellipse cx="236" cy="610" rx="230" ry="190" fill="url(#torchlight)"></ellipse>
+<ellipse cx="1366" cy="610" rx="230" ry="190" fill="url(#torchlight)"></ellipse>
+<path d="M236 800 L236 552" stroke="#1d110a" stroke-width="12"></path>
+<path d="M212 552 L260 552 L252 572 L220 572 Z" fill="#3a2a22" stroke="#140b06" stroke-width="2"></path>
+<g filter="url(#glow)">
+<path d="M236 470 C 222 498, 210 520, 216 548 L 256 548 C 262 520, 252 500, 236 470 Z" fill="#ff8a2a"></path>
+<path d="M236 494 C 228 512, 224 528, 228 546 L 246 546 C 250 528, 244 512, 236 494 Z" fill="#ffd36b"></path>
+</g>
+<path d="M1366 800 L1366 552" stroke="#1d110a" stroke-width="12"></path>
+<path d="M1342 552 L1390 552 L1382 572 L1350 572 Z" fill="#3a2a22" stroke="#140b06" stroke-width="2"></path>
+<g filter="url(#glow)">
+<path d="M1366 470 C 1352 498, 1340 520, 1346 548 L 1386 548 C 1392 520, 1382 500, 1366 470 Z" fill="#ff8a2a"></path>
+<path d="M1366 494 C 1358 512, 1354 528, 1358 546 L 1376 546 C 1380 528, 1374 512, 1366 494 Z" fill="#ffd36b"></path>
+</g>
+
+<!-- thunderstone light on the floor -->
+<ellipse cx="760" cy="770" rx="260" ry="60" fill="url(#boltlight)"></ellipse>
+
+<!-- fighter shadows -->
+<ellipse cx="478" cy="772" rx="122" ry="14" fill="#000000" opacity="0.4"></ellipse>
+<ellipse cx="1134" cy="772" rx="126" ry="14" fill="#000000" opacity="0.4"></ellipse>
+
+<!-- ============ ṢÀNGÓ (player one, facing right) ============ -->
+<g stroke-linecap="round" stroke-linejoin="round">
+<!-- raised back arm with the oṣé -->
+<path d="M462 494 L432 428" fill="none" stroke="#150a06" stroke-width="36"></path>
+<path d="M462 494 L432 428" fill="none" stroke="#5b3322" stroke-width="29"></path>
+<path d="M462 494 L446 460" fill="none" stroke="#b8231a" stroke-width="31"></path>
+<path d="M432 428 L452 368" fill="none" stroke="#150a06" stroke-width="31"></path>
+<path d="M432 428 L452 368" fill="none" stroke="#5b3322" stroke-width="24"></path>
+<path d="M448 384 L452 376" fill="none" stroke="#f2ece0" stroke-width="27"></path>
+<path d="M458 388 L466 290" fill="none" stroke="#150a06" stroke-width="14"></path>
+<path d="M458 388 L466 290" fill="none" stroke="#6b4426" stroke-width="9"></path>
+<circle cx="454" cy="360" r="16" fill="#5b3322" stroke="#150a06" stroke-width="3.5"></circle>
+<path d="M467 292 C 452 284, 436 272, 424 252 C 434 276, 434 296, 424 316 C 438 302, 452 296, 467 296 Z" fill="#5e3a20" stroke="#150a06" stroke-width="3.5"></path>
+<path d="M467 292 C 482 284, 498 272, 510 252 C 500 276, 500 296, 510 316 C 496 302, 482 296, 467 296 Z" fill="#5e3a20" stroke="#150a06" stroke-width="3.5"></path>
+<circle cx="467" cy="294" r="9" fill="#734a29" stroke="#150a06" stroke-width="3"></circle>
+<g fill="#f2ece0" stroke="none"><circle cx="472" cy="306" r="3"></circle><circle cx="474" cy="314" r="3"></circle><circle cx="475" cy="322" r="3" fill="#c62a1f"></circle><circle cx="475" cy="330" r="3" fill="#c62a1f"></circle><circle cx="474" cy="338" r="3"></circle></g>
+<!-- back leg -->
+<path d="M456 616 L420 690" fill="none" stroke="#150a06" stroke-width="50"></path>
+<path d="M456 616 L420 690" fill="none" stroke="#9e1d15" stroke-width="43"></path>
+<path d="M420 690 L400 752" fill="none" stroke="#150a06" stroke-width="40"></path>
+<path d="M420 690 L400 752" fill="none" stroke="#9e1d15" stroke-width="33"></path>
+<path d="M386 760 C 384 748, 414 746, 426 758 C 430 766, 424 772, 410 772 L 384 772 C 376 772, 376 764, 386 760 Z" fill="#5b3322" stroke="#150a06" stroke-width="3.5"></path>
+<!-- tunic with white squares, sash and beads -->
+<path d="M452 484 C 468 470, 502 470, 518 486 L 524 560 C 526 590, 532 618, 536 644 L 434 644 C 438 612, 444 580, 446 548 Z" fill="url(#redsq)" stroke="#150a06" stroke-width="4"></path>
+<path d="M440 598 C 470 606, 504 606, 530 596 L 532 614 C 504 624, 470 624, 438 616 Z" fill="#f2ece0" stroke="#150a06" stroke-width="3"></path>
+<path d="M458 494 C 470 520, 500 524, 514 498" fill="none" stroke="url(#beadsRW)" stroke-width="7"></path>
+<path d="M454 498 C 466 536, 504 540, 518 502" fill="none" stroke="url(#beadsRW)" stroke-width="7"></path>
+<!-- front leg -->
+<path d="M490 614 L538 682" fill="none" stroke="#150a06" stroke-width="52"></path>
+<path d="M490 614 L538 682" fill="none" stroke="#9e1d15" stroke-width="45"></path>
+<path d="M538 682 L556 752" fill="none" stroke="#150a06" stroke-width="42"></path>
+<path d="M538 682 L556 752" fill="none" stroke="#9e1d15" stroke-width="35"></path>
+<path d="M546 760 C 548 748, 580 748, 594 760 C 600 768, 594 772, 580 772 L 550 772 C 540 772, 538 766, 546 760 Z" fill="#5b3322" stroke="#150a06" stroke-width="3.5"></path>
+<!-- head, beard, àbàjà, crown and fringe -->
+<path d="M490 480 L494 456" fill="none" stroke="#150a06" stroke-width="26"></path>
+<path d="M490 480 L494 456" fill="none" stroke="#5b3322" stroke-width="20"></path>
+<path d="M474 436 C 474 414, 492 404, 506 408 C 520 412, 524 426, 522 434 L 528 446 L 522 450 C 522 462, 514 470, 500 470 C 484 470, 474 456, 474 436 Z" fill="#5b3322" stroke="#150a06" stroke-width="3.5"></path>
+<path d="M480 452 C 486 466, 498 472, 512 468 C 520 464, 522 456, 522 452 C 512 460, 494 462, 480 452 Z" fill="#1d100a"></path>
+<circle cx="510" cy="434" r="2.6" fill="#f4efe6"></circle>
+<g stroke="#2a1309" stroke-width="2" fill="none"><path d="M496 440 L508 440"></path><path d="M496 445 L508 445"></path><path d="M497 450 L507 450"></path></g>
+<path d="M474 426 C 474 398, 486 376, 500 366 C 514 376, 526 398, 526 426 Z" fill="url(#beadsRW)" stroke="#150a06" stroke-width="3.5"></path>
+<path d="M492 364 C 492 356, 506 354, 510 360 L 516 358 L 512 364 C 510 370, 496 372, 492 364 Z" fill="#f2ece0" stroke="#150a06" stroke-width="2.5"></path>
+<path d="M494 362 L486 358" fill="none" stroke="#150a06" stroke-width="2.5"></path>
+<path d="M472 420 L528 420 L528 430 L472 430 Z" fill="#f2ece0" stroke="#150a06" stroke-width="3"></path>
+<path d="M486 404 l7 -7 l7 7 l7 -7" fill="none" stroke="#f2ece0" stroke-width="3"></path>
+<g stroke="none">
+<circle cx="476" cy="436" r="2.6" fill="#f2ece0"></circle><circle cx="476" cy="443" r="2.6" fill="#c62a1f"></circle><circle cx="476" cy="450" r="2.6" fill="#f2ece0"></circle>
+<circle cx="482" cy="436" r="2.6" fill="#c62a1f"></circle><circle cx="482" cy="443" r="2.6" fill="#f2ece0"></circle><circle cx="482" cy="450" r="2.6" fill="#c62a1f"></circle><circle cx="482" cy="457" r="2.6" fill="#f2ece0"></circle>
+<circle cx="470" cy="436" r="2.6" fill="#c62a1f"></circle><circle cx="470" cy="443" r="2.6" fill="#f2ece0"></circle><circle cx="470" cy="450" r="2.6" fill="#c62a1f"></circle><circle cx="470" cy="457" r="2.6" fill="#f2ece0"></circle><circle cx="470" cy="464" r="2.6" fill="#c62a1f"></circle>
+</g>
+<!-- front arm, thrust forward after the throw -->
+<path d="M508 494 L556 508" fill="none" stroke="#150a06" stroke-width="33"></path>
+<path d="M508 494 L556 508" fill="none" stroke="#5b3322" stroke-width="26"></path>
+<path d="M508 494 L530 500" fill="none" stroke="#b8231a" stroke-width="30"></path>
+<path d="M556 508 L602 500" fill="none" stroke="#150a06" stroke-width="29"></path>
+<path d="M556 508 L602 500" fill="none" stroke="#5b3322" stroke-width="22"></path>
+<path d="M590 502 L594 501" fill="none" stroke="#f2ece0" stroke-width="25"></path>
+<path d="M600 484 C 612 478, 626 484, 628 494 L 640 490 L 642 496 L 630 500 L 638 506 L 634 512 L 624 506 C 616 514, 602 512, 600 500 Z" fill="#5b3322" stroke="#150a06" stroke-width="3.5"></path>
+</g>
+
+<!-- lightning crackling round the axe -->
+<g filter="url(#glow)" fill="none" stroke="#e8f0ff" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+<path d="M424 252 L406 232 L418 224 L398 196"></path>
+<path d="M510 252 L528 226 L516 220 L540 192"></path>
+<path d="M467 284 L462 254 L474 246 L466 214"></path>
+<path d="M424 316 L404 324 L410 336"></path>
+</g>
+
+<!-- the thunderstone in flight -->
+<path d="M626 496 C 660 482, 700 486, 712 496 C 700 506, 660 510, 626 496 Z" fill="#a9c6ff" opacity="0.45" filter="url(#blur)"></path>
+<g filter="url(#glow)">
+<path d="M704 482 C 724 478, 744 486, 752 498 C 744 510, 724 516, 704 510 C 696 502, 696 490, 704 482 Z" fill="#dbe7ff"></path>
+<path d="M710 488 C 724 486, 736 492, 740 498 C 736 504, 724 508, 710 506 C 706 500, 706 494, 710 488 Z" fill="#5d6a80"></path>
+</g>
+<g filter="url(#glow)" fill="none" stroke="#e8f0ff" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<path d="M752 498 L772 484 L770 496 L792 486"></path>
+<path d="M744 510 L764 524 L760 512 L782 520"></path>
+<path d="M704 482 L690 466 L700 462 L688 446"></path>
+</g>
+
+<!-- ============ ÒGÚN (player two, facing left) ============ -->
+<g stroke-linecap="round" stroke-linejoin="round">
+<!-- back arm chambered at the hip -->
+<path d="M1152 500 L1194 548" fill="none" stroke="#120906" stroke-width="40"></path>
+<path d="M1152 500 L1194 548" fill="none" stroke="#4a2c1d" stroke-width="33"></path>
+<path d="M1194 548 L1170 590" fill="none" stroke="#120906" stroke-width="34"></path>
+<path d="M1194 548 L1170 590" fill="none" stroke="#4a2c1d" stroke-width="27"></path>
+<path d="M1176 578 L1180 571" fill="none" stroke="#6d6f73" stroke-width="31"></path>
+<path d="M1172 584 L1175 579" fill="none" stroke="#3a3b3e" stroke-width="30"></path>
+<circle cx="1166" cy="594" r="16" fill="#4a2c1d" stroke="#120906" stroke-width="3.5"></circle>
+<!-- back leg: indigo short trousers, bare shin -->
+<path d="M1146 618 L1188 694" fill="none" stroke="#120906" stroke-width="52"></path>
+<path d="M1146 618 L1188 694" fill="none" stroke="#24345e" stroke-width="45"></path>
+<path d="M1188 694 L1212 754" fill="none" stroke="#120906" stroke-width="38"></path>
+<path d="M1188 694 L1212 754" fill="none" stroke="#4a2c1d" stroke-width="31"></path>
+<path d="M1200 760 C 1202 748, 1232 748, 1244 760 C 1250 768, 1244 772, 1230 772 L 1204 772 C 1194 772, 1192 766, 1200 760 Z" fill="#4a2c1d" stroke="#120906" stroke-width="3.5"></path>
+<!-- front leg -->
+<path d="M1120 618 L1072 690" fill="none" stroke="#120906" stroke-width="54"></path>
+<path d="M1120 618 L1072 690" fill="none" stroke="#24345e" stroke-width="47"></path>
+<path d="M1072 690 L1054 752" fill="none" stroke="#120906" stroke-width="40"></path>
+<path d="M1072 690 L1054 752" fill="none" stroke="#4a2c1d" stroke-width="33"></path>
+<path d="M1066 760 C 1064 748, 1032 748, 1018 760 C 1012 768, 1018 772, 1032 772 L 1062 772 C 1072 772, 1074 766, 1066 760 Z" fill="#4a2c1d" stroke="#120906" stroke-width="3.5"></path>
+<!-- bare torso -->
+<path d="M1088 496 C 1102 476, 1146 474, 1162 492 C 1168 530, 1168 572, 1162 610 L 1102 610 C 1096 572, 1090 532, 1088 496 Z" fill="#4a2c1d" stroke="#120906" stroke-width="4"></path>
+<g fill="none" stroke="#2c170d" stroke-width="2.4">
+<path d="M1102 524 C 1116 532, 1132 532, 1146 524"></path>
+<path d="M1124 540 L1124 600"></path>
+<path d="M1110 560 L1140 560"></path>
+<path d="M1110 580 L1140 580"></path>
+</g>
+<path d="M1100 500 C 1110 492, 1128 490, 1140 496" fill="none" stroke="#6a4029" stroke-width="3"></path>
+<!-- chain of iron tools across the chest -->
+<path d="M1098 500 L1160 600" fill="none" stroke="#3a3b3e" stroke-width="5" stroke-dasharray="5 4"></path>
+<path d="M1112 522 l-6 14 l12 0 Z" fill="#6d6f73" stroke="#120906" stroke-width="2"></path>
+<path d="M1126 546 l0 14 M1120 560 l12 0" fill="none" stroke="#6d6f73" stroke-width="3.5"></path>
+<circle cx="1142" cy="572" r="6" fill="none" stroke="#6d6f73" stroke-width="3"></circle>
+<!-- palm-frond fringe over the trousers -->
+<g stroke="#2f3a12" stroke-width="1.2">
+<path d="M1098 604 L1092 676 L1100 676 L1104 604 Z" fill="#8fa548"></path>
+<path d="M1106 604 L1102 682 L1110 682 L1112 604 Z" fill="#b3bd5a"></path>
+<path d="M1114 604 L1112 686 L1120 686 L1120 604 Z" fill="#8fa548"></path>
+<path d="M1122 604 L1122 690 L1130 690 L1128 604 Z" fill="#c9c26a"></path>
+<path d="M1130 604 L1132 688 L1140 688 L1136 604 Z" fill="#8fa548"></path>
+<path d="M1138 604 L1142 686 L1150 686 L1144 604 Z" fill="#b3bd5a"></path>
+<path d="M1146 604 L1152 682 L1160 682 L1152 604 Z" fill="#7f9a3a"></path>
+<path d="M1154 604 L1162 676 L1170 676 L1160 604 Z" fill="#c9c26a"></path>
+</g>
+<path d="M1096 602 C 1118 610, 1144 610, 1164 602 L 1164 612 C 1144 620, 1118 620, 1096 612 Z" fill="#6f8a37" stroke="#120906" stroke-width="2.5"></path>
+<!-- head with palm-frond band -->
+<path d="M1124 482 L1120 458" fill="none" stroke="#120906" stroke-width="28"></path>
+<path d="M1124 482 L1120 458" fill="none" stroke="#4a2c1d" stroke-width="22"></path>
+<path d="M1136 440 C 1136 418, 1120 406, 1106 410 C 1092 414, 1088 428, 1090 436 L 1084 448 L 1090 452 C 1090 464, 1098 472, 1112 472 C 1128 472, 1136 460, 1136 440 Z" fill="#4a2c1d" stroke="#120906" stroke-width="3.5"></path>
+<path d="M1130 454 C 1124 468, 1112 474, 1098 470 C 1090 466, 1088 458, 1090 454 C 1100 462, 1118 464, 1130 454 Z" fill="#150b06"></path>
+<circle cx="1100" cy="436" r="2.6" fill="#f4efe6"></circle>
+<path d="M1094 424 C 1108 418, 1126 418, 1138 426 L 1138 434 C 1126 428, 1108 428, 1094 432 Z" fill="#8fa548" stroke="#2f3a12" stroke-width="2"></path>
+<g stroke="#2f3a12" stroke-width="1.2">
+<path d="M1134 426 L1160 410 L1162 416 L1138 432 Z" fill="#b3bd5a"></path>
+<path d="M1136 430 L1166 428 L1164 434 L1136 436 Z" fill="#8fa548"></path>
+<path d="M1132 422 L1150 398 L1155 402 L1138 426 Z" fill="#c9c26a"></path>
+</g>
+<!-- front arm raising the machete to block -->
+<path d="M1096 500 L1056 528" fill="none" stroke="#120906" stroke-width="40"></path>
+<path d="M1096 500 L1056 528" fill="none" stroke="#4a2c1d" stroke-width="33"></path>
+<path d="M1056 528 L1036 476" fill="none" stroke="#120906" stroke-width="34"></path>
+<path d="M1056 528 L1036 476" fill="none" stroke="#4a2c1d" stroke-width="27"></path>
+<path d="M1043 494 L1045 499" fill="none" stroke="#6d6f73" stroke-width="31"></path>
+<path d="M1047 503 L1049 508" fill="none" stroke="#3a3b3e" stroke-width="30"></path>
+<path d="M1040 486 L1028 456" fill="none" stroke="#120906" stroke-width="13"></path>
+<path d="M1040 486 L1028 456" fill="none" stroke="#3b2414" stroke-width="8"></path>
+<path d="M1030 460 L1016 458 C 998 424, 986 394, 976 352 C 992 356, 1006 372, 1014 392 C 1024 418, 1034 440, 1042 458 Z" fill="#7c7f85" stroke="#120906" stroke-width="3.5"></path>
+<path d="M1016 456 C 1000 424, 988 396, 980 360" fill="none" stroke="#d2d6dc" stroke-width="2.5"></path>
+<circle cx="1034" cy="472" r="16" fill="#4a2c1d" stroke="#120906" stroke-width="3.5"></circle>
+</g>
+</svg>
+
+
+
+</div>
+</body></html>
