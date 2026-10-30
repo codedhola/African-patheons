@@ -12,6 +12,10 @@ See `STAGES.md` for what each stage is based on and its sources.
 
 `sango/sango-of-oyo.html` is the photoreal Ṣàngó page: a Blender Cycles render with a 36-view turntable and close-ups. Open it in a browser; images are in `sango/img/`.
 
+## Stormshrine (3D)
+
+`stormshrine/` holds a game-ready Blender model of stage 11, Ṣàngó's storm hill, built from the stage board and scaled for a 1.8 m player. It contains `Stormshrine.blend`, the script `build_stormshrine.py` that generates it, PNG textures and preview renders. Its README lists the assumptions and the files it was based on.
+
 ## The gods
 
 Two pages in `gods/`, each a single self-contained HTML file. Open either in a browser.
