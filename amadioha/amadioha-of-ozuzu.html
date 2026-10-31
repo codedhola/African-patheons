@@ -1,0 +1,408 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amadioha of Ozuzu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the same dark gallery wall as Ṣàngó of Ọ̀yọ́, warmed toward red earth. Renders hang large;
+   captions are set like museum object labels; a strand of coral beads divides the sections. */
+:root {
+  --bg: #0d0a09;          /* storm night over laterite */
+  --wall: #17110f;        /* label and viewer ground */
+  --ink: #efe8dd;         /* the white of the ram and the wrapper */
+  --muted: #a99a8c;
+  --line: #2e2420;
+  --red: #b3221a;         /* okpu mme, the blood-red cap */
+  --red-deep: #7c140d;
+  --gold: #dcae55;        /* the isiagụ's gold, used for links and focus */
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.7rem, 7vw, 5.6rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--gold); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* coral strand between sections: two strands, as he wears them */
+.coralrule { display: block; width: min(460px, 100%); height: 16px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px var(--line); }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 600px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 1 / 1; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--red); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--red); color: var(--ink); background: color-mix(in srgb, var(--red) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--red); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--gold); }
+.compass button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate.full { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(16px, 2.4vw, 28px); align-items: center; }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--red-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.plate.full .label h3 { font-size: var(--step-2); }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label p:not(.term):not(.src) + p:not(.src) { margin-top: 8px; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums caption { text-align: left; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .plate.full { grid-template-columns: minmax(0, 1fr); }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="coral" viewBox="0 0 460 16"><line x1="0" y1="8" x2="460" y2="8" stroke="#6b4a3a" stroke-width="1"/><rect x="2.0" y="2.0" width="11.2" height="12.0" rx="4.7" fill="#d4553a"/><ellipse cx="6.3" cy="5.6" rx="2.5" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="14.9" y="2.5" width="12.0" height="11.0" rx="4.6" fill="#cf4a2e"/><ellipse cx="19.5" cy="5.8" rx="2.6" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="28.8" y="1.8" width="9.6" height="11.7" rx="4.0" fill="#c43a24"/><ellipse cx="32.4" cy="5.3" rx="2.1" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="40.4" y="3.1" width="12.7" height="10.6" rx="4.5" fill="#a8231a"/><ellipse cx="45.2" cy="6.2" rx="2.8" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="54.9" y="2.8" width="12.2" height="10.9" rx="4.6" fill="#b5281a"/><ellipse cx="59.5" cy="6.1" rx="2.7" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="68.4" y="1.2" width="8.7" height="12.9" rx="3.7" fill="#cf4a2e"/><ellipse cx="71.7" cy="5.0" rx="1.9" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="78.7" y="1.4" width="11.1" height="12.8" rx="4.7" fill="#cf4a2e"/><ellipse cx="83.0" cy="5.2" rx="2.5" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="91.4" y="2.5" width="8.5" height="10.7" rx="3.6" fill="#be3220"/><ellipse cx="94.6" cy="5.7" rx="1.9" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="102.1" y="1.4" width="14.5" height="12.8" rx="5.4" fill="#be3220"/><ellipse cx="107.6" cy="5.2" rx="3.2" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="118.5" y="2.9" width="11.6" height="10.6" rx="4.4" fill="#cf4a2e"/><ellipse cx="122.9" cy="6.1" rx="2.5" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="131.7" y="2.5" width="13.6" height="11.5" rx="4.8" fill="#b5281a"/><ellipse cx="136.9" cy="6.0" rx="3.0" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="146.5" y="1.4" width="9.8" height="13.0" rx="4.1" fill="#a8231a"/><ellipse cx="150.2" cy="5.3" rx="2.1" ry="1.6" fill="#f2b39c" opacity=".35"/><rect x="158.2" y="2.2" width="11.0" height="12.0" rx="4.6" fill="#c43a24"/><ellipse cx="162.3" cy="5.8" rx="2.4" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="170.6" y="2.5" width="9.0" height="11.4" rx="3.8" fill="#a8231a"/><ellipse cx="174.1" cy="5.9" rx="2.0" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="181.0" y="2.6" width="10.0" height="10.8" rx="4.2" fill="#b5281a"/><ellipse cx="184.8" cy="5.8" rx="2.2" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="192.7" y="2.2" width="12.6" height="11.0" rx="4.6" fill="#cf4a2e"/><ellipse cx="197.4" cy="5.6" rx="2.8" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="207.2" y="1.8" width="9.3" height="12.2" rx="3.9" fill="#b5281a"/><ellipse cx="210.7" cy="5.5" rx="2.0" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="218.7" y="1.7" width="8.5" height="12.8" rx="3.6" fill="#d4553a"/><ellipse cx="221.9" cy="5.5" rx="1.9" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="229.4" y="2.6" width="8.6" height="11.0" rx="3.6" fill="#d4553a"/><ellipse cx="232.6" cy="5.9" rx="1.9" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="239.7" y="2.4" width="8.8" height="10.9" rx="3.7" fill="#a8231a"/><ellipse cx="243.1" cy="5.6" rx="1.9" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="250.5" y="2.0" width="10.5" height="11.3" rx="4.4" fill="#b5281a"/><ellipse cx="254.5" cy="5.4" rx="2.3" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="262.4" y="2.6" width="12.3" height="10.5" rx="4.4" fill="#d9583a"/><ellipse cx="267.0" cy="5.8" rx="2.7" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="276.3" y="1.8" width="14.3" height="11.8" rx="5.0" fill="#cf4a2e"/><ellipse cx="281.7" cy="5.3" rx="3.1" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="292.2" y="2.6" width="12.3" height="11.3" rx="4.8" fill="#c43a24"/><ellipse cx="296.8" cy="6.0" rx="2.7" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="305.9" y="1.5" width="9.6" height="12.5" rx="4.0" fill="#cf4a2e"/><ellipse cx="309.5" cy="5.3" rx="2.1" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="317.7" y="1.6" width="13.8" height="12.1" rx="5.1" fill="#a8231a"/><ellipse cx="322.9" cy="5.2" rx="3.0" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="332.8" y="2.6" width="11.6" height="11.2" rx="4.7" fill="#be3220"/><ellipse cx="337.2" cy="5.9" rx="2.5" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="345.8" y="2.0" width="13.4" height="12.1" rx="5.1" fill="#d9583a"/><ellipse cx="350.9" cy="5.6" rx="3.0" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="361.4" y="2.6" width="14.4" height="10.8" rx="4.6" fill="#a8231a"/><ellipse cx="366.8" cy="5.9" rx="3.2" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="377.8" y="2.6" width="12.2" height="11.3" rx="4.7" fill="#c43a24"/><ellipse cx="382.4" cy="5.9" rx="2.7" ry="1.4" fill="#f2b39c" opacity=".35"/><rect x="391.2" y="2.2" width="11.0" height="11.2" rx="4.6" fill="#b5281a"/><ellipse cx="395.4" cy="5.5" rx="2.4" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="403.8" y="2.3" width="11.9" height="10.9" rx="4.6" fill="#d9583a"/><ellipse cx="408.3" cy="5.5" rx="2.6" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="417.4" y="1.8" width="10.5" height="12.5" rx="4.4" fill="#cf4a2e"/><ellipse cx="421.3" cy="5.6" rx="2.3" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="429.2" y="2.9" width="8.7" height="10.5" rx="3.7" fill="#d9583a"/><ellipse cx="432.5" cy="6.1" rx="1.9" ry="1.3" fill="#f2b39c" opacity=".35"/><rect x="440.1" y="1.5" width="8.6" height="12.2" rx="3.6" fill="#a8231a"/><ellipse cx="443.3" cy="5.2" rx="1.9" ry="1.5" fill="#f2b39c" opacity=".35"/><rect x="450.2" y="2.7" width="9.3" height="10.7" rx="3.9" fill="#a8231a"/><ellipse cx="453.7" cy="5.9" rx="2.1" ry="1.3" fill="#f2b39c" opacity=".35"/></symbol></svg>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Igbo alụsị of thunder, lightning and justice</p>
+      <h1>Amadioha <span class="of">of</span> Ozuzu</h1>
+      <p class="lede">A photoreal study that shows him both ways the sources do: a fair-skinned titled gentleman of cool temper, in a red isiagụ and white wrapper with his sword lowered, and beside him the gigantic white ram said to be his only physical form.</p>
+      <dl class="facts">
+        <div><dt>Colours</dt><dd><span class="swatch" style="background:var(--red)"></span>Red and <span class="swatch" style="background:var(--ink)"></span>white</dd></div>
+        <div><dt>His day</dt><dd>Eke, first market day of the Igbo week</dd></div>
+        <div><dt>His form</dt><dd>A gigantic white ram</dd></div>
+        <div><dt>His sword</dt><dd>Mmaagha Kamalu, said to glow red near evil intent</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="Amadioha standing on damp red earth at night in a red, knee-length isiagụ printed with gold leopard heads over a white wrapper, a red cap with three white eagle feathers and two strands of coral beads. His right hand holds a broad sword point-down with a faint red glow at its edges; his left raises a round leather fan. A gigantic white ram with curled horns and a long throat ruff stands at his left, and lightning forks far off in the sky.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the clothing, regalia, ram and hair were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <svg class="coralrule" role="presentation"><use href="#coral"></use></svg>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn them round</h2>
+      <p>Drag across the picture, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the pair turns.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Amadioha and the white ram, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="800" height="800" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>Amadioha and the ram side by side: coral and gold buttons on the isiagụ, the sword lowered at his right, the akupe raised at his left.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">His right side</button><p>His right side in profile, with the ram in full profile behind him from horns to tail and the fan held out in front.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The leopard heads stand upright on the back panel too; coral crosses the nape, and the ram is seen from behind.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">His left side</button><p>The ram in front in full profile: the curl of its horn, the throat ruff and the long tail. Above it, the three feathers on the cap&#x27;s left side.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <svg class="coralrule" role="presentation"><use href="#coral"></use></svg>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the cap portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of Amadioha in a tall red felt cap with three white eagle feathers tipped in dark brown rising from its left side; a calm face with a full beard flecked with grey, gold embroidery at the neck of his red isiagụ and coral beads over it."></button>
+        <figcaption class="label">
+          <h3>The red cap and the eagle feathers</h3>
+          <p class="term">Okpu mme · ugo</p>
+          <p>Okpu mme, the blood-red cap, belongs to communities with Nze na Ọzọ title-holders, and Ọzọ men affix an eagle feather to it as a mark of honour. Wikipedia calls Amadioha a titled gentleman, so he wears both. The sources give neither the number nor the colour of the feathers; these three, white with dark tips, are this study's.</p>
+          <p class="src">Sources: <a href="https://umuigbo.com/igbo-traditional-attire/igbo-culture">UmuIgbo</a>, <a href="https://ozikoro.com/the-history-and-significance-of-the-igbo-red-cap-okpu-mme-okpu-ododo">Ozikoro</a>, <a href="https://blog.myigboname.com/ugo-in-names-a-feather-in-your-cap">My Igbo Name</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/face.webp" aria-label="Open the face close-up at full size"><img src="img/face.webp" width="1100" height="1100" loading="lazy" alt="Close-up of a calm, bearded face with warm light-brown skin under a red felt cap: brown eyes, heavy brows, a full coiled beard flecked with grey, white feather barbs at the cap&#x27;s edge and coral beads below the chin."></button>
+        <figcaption class="label">
+          <h3>A gentleman of cool temper</h3>
+          <p class="term">The alụsị in human form</p>
+          <p>Wikipedia describes him as a fair-skinned, titled gentleman of cool temper, then says he has no human form at all, save a gigantic white ram. This face interprets the first line: a calm man in his forties, lighter-skinned than Ṣàngó, with a full beard flecked with grey. Beard, brows, lashes and scalp are 161,683 separate hair curves.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Amadioha">Wikipedia: Amadioha</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/sword.webp" aria-label="Open the sword close-up at full size"><img src="img/sword.webp" width="1000" height="1100" loading="lazy" alt="A right hand at the hip gripping a leather-wrapped hilt with a brass collar; a broad, leaf-shaped iron blade with incised lines angles down toward the red earth, a faint red glow along its edges, in front of the red leopard-print isiagụ and white wrapper."></button>
+        <figcaption class="label">
+          <h3>Mmaagha Kamalu</h3>
+          <p class="term">His sword · forged iron, brass, leather</p>
+          <p>Wikipedia relays the belief that his sword glows red in the presence of people with evil intentions, and causes tremors when struck on the ground. Here it is held point-down with a faint red glow along its edges. The leaf-shaped blade, the incised lines and the leather-wrapped grip are this study's design.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Amadioha">Wikipedia: Amadioha</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/fan.webp" aria-label="Open the fan close-up at full size"><img src="img/fan.webp" width="1000" height="1100" loading="lazy" alt="Amadioha&#x27;s left hand holding up a round fan of tanned hide bound in red leather and burned with rings and a zigzag, on a carved wooden handle; an ivory bangle on his wrist, his bearded face and red cap beside it, and the curl of the ram&#x27;s horn at the corner."></button>
+        <figcaption class="label">
+          <h3>The akupe</h3>
+          <p class="term">Hand fan · tanned hide, wood</p>
+          <p>In central Igbo the hand fan is called akupe. The common woven kind is triangular; fans of animal skin are the ones chiefs commonly carry. This round one is hide bound in red leather on a carved handle. Its burned zigzag, and the ivory bangle on the wrist, are decoration chosen for this study.</p>
+          <p class="src">Source: <a href="https://loveweddingsng.com/?p=65727">Love Weddings NG</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/chest.webp" aria-label="Open the isiagụ and coral close-up at full size"><img src="img/chest.webp" width="1000" height="1000" loading="lazy" alt="The front of the red isiagụ printed with gold leopard heads: gold embroidery round the neck and down the placket, three gold buttons, a fine gold chain running to the breast pocket, and two long strands of red coral beads."></button>
+        <figcaption class="label">
+          <h3>Isiagụ, coral and gold</h3>
+          <p class="term">Leopard head · printed velvet</p>
+          <p>Isiagụ means leopard head. The shirt is usually red and may be long- or short-sleeved; some have gold buttons linked by a chain, and there is usually a breast pocket. UmuIgbo describes it as knee-length and short-sleeved, and lists coral beads among Igbo jewellery. The leopard-head print is an original design.</p>
+          <p class="src">Sources: <a href="https://en.wikipedia.org/wiki/Isiagu">Wikipedia: Isiagu</a>, <a href="https://umuigbo.com/igbo-traditional-attire/igbo-culture">UmuIgbo</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate full">
+        <button type="button" data-zoom="img/ram.webp" aria-label="Open the ram close-up at full size"><img src="img/ram.webp" width="1100" height="1100" loading="lazy" alt="Close-up of the white ram&#x27;s head in three-quarter view: a long, slightly convex face covered in short white hair, a golden eye with a horizontal pupil, ears held out to the side, ridged tan horns curling back and forward, and long hair hanging in the throat ruff. Beside it, Amadioha&#x27;s hand with an ivory bangle against his red leopard-print isiagụ."></button>
+        <figcaption class="label">
+          <h3>The white ram</h3>
+          <p class="term">Ebule ọcha · his only physical form</p>
+          <p>Wikipedia says Amadioha has no physical form save a gigantic white ram, which is also his symbol and a common offering. Encyclopedia.com names white as his favourite colour and a white ram as the sacrifice he prefers.</p>
+          <p>The ram follows the West African Dwarf breed, kept widely in southern Nigeria: often all white, the rams horned, their horns curving back, out and forward again, with a well-developed throat ruff. Real rams of the breed weigh about 37 kg. This one stands about 95 cm at the shoulder, because the sources call him gigantic.</p>
+          <p class="src">Sources: <a href="https://en.wikipedia.org/wiki/Amadioha">Wikipedia: Amadioha</a>, <a href="https://www.encyclopedia.com/history/news-wires-white-papers-and-books/deities-igbo-religion">Encyclopedia.com</a>, <a href="https://en.wikipedia.org/wiki/West_African_Dwarf_sheep">Wikipedia: West African Dwarf sheep</a>, <a href="https://nigerianfinder.com/breeds-of-sheep-in-nigeria-their-characteristics">Nigerian Finder</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <svg class="coralrule" role="presentation"><use href="#coral"></use></svg>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>Wikipedia gives two pictures of Amadioha that cannot both be literal: a fair-skinned, titled gentleman of cool temper, and no physical form at all save a gigantic white ram. This study shows both, side by side. The list keeps what the sources say apart from what was designed.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>A fair-skinned, titled gentleman of cool temper,</b> and a gigantic white ram as his only physical form. <span class="src"><a href="https://en.wikipedia.org/wiki/Amadioha">Wikipedia: Amadioha</a></span></li>
+          <li><b>Red as his colour,</b> and <b>white as his favourite,</b> so a white ram is the sacrifice he prefers. Red cap and isiagụ, white wrapper and ram. <span class="src"><a href="https://en.wikipedia.org/wiki/Amadioha">Wikipedia</a>, <a href="https://www.encyclopedia.com/history/news-wires-white-papers-and-books/deities-igbo-religion">Encyclopedia.com</a></span></li>
+          <li><b>Mmaagha Kamalu,</b> a sword believed to glow red near people with evil intentions. <span class="src"><a href="https://en.wikipedia.org/wiki/Amadioha">Wikipedia: Amadioha</a></span></li>
+          <li><b>The isiagụ:</b> leopard head; usually red; long or short sleeves; gold buttons linked by a chain; a breast pocket; knee-length. <span class="src"><a href="https://en.wikipedia.org/wiki/Isiagu">Wikipedia: Isiagu</a>, <a href="https://umuigbo.com/igbo-traditional-attire/igbo-culture">UmuIgbo</a></span></li>
+          <li><b>Okpu mme,</b> the red cap of communities with Nze na Ọzọ title-holders, and the <b>eagle feather</b> Ọzọ men affix to it. <span class="src"><a href="https://umuigbo.com/igbo-traditional-attire/igbo-culture">UmuIgbo</a>, <a href="https://ozikoro.com/the-history-and-significance-of-the-igbo-red-cap-okpu-mme-okpu-ododo">Ozikoro</a>, <a href="https://blog.myigboname.com/ugo-in-names-a-feather-in-your-cap">My Igbo Name</a></span></li>
+          <li><b>Coral beads</b> among Igbo jewellery. <span class="src"><a href="https://umuigbo.com/igbo-traditional-attire/igbo-culture">UmuIgbo</a></span></li>
+          <li><b>The akupe,</b> and fans of animal skin carried by chiefs. <span class="src"><a href="https://loveweddingsng.com/?p=65727">Love Weddings NG</a></span></li>
+          <li><b>The ram's breed:</b> often all white; rams horned, at most one and a half coils; a well-developed throat ruff; kept widely in southern Nigeria. <span class="src"><a href="https://en.wikipedia.org/wiki/West_African_Dwarf_sheep">Wikipedia: West African Dwarf sheep</a>, <a href="https://nigerianfinder.com/breeds-of-sheep-in-nigeria-their-characteristics">Nigerian Finder</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study's choices</h3>
+        <ul>
+          <li><b>His face, age and beard.</b> The lighter skin follows "fair-skinned"; the age, the build and the grey in the beard are ours.</li>
+          <li><b>The leopard-head print.</b> An original motif in a half-drop repeat, with gold embroidery at the neck and down the placket.</li>
+          <li><b>The chain's route,</b> from the top button across to the pocket.</li>
+          <li><b>Three feathers, white with dark tips,</b> at the left side of the cap. The sources give neither number nor colour.</li>
+          <li><b>The sword's form:</b> its leaf-shaped blade, incised lines, brass fittings and leather grip, and how the glow looks.</li>
+          <li><b>The fan's round shape,</b> burned zigzag and red binding.</li>
+          <li><b>The white wrapper,</b> pairing his two colours, as in the gallery figure.</li>
+          <li><b>The ivory bangle and coral bracelet,</b> worn as decoration, not as attributes.</li>
+          <li><b>The ram's size and pose, and the setting:</b> a night storm over damp red laterite, lightning far off.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <svg class="coralrule" role="presentation"><use href="#coral"></use></svg>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How they were made</h2>
+        <p>The body starts from MakeHuman's free base mesh, shaped older and heavier than Ṣàngó's, rigged and posed bone by bone. The right fist was closed round the sword's grip with the wrist turned so the blade points down and out; the left holds the fan upright.</p>
+        <p>The wrapper is one sheet wrapped 1.2 times round the waist, its top pinned and the rest left to fall. The isiagụ is a single T-shaped pattern folded over the shoulders, its sides and sleeves sewn and its hem vented. It was draped with the arms out, then simulated while the arms moved into the pose, with the wrapper under it as a solid.</p>
+        <p>The ram is 55 overlapping body shapes blended into one surface. Its horns are swept along a tightening spiral with growth ridges, and its coat is grown hair by hair, lengthening and gathering into locks in the throat ruff.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Isiagụ cloth, simulated vertices</th><td>4,680</td></tr>
+            <tr><th scope="row">Wrapper cloth, simulated vertices</th><td>3,848</td></tr>
+            <tr><th scope="row">Simulated frames, arms out to final pose</th><td>125</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Beard and moustache curves, 17,476 of them grey</th><td>123,300</td></tr>
+            <tr><th scope="row">Brow and lash curves</th><td>3,177</td></tr>
+            <tr><th scope="row">Scalp curves, mostly under the cap</th><td>35,206</td></tr>
+            <tr><th scope="row">Barbs on the three feathers</th><td>1,960</td></tr>
+            <tr><th scope="row">Coral beads, two strands and a bracelet</th><td>250</td></tr>
+            <tr><th scope="row">Links in the gold chain</th><td>66</td></tr>
+            <tr><th scope="row">Ram surface vertices</th><td>131,012</td></tr>
+            <tr><th scope="row">Ram coat curves, short coat / ruff and tail</th><td>230,214 / 36,655</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>80 / 20</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Amadioha">Wikipedia: Amadioha</a>. His appearance, colour, the white ram, Mmaagha Kamalu, thunderstones, his day, Ozuzu.</li>
+      <li><a href="https://www.encyclopedia.com/history/news-wires-white-papers-and-books/deities-igbo-religion">Encyclopedia.com (World Eras): Deities of the Igbo religion</a>. Owner of the sky; gentle unless provoked; white as his favourite colour.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Isiagu">Wikipedia: Isiagu</a>. Leopard head; sleeves; gold buttons linked by a chain; breast pocket; red fez or leopard cap.</li>
+      <li><a href="https://umuigbo.com/igbo-traditional-attire/igbo-culture">UmuIgbo: Igbo traditional attire</a>. Red, short-sleeved, knee-length isiagụ; okpu mme and Nze na Ọzọ; coral beads.</li>
+      <li><a href="https://ozikoro.com/the-history-and-significance-of-the-igbo-red-cap-okpu-mme-okpu-ododo">Ozikoro: The history and significance of the Igbo red cap (Okpu Mme / Okpu Ododo)</a>.</li>
+      <li><a href="https://blog.myigboname.com/ugo-in-names-a-feather-in-your-cap">My Igbo Name: Ugo in names, a feather in your cap</a>. Ọzọ men affix the eagle feather to their red caps.</li>
+      <li><a href="https://loveweddingsng.com/?p=65727">Love Weddings NG: The traditional hand fan, akupe, abebe or maficii</a>. The Igbo name; woven and animal-skin fans.</li>
+      <li><a href="https://en.wikipedia.org/wiki/West_African_Dwarf_sheep">Wikipedia: West African Dwarf sheep</a>. Colour, horns, throat ruff, weight.</li>
+      <li><a href="https://nigerianfinder.com/breeds-of-sheep-in-nigeria-their-characteristics">Nigerian Finder: Breeds of sheep in Nigeria</a>. The West African Dwarf's range in southern Nigeria.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>, the CC0 base mesh, targets, rig and eye geometry used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="../gods/orisa-and-alusi.html">Òrìṣà and Alụsị</a> gallery and to <a href="../sango/sango-of-oyo.html">Ṣàngó of Ọ̀yọ́</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Amadioha and the white ram, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>
