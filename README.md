@@ -18,6 +18,12 @@ See `STAGES.md` for what each stage is based on and its sources.
 
 `stormshrine/viewer/index.html` is a 360° viewer for the model: look around from the hilltop or the shrine's doorway, or orbit the real-time model. It loads files from its folder, so serve the folder (for example with `python3 -m http.server`) rather than opening the file directly.
 
+## Ofala (3D)
+
+`ofala/` holds a game-ready Blender model of stage 21, the Ofala palace arena at Onitsha. It was built from the stage board the same way as the Stormshrine, with the same toolkit, and scaled for a 1.8 m player. It contains `Ofala.blend`, the script `build_ofala.py` that generates it, PNG textures and preview renders. Its README lists the assumptions and the files it was based on.
+
+`ofala/viewer/index.html` is its 360° viewer. You can look around from the arena or from the dais in front of the empty throne, or orbit the real-time model while the cannon fires the festival's 21-gun salute. Serve its folder over HTTP, as with the Stormshrine viewer.
+
 ## The gods
 
 Two pages in `gods/`, each a single self-contained HTML file. Open either in a browser.
