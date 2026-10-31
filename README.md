@@ -24,6 +24,12 @@ See `STAGES.md` for what each stage is based on and its sources.
 
 `ofala/viewer/index.html` is its 360° viewer. You can look around from the arena or from the dais in front of the empty throne, or orbit the real-time model while the cannon fires the festival's 21-gun salute. Serve its folder over HTTP, as with the Stormshrine viewer.
 
+## New Yam festival (3D)
+
+`newyam/` holds a game-ready Blender model of stage 25, the New Yam festival. It was built from the stage board with the same toolkit and scaled for a 1.8 m player. It shows the elder's thatched house with its open bay and carved posts, the heap of new yams on a raffia mat, and the elder roasting the first yam. Around them are dancers, drummers, a masquerade, villagers and a string of young palm fronds between two shade trees. The folder contains `NewYam.blend`, the script `build_newyam.py` that generates it, PNG textures and preview renders. Its README lists the assumptions and the files it was based on.
+
+`newyam/viewer/index.html` is its 360° viewer. You can look around from the arena or from the elder's open bay over the yams, or orbit the real-time model while the masquerade and dancers move and the first yam's fire smokes. Serve its folder over HTTP, as with the other viewers.
+
 ## The gods
 
 Two pages in `gods/`, each a single self-contained HTML file. Open either in a browser.

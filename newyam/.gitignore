@@ -1,0 +1,3 @@
+# Blender backup saves and Python caches from rebuilding in place
+*.blend1
+__pycache__/
