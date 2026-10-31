@@ -9,9 +9,10 @@ A game-ready Blender model of the Stormshrine: stage 11, *Ṣàngó's storm hill
 | File | What it is |
 |---|---|
 | `Stormshrine.blend` | The model, saved with Blender 4.5 LTS. It also opens in Blender 5.x. Textures load from `Textures/` by relative path. |
-| `build_stormshrine.py` | The script that generates everything here: textures, meshes, UVs, materials, markers, preview rig and renders. |
+| `build_stormshrine.py` | The script that generates the model: textures, meshes, UVs, materials, markers, preview rig and renders. |
 | `Textures/` | 29 tileable PNG maps: base colour, roughness and normal (OpenGL, green up) for each textured material, plus emissive maps for the ember and the lightning scar. |
 | `Renders/` | Preview renders: [front](Renders/Stormshrine_Front.png), [side](Renders/Stormshrine_Side.png), [three-quarter](Renders/Stormshrine_ThreeQuarter.png), [three-quarter from the back](Renders/Stormshrine_ThreeQuarter_Back.png), [player scale](Renders/Stormshrine_PlayerScale.png), [altar detail](Renders/Stormshrine_Detail_Altar.png) and a [plan](Renders/Stormshrine_Plan.png) that shows the trigger volumes (green), spawns (blue), VFX points (yellow) and the drum sound point (pink). |
+| `viewer/` | A 360° viewer page, its asset script and its assets. See [360° viewer](#360-viewer). |
 
 ## What was built
 
@@ -98,6 +99,26 @@ blender -b --factory-startup -P stormshrine/build_stormshrine.py -- --render all
 ```
 
 `--out DIR`, `--samples N`, `--res WxH`, `--skip-textures` and `--debug-normals` are described at the top of the script.
+
+## 360° viewer
+
+`viewer/index.html` shows the Stormshrine in a browser in two modes:
+- **360° view:** look around from the hilltop floor 10 m in front of the door, or from just inside the doorway. Both are 4096 × 2048 Cycles panoramas at 1.65 m eye height.
+- **Orbit model:** the real-time model, with storm lighting, rain, lightning flashes, camera presets, and a list that flies the camera to each feature.
+
+The page loads three.js and its fonts from the web, and its pictures and model from files next to it. Browsers block those files on a page opened straight from disk, so serve the folder:
+
+```bash
+cd stormshrine/viewer && python3 -m http.server
+```
+
+Then open http://localhost:8000.
+
+`make_viewer_assets.py` regenerates the panoramas, the sky and the web model (`stormshrine.json` and `tex/`) from `Stormshrine.blend`. The panoramas take about 20 minutes on four CPU cores; `--skip-panoramas` keeps the existing ones.
+
+```bash
+blender -b stormshrine/Stormshrine.blend -P stormshrine/viewer/make_viewer_assets.py
+```
 
 ## Checks
 

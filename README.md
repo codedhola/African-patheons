@@ -16,6 +16,8 @@ See `STAGES.md` for what each stage is based on and its sources.
 
 `stormshrine/` holds a game-ready Blender model of stage 11, Ṣàngó's storm hill, built from the stage board and scaled for a 1.8 m player. It contains `Stormshrine.blend`, the script `build_stormshrine.py` that generates it, PNG textures and preview renders. Its README lists the assumptions and the files it was based on.
 
+`stormshrine/viewer/index.html` is a 360° viewer for the model: look around from the hilltop or the shrine's doorway, or orbit the real-time model. It loads files from its folder, so serve the folder (for example with `python3 -m http.server`) rather than opening the file directly.
+
 ## The gods
 
 Two pages in `gods/`, each a single self-contained HTML file. Open either in a browser.

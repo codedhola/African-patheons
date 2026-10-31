@@ -1,0 +1,669 @@
+<!doctype html>
+<!-- Stormshrine 360: look around and orbit the model in stormshrine/Stormshrine.blend.
+     Its pictures and model come from make_viewer_assets.py. Serve this folder over HTTP to open it. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stormshrine 360</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,600;1,500&display=swap">
+<style>
+/* Layout: one full-bleed WebGL stage; thin chrome floats on scrims at the top and bottom edges.
+   Single dark look on purpose: it is a night thunderstorm, and the palette is the repo's Ṣàngó page. */
+:root {
+  color-scheme: dark;
+  --bg: #0a0c11;
+  --wall: #11141b;
+  --scrim: rgba(10, 12, 17, 0.82);
+  --ink: #ece6da;
+  --muted: #a39c90;
+  --line: #2c3240;
+  --red: #d2321f;
+  --red-deep: #8f1a12;
+  --bolt: #b8c8ff;
+  --font-display: "Noto Serif Display", Georgia, "Times New Roman", serif;
+  --font-body: Andika, "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-2: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  overflow: hidden;
+}
+.stage { position: relative; height: 100%; overflow: hidden; background: var(--bg); }
+#view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; outline: none; }
+#view:active { cursor: grabbing; }
+#view:focus-visible { box-shadow: inset 0 0 0 2px var(--bolt); }
+
+.chrome {
+  position: absolute; left: 0; right: 0; z-index: 2;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  pointer-events: none;
+}
+.chrome > * { pointer-events: auto; }
+.top {
+  top: 0; padding-top: calc(14px + env(safe-area-inset-top, 0px)); padding-bottom: 28px;
+  display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 20px;
+  background: linear-gradient(to bottom, var(--scrim), transparent);
+}
+.bottom {
+  bottom: 0; padding-top: 36px; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  display: grid; gap: 10px;
+  background: linear-gradient(to top, var(--scrim) 55%, transparent);
+}
+.brand h1 {
+  margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-2);
+  line-height: 1.05; letter-spacing: 0.01em; text-wrap: balance;
+}
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: var(--step--1); }
+.brand p b { color: var(--red); font-weight: 700; }
+
+.modes { display: inline-flex; border: 1px solid var(--line); background: var(--wall); }
+.seg {
+  appearance: none; border: 0; background: transparent; color: var(--muted);
+  font: 500 var(--step--1)/1 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 10px 14px; cursor: pointer; min-height: 40px;
+}
+.seg + .seg { border-left: 1px solid var(--line); }
+.seg[aria-pressed="true"] { color: var(--ink); background: var(--red-deep); }
+.seg:hover { color: var(--ink); }
+
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.tools .sep { width: 1px; align-self: stretch; background: var(--line); margin-inline: 4px; }
+.chip, .field select {
+  appearance: none; font: 400 var(--step--1)/1.2 var(--font-body);
+  color: var(--ink); background: var(--wall); border: 1px solid var(--line);
+  padding: 8px 12px; min-height: 36px; cursor: pointer;
+}
+.chip:hover, .field select:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] { border-color: var(--red); box-shadow: inset 3px 0 0 var(--red); }
+.field { display: inline-flex; align-items: center; gap: 8px; }
+.field span {
+  font: 500 0.6875rem/1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.field select {
+  padding-right: 30px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%;
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+button:focus-visible, select:focus-visible { outline: 2px solid var(--bolt); outline-offset: 2px; }
+
+.notes { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; align-items: baseline; }
+.hint { margin: 0; color: var(--muted); font-size: var(--step--1); }
+.caption {
+  margin: 0; color: var(--bolt); font: 400 0.75rem/1.4 var(--font-mono);
+  letter-spacing: 0.02em; font-variant-numeric: tabular-nums;
+}
+
+.loader {
+  position: absolute; z-index: 3; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(340px, calc(100% - 32px)); text-align: center;
+}
+.loader .bar { height: 2px; background: var(--line); overflow: hidden; }
+.loader .bar span { display: block; height: 100%; width: 0; background: var(--bolt); transition: width 0.2s linear; }
+.loader p { margin: 10px 0 0; color: var(--muted); font: 400 0.75rem/1.5 var(--font-mono); font-variant-numeric: tabular-nums; }
+.loader.error p { color: var(--ink); }
+.loader.error .bar span { background: var(--red); }
+
+@media (max-width: 560px) {
+  .top { flex-direction: column; align-items: stretch; }
+  .modes { width: 100%; }
+  .seg { flex: 1; }
+  .hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader .bar span { transition: none; }
+}
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <canvas id="view" tabindex="0" role="application" aria-label="Interactive 360-degree view of the Stormshrine, Ṣàngó's shrine on a storm-lit hilltop. Arrow keys turn the view."></canvas>
+
+  <header class="chrome top">
+    <div class="brand">
+      <h1>Stormshrine</h1>
+      <p><b>Ṣàngó</b>’s storm hill · stage 11</p>
+    </div>
+    <div class="modes" role="group" aria-label="View mode">
+      <button type="button" class="seg" id="mode-look" aria-pressed="true">360° view</button>
+      <button type="button" class="seg" id="mode-orbit" aria-pressed="false">Orbit model</button>
+    </div>
+  </header>
+
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="bar"><span id="loader-fill"></span></div>
+    <p id="loader-text">Loading the 360° view</p>
+  </div>
+
+  <footer class="chrome bottom">
+    <div class="tools" id="look-tools">
+      <label class="field" for="spot"><span>Stand</span>
+        <select id="spot">
+          <option value="floor">On the hilltop floor</option>
+          <option value="doorway">In the shrine doorway</option>
+        </select>
+      </label>
+      <button type="button" class="chip" id="look-auto" aria-pressed="false">Auto-turn</button>
+      <button type="button" class="chip" id="look-reset">Reset view</button>
+    </div>
+    <div class="tools" id="orbit-tools" hidden>
+      <div class="tools" role="group" aria-label="Camera">
+        <button type="button" class="chip" data-view="front">Front</button>
+        <button type="button" class="chip" data-view="threequarter">Three-quarter</button>
+        <button type="button" class="chip" data-view="top">Top</button>
+        <button type="button" class="chip" data-view="eye">Eye level</button>
+      </div>
+      <span class="sep" aria-hidden="true"></span>
+      <label class="field" for="poi"><span>Go to</span>
+        <select id="poi">
+          <option value="">Choose a feature</option>
+          <option value="house">Shrine house</option>
+          <option value="door">Doorway</option>
+          <option value="altar">Odó altar and thunder-stones</option>
+          <option value="staffs">Oṣé staffs</option>
+          <option value="drums">Bàtá drums</option>
+          <option value="scar">Lightning scar</option>
+          <option value="tree">Split tree</option>
+          <option value="pillar">Snake pillar</option>
+        </select>
+      </label>
+      <button type="button" class="chip" id="orbit-auto" aria-pressed="true">Auto-rotate</button>
+      <button type="button" class="chip" id="storm" aria-pressed="true">Rain and lightning</button>
+    </div>
+    <div class="notes">
+      <p class="hint" id="hint">Drag to look around. Scroll or pinch to zoom.</p>
+      <p class="caption" id="caption">Eye height 1.65 m · 10 m in front of the door</p>
+    </div>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var stage = $('stage'), canvas = $('view');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var loader = {
+    el: $('loader'), fill: $('loader-fill'), text: $('loader-text'),
+    show: function (msg) { this.el.hidden = false; this.el.classList.remove('error'); this.fill.style.width = '0%'; this.text.textContent = msg; },
+    progress: function (label, loaded, total) {
+      var pct = total ? Math.min(100, Math.round(loaded / total * 100)) : 0;
+      this.fill.style.width = pct + '%';
+      this.text.textContent = total ? label + ' · ' + (loaded / 1048576).toFixed(1) + ' of ' + (total / 1048576).toFixed(1) + ' MB' : label;
+    },
+    count: function (label, done, total) {
+      this.fill.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+      this.text.textContent = label + ' · ' + done + ' of ' + total;
+    },
+    hide: function () { this.el.hidden = true; },
+    fail: function (msg) { this.el.hidden = false; this.el.classList.add('error'); this.fill.style.width = '100%'; this.text.textContent = msg; }
+  };
+
+  if (location.protocol === 'file:') {
+    loader.fail('Browsers block the files this viewer loads when a page is opened straight from disk. '
+      + 'Serve the folder instead: run python3 -m http.server in stormshrine/viewer, then open http://localhost:8000.');
+    return;
+  }
+  if (!window.THREE) { loader.fail('The 3D library did not load. Check your connection and reload the page.'); return; }
+  var renderer;
+  try {
+    // logarithmic depth: the painted reliefs and puddles sit millimetres off the walls and ground
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance', logarithmicDepthBuffer: true });
+  } catch (e) {
+    loader.fail('This viewer needs WebGL, which this browser or device has turned off.');
+    return;
+  }
+  THREE.ColorManagement.legacyMode = false;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.NoToneMapping;            // our own final pass tone-maps the orbit view
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  var maxAniso = renderer.capabilities.getMaxAnisotropy();
+
+  // Fetch a file with progress, so big downloads show how far along they are.
+  function fetchBlob(url, label) {
+    return new Promise(function (resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'blob';
+      xhr.onprogress = function (e) { loader.progress(label, e.loaded, e.lengthComputable ? e.total : 0); };
+      xhr.onload = function () { xhr.status >= 200 && xhr.status < 300 ? resolve(xhr.response) : reject(new Error(url + ' ' + xhr.status)); };
+      xhr.onerror = function () { reject(new Error(url)); };
+      xhr.send();
+    });
+  }
+  function loadTexture(url, label) {
+    return fetchBlob(url, label).then(function (blob) {
+      var objectUrl = URL.createObjectURL(blob);
+      return new Promise(function (resolve, reject) {
+        new THREE.TextureLoader().load(objectUrl, function (t) { URL.revokeObjectURL(objectUrl); resolve(t); }, undefined, reject);
+      });
+    });
+  }
+
+  // ------------------------------------------------------------------ 360° view
+  var SPOTS = {
+    floor: { file: 'pano-floor.jpg', caption: 'Eye height 1.65 m · 10 m in front of the door' },
+    doorway: { file: 'pano-doorway.jpg', caption: 'Eye height 1.65 m above the 0.30 m floor · inside the doorway, facing out' }
+  };
+  var look = {
+    scene: new THREE.Scene(), cam: new THREE.PerspectiveCamera(75, 1, 0.1, 100),
+    lon: 0, lat: 0, vlon: 0, vlat: 0, fov: 75, auto: false, dragging: false,
+    pointers: new Map(), pinch: null, tex: {}, spot: 'floor', ready: false
+  };
+  var sphereGeo = new THREE.SphereGeometry(50, 96, 48);
+  sphereGeo.scale(-1, 1, 1);                                   // view the inside, unmirrored
+  var lookMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  var lookSphere = new THREE.Mesh(sphereGeo, lookMat);
+  lookSphere.rotation.y = -Math.PI / 2;                        // panorama centre faces -Z, where the camera starts
+  look.scene.add(lookSphere);
+
+  function showSpot(key) {
+    look.spot = key;
+    $('caption').textContent = SPOTS[key].caption;
+    var have = look.tex[key];
+    var apply = function (t) {
+      lookMat.map = t; lookMat.color.set(0xffffff); lookMat.needsUpdate = true;
+      look.lon = 0; look.lat = 0; look.vlon = look.vlat = 0; look.ready = true;
+      if (mode === 'look') loader.hide();
+    };
+    if (have) { apply(have); return Promise.resolve(); }
+    loader.show('Loading the 360° view');
+    return loadTexture(SPOTS[key].file, 'Loading the 360° view').then(function (t) {
+      t.encoding = THREE.sRGBEncoding;
+      t.anisotropy = maxAniso;
+      t.minFilter = THREE.LinearMipmapLinearFilter;
+      look.tex[key] = t;
+      if (look.spot === key) apply(t);
+    }).catch(function () { loader.fail('Could not load the 360° picture. Reload the page to try again.'); });
+  }
+
+  var DEG = Math.PI / 180;
+  // vertical field of view that gives a wanted horizontal one at this aspect ratio
+  function vfovFor(hfovDeg, aspect) { return 2 * Math.atan(Math.tan(hfovDeg * DEG / 2) / aspect) / DEG; }
+  function defaultLookFov() {
+    var a = Math.max(1, stage.clientWidth) / Math.max(1, stage.clientHeight);
+    return a >= 1 ? 75 : Math.min(105, vfovFor(68, a));                  // portrait phones see more of the hill
+  }
+  function lookUpdate(dt) {
+    if (look.auto && !look.dragging) look.lon += 5 * DEG * dt;
+    if (!look.dragging) {
+      look.lon += look.vlon * dt; look.lat += look.vlat * dt;
+      var damp = Math.exp(-dt * 5); look.vlon *= damp; look.vlat *= damp;
+    }
+    look.lat = Math.max(-85 * DEG, Math.min(85 * DEG, look.lat));
+    if (look.cam.fov !== look.fov) { look.cam.fov = look.fov; look.cam.updateProjectionMatrix(); }
+    var c = Math.cos(look.lat);
+    look.cam.lookAt(Math.sin(look.lon) * c, Math.sin(look.lat), -Math.cos(look.lon) * c);
+  }
+  function setLookAuto(on) { look.auto = on; $('look-auto').setAttribute('aria-pressed', String(on)); }
+
+  canvas.addEventListener('pointerdown', function (e) {
+    if (mode !== 'look') return;
+    canvas.setPointerCapture(e.pointerId);
+    look.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: performance.now() });
+    if (look.pointers.size === 2) {
+      var p = Array.from(look.pointers.values());
+      look.pinch = { d: Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y), fov: look.fov };
+    }
+    look.dragging = true; look.vlon = look.vlat = 0;
+    if (look.auto) setLookAuto(false);
+  });
+  canvas.addEventListener('pointermove', function (e) {
+    if (mode !== 'look' || !look.pointers.has(e.pointerId)) return;
+    var prev = look.pointers.get(e.pointerId), now = performance.now();
+    if (look.pointers.size === 2 && look.pinch) {
+      look.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: now });
+      var p = Array.from(look.pointers.values());
+      var d = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y);
+      look.fov = Math.max(30, Math.min(110, look.pinch.fov * look.pinch.d / Math.max(d, 1)));
+      return;
+    }
+    var k = (look.fov / 75) * 0.22 * DEG;                         // degrees of turn per pixel dragged
+    var dx = e.clientX - prev.x, dy = e.clientY - prev.y, dts = Math.max((now - prev.t) / 1000, 1 / 240);
+    look.lon -= dx * k; look.lat += dy * k;
+    look.vlon = -dx * k / dts; look.vlat = dy * k / dts;
+    look.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: now });
+  });
+  function endPointer(e) {
+    var p = look.pointers.get(e.pointerId);
+    if (!p) return;
+    look.pointers.delete(e.pointerId);
+    if (look.pointers.size < 2) look.pinch = null;
+    if (look.pointers.size === 0) {
+      look.dragging = false;
+      if (performance.now() - p.t > 80) { look.vlon = look.vlat = 0; }   // finger had stopped: no fling
+    }
+  }
+  canvas.addEventListener('pointerup', endPointer);
+  canvas.addEventListener('pointercancel', endPointer);
+  canvas.addEventListener('wheel', function (e) {
+    if (mode !== 'look') return;
+    e.preventDefault();
+    look.fov = Math.max(30, Math.min(110, look.fov + e.deltaY * 0.04));
+  }, { passive: false });
+  canvas.addEventListener('keydown', function (e) {
+    if (mode !== 'look') return;
+    var step = 6 * DEG, handled = true;
+    if (e.key === 'ArrowLeft') look.lon -= step;
+    else if (e.key === 'ArrowRight') look.lon += step;
+    else if (e.key === 'ArrowUp') look.lat += step;
+    else if (e.key === 'ArrowDown') look.lat -= step;
+    else if (e.key === '+' || e.key === '=') look.fov = Math.max(30, look.fov - 6);
+    else if (e.key === '-') look.fov = Math.min(110, look.fov + 6);
+    else handled = false;
+    if (handled) e.preventDefault();
+  });
+
+  // ------------------------------------------------------------------ orbit view
+  // Blender is Z-up with the shrine facing -Y; the exported glTF is Y-up, so (x, y, z) -> (x, z, -y).
+  function B(x, y, z) { return new THREE.Vector3(x, z, -y); }
+  var VIEWS = {
+    front: [B(0, -24, 4.0), B(0, -3, 2.4)],
+    threequarter: [B(17, -21.5, 13), B(-0.6, -3.2, 1.6)],
+    top: [B(0, -4.02, 46), B(0, -4, 0)],
+    eye: [B(0, -12, 1.65), B(0, 0, 2.0)],
+    house: [B(9.5, -15, 5.5), B(0, 0, 2.6)],
+    door: [B(0, -6.0, 1.95), B(0, -1.0, 1.8)],
+    altar: [B(-0.85, -8.3, 1.7), B(-2.05, -5.3, 0.85)],
+    staffs: [B(-7.0, -8.6, 3.1), B(-4.1, -3.4, 2.7)],
+    drums: [B(3.9, -7.4, 1.25), B(2.4, -4.85, 0.2)],
+    scar: [B(0.4, -13.0, 3.6), B(0, -8.4, 0)],
+    tree: [B(-3.4, -17.0, 3.4), B(-7.7, -10.8, 3.9)],
+    pillar: [B(4.0, -15.0, 2.7), B(7.7, -10.4, 2.1)]
+  };
+  var orbit = null;   // built on first use
+
+  var FinalShader = {
+    uniforms: { tDiffuse: { value: null }, exposure: { value: 1.0 } },
+    vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: [
+      'uniform sampler2D tDiffuse; uniform float exposure; varying vec2 vUv;',
+      // keep the sky exactly as rendered (identity below the knee), roll off highlights above it
+      'vec3 softClip(vec3 c) { vec3 over = max(c - 0.8, 0.0); return min(c, vec3(0.8)) + 0.2 * (1.0 - exp(-over / 0.2)); }',
+      'vec3 toSRGB(vec3 c) { c = clamp(c, 0.0, 1.0); return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }',
+      'void main() { vec4 t = texture2D(tDiffuse, vUv); gl_FragColor = vec4(toSRGB(softClip(t.rgb * exposure)), 1.0); }'
+    ].join('\n')
+  };
+
+  // The model ships as glTF JSON with its geometry inlined as base64 and textures as JPEGs in tex/.
+  // Repack it as an in-memory GLB so the loader never has to fetch a data: URL.
+  function glbFromGltfJson(gltf) {
+    var b64 = gltf.buffers[0].uri.split(',')[1];
+    var raw = atob(b64), bin = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) bin[i] = raw.charCodeAt(i);
+    delete gltf.buffers[0].uri;
+    var json = new TextEncoder().encode(JSON.stringify(gltf));
+    var jsonLen = (json.length + 3) & ~3, binLen = (bin.length + 3) & ~3;
+    var out = new Uint8Array(12 + 8 + jsonLen + 8 + binLen), view = new DataView(out.buffer);
+    view.setUint32(0, 0x46546C67, true); view.setUint32(4, 2, true); view.setUint32(8, out.length, true);
+    view.setUint32(12, jsonLen, true); view.setUint32(16, 0x4E4F534A, true);
+    out.set(json, 20); out.fill(0x20, 20 + json.length, 20 + jsonLen);           // JSON chunk, space padded
+    view.setUint32(20 + jsonLen, binLen, true); view.setUint32(24 + jsonLen, 0x004E4942, true);
+    out.set(bin, 28 + jsonLen);                                                   // BIN chunk, zero padded
+    return out.buffer;
+  }
+
+  function buildOrbit() {
+    var o = { scene: new THREE.Scene(), cam: new THREE.PerspectiveCamera(42, 1, 0.25, 1200), flight: null, storm: !reduceMotion };
+    var scene = o.scene;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    var key = new THREE.DirectionalLight(0xd4e2ff, 1.25);         // the lightning-lit sky behind the hill
+    key.position.copy(B(30, 40, 40)); key.target.position.copy(B(0, -4, 0));
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    var sc = key.shadow.camera; sc.left = -24; sc.right = 24; sc.top = 24; sc.bottom = -24; sc.near = 1; sc.far = 160;
+    key.shadow.bias = -0.0004; key.shadow.normalBias = 0.03;
+    scene.add(key, key.target);
+    var fill = new THREE.DirectionalLight(0xc4ccff, 0.5); fill.position.copy(B(9, -26, 14)); scene.add(fill);
+    var rim = new THREE.DirectionalLight(0xc84a5a, 0.9); rim.position.copy(B(-6, 16, 12)); scene.add(rim);
+    scene.add(new THREE.HemisphereLight(0x6a1c2a, 0x120707, 0.7));
+    [B(-1.6, -8.1, 0.35), B(1.6, -8.4, 0.35)].forEach(function (p) {
+      var l = new THREE.PointLight(0xff8a3a, 2.2, 7, 2); l.position.copy(p); scene.add(l);
+    });
+    var ember = new THREE.PointLight(0xff7a3a, 2.0, 8, 2); ember.position.copy(B(-7.79, -10.99, 4.6)); scene.add(ember);
+    var flash = new THREE.DirectionalLight(0xc8dcff, 0); flash.position.copy(B(22, 72, 30)); scene.add(flash);
+    o.key = key; o.flash = flash;
+
+    // storm sky on a sphere that follows the camera (so it sits at infinity)
+    var skyMat = new THREE.MeshBasicMaterial({ color: 0x000000, depthWrite: false, fog: false });
+    var sky = new THREE.Mesh(new THREE.SphereGeometry(500, 64, 32).scale(-1, 1, 1), skyMat);
+    sky.rotation.y = -Math.PI / 2; sky.renderOrder = -1; scene.add(sky);
+    o.sky = sky; o.skyMat = skyMat;
+
+    // rain, slanted like the stage board's
+    var N = 1400, box = { w: 40, h: 24, d: 40 }, centre = B(0, -4, 0);
+    var pos = new Float32Array(N * 6), seeds = [];
+    for (var i = 0; i < N; i++) seeds.push([Math.random(), Math.random(), Math.random()]);
+    var rainGeo = new THREE.BufferGeometry();
+    rainGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    var rain = new THREE.LineSegments(rainGeo, new THREE.LineBasicMaterial({ color: 0x9fb2e8, transparent: true, opacity: 0.35, depthWrite: false }));
+    rain.frustumCulled = false; scene.add(rain);
+    o.rainTick = function (t) {
+      for (var i = 0, j = 0; i < N; i++, j += 6) {
+        var s = seeds[i], y = ((s[1] * box.h - t * 14) % box.h + box.h) % box.h;
+        var x = centre.x + (s[0] - 0.5) * box.w + y * 0.25, z = centre.z + (s[2] - 0.5) * box.d;
+        pos[j] = x; pos[j + 1] = y; pos[j + 2] = z;                 // drops fall along their own slant
+        pos[j + 3] = x + 0.14; pos[j + 4] = y + 0.55; pos[j + 5] = z;
+      }
+      rainGeo.attributes.position.needsUpdate = true;
+    };
+    o.rain = rain;
+
+    var cam = o.cam;
+    cam.position.copy(VIEWS.threequarter[0]);
+    var controls = new THREE.OrbitControls(cam, canvas);
+    controls.target.copy(VIEWS.threequarter[1]);
+    controls.enableDamping = true; controls.dampingFactor = 0.08;
+    controls.minDistance = 1.2; controls.maxDistance = 70;
+    controls.maxPolarAngle = Math.PI * 0.56;
+    controls.screenSpacePanning = true;
+    controls.autoRotate = !reduceMotion; controls.autoRotateSpeed = 0.6;
+    controls.listenToKeyEvents(canvas);
+    controls.enabled = false;
+    controls.addEventListener('start', function () {
+      o.flight = null;
+      if (controls.autoRotate) { controls.autoRotate = false; $('orbit-auto').setAttribute('aria-pressed', 'false'); }
+    });
+    o.controls = controls;
+    $('orbit-auto').setAttribute('aria-pressed', String(controls.autoRotate));
+    $('storm').setAttribute('aria-pressed', String(o.storm));
+    rain.visible = o.storm;
+
+    var w = Math.max(1, stage.clientWidth), h = Math.max(1, stage.clientHeight);
+    var webgl2 = renderer.capabilities.isWebGL2;
+    var rt = new THREE.WebGLRenderTarget(w, h, { type: webgl2 ? THREE.HalfFloatType : THREE.UnsignedByteType, samples: webgl2 ? 4 : 0 });
+    var composer = new THREE.EffectComposer(renderer, rt);
+    composer.addPass(new THREE.RenderPass(scene, cam));
+    var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(w, h), 0.8, 0.55, 0.9);
+    composer.addPass(bloom);
+    composer.addPass(new THREE.ShaderPass(FinalShader));
+    o.composer = composer; o.bloom = bloom;
+
+    o.nextFlash = 2.5; o.flashT = -1;
+    o.ready = Promise.all([
+      loadTexture('sky.jpg', 'Loading the sky').then(function (t) {
+        t.encoding = THREE.sRGBEncoding; skyMat.map = t; skyMat.color.set(0xffffff); skyMat.needsUpdate = true;
+      }),
+      loadTexture('sky-env.jpg', 'Loading the sky').then(function (t) {
+        t.encoding = THREE.sRGBEncoding; t.mapping = THREE.EquirectangularReflectionMapping;
+        var pm = new THREE.PMREMGenerator(renderer);
+        scene.environment = pm.fromEquirectangular(t).texture; pm.dispose(); t.dispose();
+      })
+    ]).then(function () {
+      return fetchBlob('stormshrine.json', 'Loading the model').then(function (blob) { return blob.text(); });
+    }).then(function (text) {
+      var manager = new THREE.LoadingManager();
+      manager.onProgress = function (url, done, total) { loader.count('Loading textures', done, total); };
+      return new Promise(function (resolve, reject) {
+        new THREE.GLTFLoader(manager).parse(glbFromGltfJson(JSON.parse(text)), './', resolve, reject);
+      });
+    }).then(function (gltf) {
+      gltf.scene.traverse(function (m) {
+        if (!m.isMesh) return;
+        var backdrop = m.name === 'Preview_Backdrop';
+        m.castShadow = !backdrop && m.name !== 'Stormshrine_Puddles' && m.name !== 'Stormshrine_Hilltop';
+        m.receiveShadow = !backdrop;
+        (Array.isArray(m.material) ? m.material : [m.material]).forEach(function (mat) {
+          if (mat.map) mat.map.anisotropy = maxAniso;
+          mat.envMapIntensity = 1.1;
+        });
+      });
+      scene.add(gltf.scene);
+    });
+    return o;
+  }
+
+  function flyTo(name) {
+    var v = VIEWS[name]; if (!v || !orbit) return;
+    var c = orbit.controls;
+    if (c.autoRotate) { c.autoRotate = false; $('orbit-auto').setAttribute('aria-pressed', 'false'); }
+    if (reduceMotion) { orbit.cam.position.copy(v[0]); c.target.copy(v[1]); c.update(); return; }
+    orbit.flight = { t: 0, p0: orbit.cam.position.clone(), t0: c.target.clone(), p1: v[0].clone(), t1: v[1].clone() };
+  }
+
+  function flashLevel(t) {   // two quick strokes and a fade, like a real strike
+    if (t < 0) return 0;
+    if (t < 0.09) return 1;
+    if (t < 0.16) return 0.15;
+    if (t < 0.26) return 0.85;
+    return Math.max(0, 0.85 * (1 - (t - 0.26) / 0.35));
+  }
+
+  function orbitUpdate(dt, now) {
+    var o = orbit, c = o.controls;
+    if (o.flight) {
+      var f = o.flight; f.t = Math.min(1, f.t + dt / 1.1);
+      var e = f.t < 0.5 ? 4 * f.t * f.t * f.t : 1 - Math.pow(-2 * f.t + 2, 3) / 2;
+      o.cam.position.lerpVectors(f.p0, f.p1, e); c.target.lerpVectors(f.t0, f.t1, e);
+      if (f.t >= 1) o.flight = null;
+    }
+    c.update();
+    if (o.cam.position.y < 0.4) o.cam.position.y = 0.4;            // stay above the hilltop
+    var tc = c.target; tc.y = Math.max(0, Math.min(8, tc.y));
+    o.sky.position.copy(o.cam.position);
+    var level = 0;
+    if (o.storm) {
+      o.rainTick(now);
+      o.nextFlash -= dt;
+      if (o.nextFlash <= 0) { o.flashT = 0; o.nextFlash = 6 + Math.random() * 7; }
+      if (o.flashT >= 0) { o.flashT += dt; level = flashLevel(o.flashT); if (o.flashT > 0.7) o.flashT = -1; }
+    }
+    o.flash.intensity = 2.4 * level;
+    o.key.intensity = 1.25 + 0.6 * level;
+    o.skyMat.color.setScalar(1 + 1.5 * level);
+    o.bloom.strength = 0.8 + 0.5 * level;
+  }
+
+  // ------------------------------------------------------------------ modes, layout, loop
+  var mode = null;
+  function setMode(next) {
+    if (next === mode) return;
+    mode = next;
+    var isLook = mode === 'look';
+    $('mode-look').setAttribute('aria-pressed', String(isLook));
+    $('mode-orbit').setAttribute('aria-pressed', String(!isLook));
+    $('look-tools').hidden = !isLook;
+    $('orbit-tools').hidden = isLook;
+    $('hint').textContent = isLook ? 'Drag to look around. Scroll or pinch to zoom.'
+      : 'Drag to orbit, right-drag or two fingers to pan, scroll or pinch to zoom.';
+    var want = isLook ? '#look' : '#orbit';
+    if (location.hash !== want) { try { history.replaceState(null, '', want); } catch (e) { location.hash = want; } }
+    if (isLook) {
+      if (orbit) orbit.controls.enabled = false;
+      $('caption').textContent = SPOTS[look.spot].caption;
+      if (look.ready) loader.hide(); else showSpot(look.spot);
+    } else {
+      $('caption').textContent = 'House 8.1 × 6.4 m · door 2.44 m · roof apex 6.78 m · player 1.8 m';
+      if (!orbit) {
+        loader.show('Loading the model');
+        orbit = buildOrbit();
+        resize();
+        orbit.ready.then(function () { if (mode === 'orbit') loader.hide(); orbit.loaded = true; })
+          .catch(function () { loader.fail('Could not load the 3D model. Reload the page to try again.'); });
+      } else if (orbit.loaded) loader.hide();
+      orbit.controls.enabled = true;
+    }
+  }
+
+  function resize() {
+    var w = Math.max(1, stage.clientWidth), h = Math.max(1, stage.clientHeight);
+    renderer.setSize(w, h, false);
+    look.cam.aspect = w / h; look.cam.updateProjectionMatrix();
+    var homeFov = defaultLookFov();
+    if (look.homeFov !== homeFov) { look.fov = look.homeFov = homeFov; }
+    if (orbit) {
+      orbit.cam.aspect = w / h;
+      orbit.cam.fov = w >= h ? 42 : Math.min(70, vfovFor(48, w / h));   // keep the shrine in frame on tall screens
+      orbit.cam.updateProjectionMatrix();
+      orbit.composer.setPixelRatio(renderer.getPixelRatio());
+      orbit.composer.setSize(w, h);
+    }
+  }
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize', resize);
+
+  $('mode-look').addEventListener('click', function () { setMode('look'); });
+  $('mode-orbit').addEventListener('click', function () { setMode('orbit'); });
+  window.addEventListener('hashchange', function () { setMode(location.hash === '#orbit' ? 'orbit' : 'look'); });
+  $('spot').addEventListener('change', function (e) { showSpot(e.target.value); });
+  $('look-auto').addEventListener('click', function () { setLookAuto(!look.auto); });
+  $('look-reset').addEventListener('click', function () { look.lon = 0; look.lat = 0; look.vlon = look.vlat = 0; look.fov = defaultLookFov(); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-view]'), function (b) {
+    b.addEventListener('click', function () { flyTo(b.getAttribute('data-view')); });
+  });
+  $('poi').addEventListener('change', function (e) { if (e.target.value) flyTo(e.target.value); e.target.value = ''; });
+  $('orbit-auto').addEventListener('click', function () {
+    if (!orbit) return;
+    var on = !orbit.controls.autoRotate; orbit.controls.autoRotate = on; if (on) orbit.flight = null;
+    this.setAttribute('aria-pressed', String(on));
+  });
+  $('storm').addEventListener('click', function () {
+    if (!orbit) return;
+    orbit.storm = !orbit.storm; orbit.rain.visible = orbit.storm; orbit.flashT = -1;
+    this.setAttribute('aria-pressed', String(orbit.storm));
+  });
+
+  resize();
+  setMode(location.hash === '#orbit' ? 'orbit' : 'look');
+
+  var last = performance.now();
+  function frame(now) {
+    var dt = Math.min(0.1, (now - last) / 1000); last = now;
+    if (mode === 'look') {
+      lookUpdate(dt);
+      renderer.setRenderTarget(null);
+      renderer.render(look.scene, look.cam);
+    } else if (orbit) {
+      orbitUpdate(dt, now / 1000);
+      orbit.composer.render(dt);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
