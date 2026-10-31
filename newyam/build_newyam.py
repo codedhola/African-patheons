@@ -428,7 +428,7 @@ def yam_mb(L, r, rnd, mat):
     bend = rnd.uniform(-0.07, 0.07) * L
     path = [Vector((x, bend * (1 - (2 * x / L) ** 2), 0.04 * L * rnd.uniform(-1, 1) * (2 * x / L)))
             for x in ((-0.5 + i / (n - 1)) * L for i in range(n))]
-    prof = [0.3, 0.78, 0.97, 1.0, 0.88, 0.58, 0.16]
+    prof = [0.42, 0.84, 0.98, 1.0, 0.94, 0.76, 0.34]      # blunt head, near-cylindrical body, rounded tail
     radii = [r * p * rnd.uniform(0.94, 1.06) for p in prof]
     ph = [rnd.uniform(0, 6.28) for _ in range(n)]
     sub = MB()
@@ -712,7 +712,7 @@ def build_yam_heap(coll):
                 yam.transform(translate(x, y, z) @ rot_z(rnd.uniform(-0.12, 0.12) + (math.pi if rnd.random() < 0.5 else 0))
                               @ Matrix.Rotation(rnd.uniform(0, 6.28), 4, 'X'))
                 mb.merge(yam)
-        z += 0.25 if li < 3 else 0.29            # in the grooves of the layer below; the top yam sits on one
+        z += 0.25                    # in the grooves of the layer below; the top yam rests on the two under it
     heap = kit.mb_to_object(mb, P + 'YamHeap', coll)
     mat = MB()
     box_mb(mat, -MAT_HX, MAT_HX, MAT_Y0, MAT_Y1, 0.0, 0.02, P + 'Raffia', skip=('bottom',))
@@ -1299,7 +1299,7 @@ def build_player_reference():
     yaw = math.radians(-3)
     label('1.8 m player', (-1.52, -3.35, Z0 + 2.0), 0.13, yaw)
     label('open bay 2.36 m high, 2.66 m between posts', (-1.52, -3.35, Z0 + 2.75), 0.12, yaw)
-    label('yam heap 1.35 m high', (3.35, -4.7, 2.05), 0.12, yaw)
+    label('yam heap 1.33 m high', (3.35, -4.7, 2.05), 0.12, yaw)
     return ref
 
 

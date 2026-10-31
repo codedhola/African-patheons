@@ -34,7 +34,7 @@ It is built from the 2D stage board and scaled for a 1.8 m player. The figures a
 | `NewYam_Roof` | 768 | Thatched hip roof with equal pitch on all four sides, in two stepped courses, with a pale straw roll along the ridge; soffit and flat ceiling inside |
 | `NewYam_RoofFringe` | 1,644 | The sawtooth thatch fringe along the eave, 0.36 m deep |
 | `NewYam_WallPaint` | 1,064 | White kaolin zigzags and columns of dots in low relief, on all four walls |
-| `NewYam_YamHeap` | 4,428 | 41 new yams, 0.78 to 0.96 m long, in a five-layer pile 1.37 m high, with rows of 5, 4, 3, 2 and 1 on its front face as on the board |
+| `NewYam_YamHeap` | 4,428 | 41 new yams, 0.78 to 0.96 m long, in a five-layer pile 1.33 m high, with rows of 5, 4, 3, 2 and 1 on its front face as on the board |
 | `NewYam_Mat` | 10 | The raffia mat under the heap, 5.3 × 2.3 m |
 | `NewYam_Hearth` | 716 | Three hearth stones, a bed of embers and four sticks, and the elder's carved stool |
 | `NewYam_Vessels` | 720 | A calabash of red palm oil and two gourds of palm wine stoppered with leaves |
@@ -73,7 +73,7 @@ It is built from the 2D stage board and scaled for a 1.8 m player. The figures a
 | Open bay | 6.08 m wide and 2.36 m high, split by the three posts into two openings 2.66 m wide |
 | Floor | Plinth and hall floor at 0.25 m, reached by one 0.125 m step (0.40 m tread, 6.6 m wide) |
 | House | Walls 9.88 × 5.32 m outside and 3.42 m high; hall 9.08 × 4.52 m; eave 3.48 m and ridge 5.84 m above the ground; roof 11.4 × 6.84 m at the eave, pitched about 32° |
-| Yam heap | 4.8 × 1.3 m and 1.37 m high, on a 5.3 × 2.3 m mat, with a 0.9 m gap between the heap and the step |
+| Yam heap | 4.8 × 1.3 m and 1.33 m high, on a 5.3 × 2.3 m mat, with a 0.9 m gap between the heap and the step |
 | Others | Elder's stool 0.32 m; drum 1.07 m; slit drum 1.1 m long; masquerade 4.15 m; frond string 6.0 m at the trees, sagging to 5.3 m |
 
 ## Design choices (not from the board)
@@ -82,7 +82,7 @@ It is built from the 2D stage board and scaled for a 1.8 m player. The figures a
 - **Hidden sides.** Only the front is drawn. The roof's hip ends run 180 px across the board, so with equal pitch on all four sides the eave is 6.84 m deep and the walls 5.32 m. The side and back walls repeat the kaolin zigzags and dots.
 - **Plinth and step.** A 0.25 m earth plinth and a half-height step in front of the bay are added.
 - **Open bay.** The board's dark opening with three posts is read as an open bay into the house. The hall behind is empty, with a trigger volume.
-- **Yam heap.** At this scale the board's 15 yams would each be about 1 m long and the heap 1.8 m high. The model uses 41 large yams in a five-layer pile 1.37 m high instead. It keeps the board's 5-4-3-2-1 rows on its front face.
+- **Yam heap.** At this scale the board's 15 yams would each be about 1 m long and the heap 1.8 m high. The model uses 41 large yams in a five-layer pile 1.33 m high instead. It keeps the board's 5-4-3-2-1 rows on its front face.
 - **The first yam.** The elder sits on a low stool facing the fire and holds the yam over three hearth stones on a stick. The smoke is a VFX marker.
 - **Second drummer.** The board's description has drummers, but only one is drawn, so a second drummer with an *ekwe* (slit drum) is added.
 - **People.** The figures are stylized and faceless and stand in for the board's people, in their colours. They are kept in their own collection so a game can replace them. The masquerade is half turned toward the arena.
