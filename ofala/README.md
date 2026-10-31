@@ -123,7 +123,7 @@ cd ofala/viewer && python3 -m http.server
 
 Then open http://localhost:8000.
 
-`make_viewer_assets.py` regenerates the panoramas, the sky and the web model (`ofala.json` and `tex/`) from `Ofala.blend`. The web model also carries the sun direction and the marker points the page uses. `--skip-panoramas` keeps the existing panoramas.
+`make_viewer_assets.py` regenerates the panoramas, the sky and the web model (`ofala.json` and `tex/`) from `Ofala.blend`. The web model also carries the sun direction and the marker points the page uses. The panoramas take about 30 minutes on four CPU cores; `--skip-panoramas` keeps the existing ones.
 
 ```bash
 blender -b ofala/Ofala.blend -P ofala/viewer/make_viewer_assets.py
