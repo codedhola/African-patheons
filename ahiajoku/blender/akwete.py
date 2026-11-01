@@ -162,8 +162,11 @@ def paint(out):
     save(out / 'akwete_color.png', rgba)
     save_gray(out / 'akwete_height.png', np.clip(height, 0, 1))
     save_gray(out / 'akwete_float.png', float_mask)
+    paint_weave(out)
 
-    # one plain-weave repeat of 8 x 8 threads, tiled in the shader
+
+def paint_weave(out):
+    """One plain-weave repeat of 8 x 8 threads, tiled in the shader."""
     n = 256
     yy, xx = np.mgrid[0:n, 0:n] / n * 8
     warp = np.abs(np.sin(np.pi * xx)) ** 0.7

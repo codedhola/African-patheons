@@ -10,7 +10,7 @@ from pathlib import Path
 import bpy
 from mathutils import Vector
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.append(str(Path(__file__).resolve().parent))      # after, so another figure's render_views wins
 from common import OUT  # noqa: E402
 
 from render_views import TURN_VIEW, VIEWS  # noqa: E402
@@ -135,4 +135,5 @@ def main():
         still(name, outdir, scale)
 
 
-main()
+if __name__ == '__main__':
+    main()

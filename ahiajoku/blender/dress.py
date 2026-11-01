@@ -46,8 +46,12 @@ def soften(v, adj, n=1, amount=0.5):
     return out
 
 
-def skin_masks(body, rig):
-    """Write two colour layers: lips, palm, crease and nails, lids, flush."""
+def skin_masks(body, rig, scalp_shade=True, lip_erode=0):
+    """Write two colour layers: lips, palm, crease and nails, lids, flush.
+
+    scalp_shade darkens the scalp behind the ears, where close-cut hair stands.
+    lip_erode pulls the lip colour in from the edge of MPFB's lip region, by rings of vertices.
+    """
     me = body.data
     B = rig.data.bones
     n = len(me.vertices)
@@ -63,7 +67,13 @@ def skin_masks(body, rig):
             m[list(me.polygons[f].vertices)] = 1
         return m
 
-    lips = soften(from_faces('lips_solid'), adj, 1, 0.3)
+    lips = from_faces('lips_solid')
+    if lip_erode:
+        inside = lips > 0.5
+        for _ in range(lip_erode):
+            inside = np.array([x and all(inside[j] for j in adj[i]) for i, x in enumerate(inside)])
+        lips = inside.astype(np.float32)
+    lips = soften(lips, adj, 1, 0.5 if lip_erode else 0.3)
     lids = soften(from_faces('eyelids_solid'), adj, 2) * 0.5
 
     gi = {g.index: g.name for g in body.vertex_groups}
@@ -112,9 +122,11 @@ def skin_masks(body, rig):
     d = np.linalg.norm(co - np.array([0.0, -0.138, 1.517]), axis=1)
     flush = np.maximum(flush, np.exp(-(d / 0.014) ** 2) * 0.22)
 
-    scalp = soften(from_faces('scalp_solid'), adj, 2) * smoothstep(co[:, 1], -0.03, 0.0)     # behind the ears only
+    scalp = soften(from_faces('scalp_solid'), adj, 2) * smoothstep(co[:, 1], -0.03, 0.0)
+    if not scalp_shade:
+        scalp = scalp * 0
     a = np.dstack([lips, soften(palm, adj, 1), soften(crease, adj, 1), scalp])[0]
-    b = np.dstack([soften(nails, adj, 1, 0.3), lids, flush, np.ones(n)])[0]
+    b = np.dstack([soften(nails, adj, 1, 0.3), lids, flush, np.zeros(n)])[0]      # alpha is left for eye paint
     for name, data in (('mask_a', a), ('mask_b', b)):
         ca = me.color_attributes.new(name, 'FLOAT_COLOR', 'POINT')
         ca.data.foreach_set('color', data.astype(np.float32).ravel())
@@ -147,22 +159,20 @@ def hide_covered(body, covers):
     print('skin hidden under cloth:', int(covered.sum()), 'of', len(co), flush=True)
 
 
-def paint_eye():
+def paint_eye(iris_r=0.47, pupil_r=0.155, white=(0.37, 0.32, 0.275), inner=(0.100, 0.044, 0.016), outer=(0.018, 0.009, 0.006)):
     """Dark brown iris with radial fibres, in a front-on map of the eyeball."""
     rng = np.random.default_rng(5)
     n = 1024
     y, x = np.mgrid[0:n, 0:n] / (n - 1) * 2 - 1
     r = np.hypot(x, y)
     th = np.arctan2(y, x)
-    iris_r, pupil_r = 0.47, 0.155
 
     fibres = np.zeros_like(r)
     for f in (23, 41, 67, 113, 181, 271):
         fibres += np.sin(th * f + rng.uniform(0, 6.28) + 2.5 * np.sin(r * 7 + rng.uniform(0, 6.28))) / np.sqrt(f)
     fibres = fibres / fibres.std()
     rr = (r - pupil_r) / (iris_r - pupil_r)
-    inner = np.array([0.100, 0.044, 0.016])
-    outer = np.array([0.018, 0.009, 0.006])
+    inner, outer = np.array(inner), np.array(outer)
     iris = inner[None, None] * (1 - rr[..., None]) ** 2 + outer[None, None] * (1 - (1 - rr[..., None]) ** 2)
     iris = iris * (1 + 0.42 * fibres[..., None])
 
@@ -170,7 +180,7 @@ def paint_eye():
     for _ in range(26):
         a, f = rng.uniform(0, 6.28), rng.uniform(5, 16)
         streak += np.exp(-((r - rng.uniform(0.55, 0.95)) / 0.2) ** 2) * np.maximum(np.sin(th * f + a), 0) ** 40
-    sclera = np.array([0.37, 0.32, 0.275])[None, None] * np.ones_like(r[..., None])
+    sclera = np.array(white)[None, None] * np.ones_like(r[..., None])
     sclera = sclera * (1 - 0.36 * smoothstep(np.abs(x), 0.55, 1.0))[..., None]
     sclera = sclera + np.array([0.20, -0.20, -0.20])[None, None] * np.clip(streak * 0.12, 0, 0.5)[..., None]
 
@@ -212,11 +222,11 @@ def sphere(radius, rows=48, cols=64, bulge=None):
     return np.array(verts), faces, np.array(uvs)
 
 
-def make_eyes(body, rig, col, look_at):
+def make_eyes(body, rig, col, look_at, **paint):
     """Eyeballs with the cornea modelled as a bulge in one wet surface."""
     M = head_matrix(rig)
     info = eval(body['eyes'])
-    paint_eye()
+    paint_eye(**paint)
     eye_m = mats.eye()
     made = []
     for side in 'LR':
