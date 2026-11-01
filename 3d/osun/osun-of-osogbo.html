@@ -1,0 +1,430 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ọ̀ṣun of Òṣogbo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the same gallery wall as the other render pages, here the green-black under the trees. Five coral and five amber beads divide the sections, because five is her number. */
+:root {
+  --bg: #0a110e;          /* forest shade */
+  --wall: #121b16;        /* label and viewer ground */
+  --ink: #f2ecdd;         /* her white cloth */
+  --muted: #a4aa98;
+  --line: #27322b;
+  --coral: #d6552f;       /* coral beads */
+  --coral-deep: #93351b;
+  --gold: #e6ab2e;        /* brass and the sash, used for links and focus */
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--gold); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* five coral, five amber: her number, used as the rule between sections */
+.beadrule { position: relative; height: 10px; max-width: 396px; }
+.beadrule::before, .beadrule::after { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 5px 5px, var(--c) 3.4px, transparent 3.9px) 0 0 / 11px 10px repeat-x;
+  -webkit-mask: linear-gradient(90deg, #000 0 55px, transparent 55px 110px) var(--o) 0 / 110px 10px repeat-x;
+          mask: linear-gradient(90deg, #000 0 55px, transparent 55px 110px) var(--o) 0 / 110px 10px repeat-x; }
+.beadrule::before { --c: var(--coral); --o: 0px; }
+.beadrule::after { --c: var(--gold); --o: 55px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px var(--line); }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--coral); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--coral); color: var(--ink); background: color-mix(in srgb, var(--coral) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--coral); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--gold); }
+.compass button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--coral-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon h2 { margin-bottom: 16px; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.colophon code { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Yorùbá òrìṣà of the river, love, beauty and wealth</p>
+      <h1>Ọ̀ṣun <span class="of">of</span> Òṣogbo</h1>
+      <p class="lede">A photoreal study of the river òrìṣà on a morning in her grove: white ìró and bùbá, a gold sash, the Àgògo braids of her initiates, coral and amber, and a brass fan raised beside her as her priestesses carry it along the river.</p>
+      <dl class="facts">
+        <div><dt>Colours</dt><dd><span class="swatch" style="background:#e9b83a"></span>Yellow, <span class="swatch" style="background:var(--coral)"></span>coral, <span class="swatch" style="background:#c9922a"></span>gold, <span class="swatch" style="background:var(--ink)"></span>white</dd></div>
+        <div><dt>Her number</dt><dd>Five</dd></div>
+        <div><dt>Emblem</dt><dd>Abẹ̀bẹ̀, the brass fan</dd></div>
+        <div><dt>Festival</dt><dd>Ọ̀ṣun-Òṣogbo, every August</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="A dark-skinned woman stands barefoot on river sand in shafts of morning light, in a white wrapper and wide-sleeved blouse with a gold sash tied at the waist, coral and amber beads, and her hair braided up into a tall crest with a red feather. She holds up a round brass fan in one hand and a brass bell in the other. A calabash of oranges sits by her feet, and a green river bends away behind her through high forest.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the cloth, braids, brass and grove were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn her round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the figure turns.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Ọ̀ṣun, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The fan raised on her right, the bell held out on her left, and the sash knotted over her left hip.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">Her right side</button><p>The brass fan seen edge on, the sleeve falling from the raised arm, and the crest in full profile.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The Àgògo from behind: rows climbing from the nape into the rings of the crest, white along its rim.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">Her left side</button><p>The bell, the two tails of the sash and the calabash of oranges.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of a young woman with deep brown skin, a calm closed mouth and fine dark eye paint. Her hair rises into a tall braided crest with a red feather; she wears a coral choker, coral and amber strands and a white blouse, with the edge of a brass fan beside her and forest behind."></button>
+        <figcaption class="label">
+          <h3>A face for a river</h3>
+          <p class="term">Imagined · the sources do not describe her</p>
+          <p>Beauty is one of her domains, so she is drawn as a graceful woman of about thirty, with a calm face. Along her lash line is tìróò, the Yorùbá eye cosmetic. What she wears follows her priestesses and devotees at Òṣogbo, which is as near as the sources come to showing her.</p>
+          <p class="src">Sources: <a href="https://en.wikipedia.org/wiki/Oshun">Wikipedia: Oshun</a>, <a href="https://pressto.amu.edu.pl/index.php/jgp/article/view/55357">Ojo and Boluwatife (2025)</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/agogo.webp" aria-label="Open the crest close-up at full size"><img src="img/agogo.webp" width="1000" height="1100" loading="lazy" alt="Her head in profile from behind: tight cornrows climb from the hairline and feed a tall disc of concentric braids, with small white cowries along its rim and a red feather at the front."></button>
+        <figcaption class="label">
+          <h3>The Àgògo</h3>
+          <p class="term">Cockscomb · initiates and priestesses</p>
+          <p>A style made to imitate a cockscomb, and the exclusive preserve of Ọ̀ṣun initiates and priestesses. Akintunde Akinleye’s photographs from the 2014 festival show rows rising into rings of braid, and hair adorned with ìkódẹ, the red feather. Here each braid is three strands crossing, each strand a bundle of hair curves.</p>
+          <p class="src">Sources: <a href="https://artsandculture.google.com/asset/osun-hairstyles-%C3%80g%C3%B2go-1-akintunde-akinleye/ZgEKrg3lSF1Jyw">Adunni Olorisha Trust: Àgògo 1</a>, <a href="https://artsandculture.google.com/asset/osun-hairstyles-%C3%80g%C3%B2go-6-akintunde-akinleye/DwG-VR4jz73QeA">Àgògo 6</a>, <a href="https://oriire.com/article/hairdressing-and-hairstyles-in-yorubaland-history-nature-dynamics-and-significance">Oriire</a>, <a href="https://www.pulse.ng/story/hairstyles-dedicated-to-the-osun-goddess-and-their-hidden-meanings-2024092615480638696">Pulse</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/fan.webp" aria-label="Open the fan close-up at full size"><img src="img/fan.webp" width="1000" height="1100" loading="lazy" alt="A round brass fan held up by its turned handle: a rim of small coils, and ribs radiating behind two fish, heads up, with their tails meeting at the foot."></button>
+        <figcaption class="label">
+          <h3>Abẹ̀bẹ̀</h3>
+          <p class="term">Brass fan · 35.6 × 22.2 cm</p>
+          <p>Her priestesses carry brass fans in processions along the banks of the river. She relieves anxiety, the High Museum says, as a fan cools the body. The size, the coiled rim and the ribs follow the museum’s fan; its two birds become two fish here, as on her gallery figure.</p>
+          <p class="src">Source: <a href="https://high.org/collection/fan-for-osun/">High Museum of Art: Fan for Osun</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/bell.webp" aria-label="Open the bell close-up at full size"><img src="img/bell.webp" width="1000" height="1000" loading="lazy" alt="A left hand with brass bangles and a coral strand holding a flared brass bell by its stem, beside the gold sash and white cloth, with the river blurred behind."></button>
+        <figcaption class="label">
+          <h3>Ààjà</h3>
+          <p class="term">Brass bell · rung in prayer</p>
+          <p>Devotees use a brass or bronze bell called ààjà when offering prayers to her. The Adunni Olorisha Trust calls the bell-like Aja-Osun a ubiquitous accessory of her worship. The shape of this one is the study’s own.</p>
+          <p class="src">Sources: <a href="https://www.zikoko.com/life/8-interesting-things-about-the-annual-osun-osogbo-festival/">Zikoko</a>, <a href="https://artsandculture.google.com/asset/adedoyin-talabi-faniyi-with-the-aja-osun-abiodun-omotoso/8QGcamhakYi7kQ">Adunni Olorisha Trust</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/beads.webp" aria-label="Open the beads close-up at full size"><img src="img/beads.webp" width="1000" height="1000" loading="lazy" alt="A coral choker round her neck, with three long strands of coral and amber beads lying on a white blouse."></button>
+        <figcaption class="label">
+          <h3>Coral and amber</h3>
+          <p class="term">Beads · 294 in all</p>
+          <p>Wikipedia gives coral among her colours and amber among her objects. The choker follows the Àrẹ́mọ́rùn that goes with the Àgògo, though the sources do not give its colours.</p>
+          <p class="src">Sources: <a href="https://en.wikipedia.org/wiki/Oshun">Wikipedia: Oshun</a>, <a href="https://artsandculture.google.com/asset/osun-hairstyles-%C3%80g%C3%B2go-6-akintunde-akinleye/DwG-VR4jz73QeA">Adunni Olorisha Trust</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/cloth.webp" aria-label="Open the cloth close-up at full size"><img src="img/cloth.webp" width="1000" height="1100" loading="lazy" alt="White handwoven cloth falling in folds from the waist, with strip seams and fine gold lines, the fringed tails of the gold sash hanging over it."></button>
+        <figcaption class="label">
+          <h3>Ìró, bùbá and sash</h3>
+          <p class="term">White cloth · gold sash</p>
+          <p>Her priests and priestesses wear white in her honour. The ìró is one wrapper, the bùbá a loose blouse. The white aṣọ-òkè strips, their gold lines and the sash are the study’s reading of those two facts and her colours.</p>
+          <p class="src">Sources: <a href="https://www.zikoko.com/life/8-interesting-things-about-the-annual-osun-osogbo-festival/">Zikoko</a>, <a href="https://en.wikipedia.org/wiki/Yoruba_women%27s_clothing">Wikipedia: Yoruba women’s clothing</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/offering.webp" aria-label="Open the offering close-up at full size"><img src="img/offering.webp" width="1000" height="1000" loading="lazy" alt="A polished calabash with a burned band of chevrons, holding five oranges, set on rippled sand among fallen leaves."></button>
+        <figcaption class="label">
+          <h3>A calabash of oranges</h3>
+          <p class="term">Offering · gourd, fruit</p>
+          <p>Wikipedia lists orange among her objects and offerings, and there are five here, her number. The calabash is set down where the river is near, and its burned pattern is the study’s own.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Oshun">Wikipedia: Oshun</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/feet.webp" aria-label="Open the sand close-up at full size"><img src="img/feet.webp" width="1000" height="1000" loading="lazy" alt="Her bare feet on river sand under the hem of the white wrapper, with leaves and small stones around them."></button>
+        <figcaption class="label">
+          <h3>The bank</h3>
+          <p class="term">Sand · leaves · morning</p>
+          <p>The grove is one of the last remnants of primary high forest in southern Nigeria, with the river meandering through it. This bend of it is invented.</p>
+          <p class="src">Source: <a href="https://whc.unesco.org/en/list/1118/">UNESCO: Osun-Osogbo Sacred Grove</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>Ọ̀ṣun is worshipped at a living shrine, and none of the sources used here describes how she looks. What she wears here comes from her priestesses and devotees at Òṣogbo, so this figure is an interpretation, not a cult image. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>White cloth,</b> made up here as ìró and bùbá. Her priests and priestesses wear white in her honour at Òṣogbo. <span class="src"><a href="https://www.zikoko.com/life/8-interesting-things-about-the-annual-osun-osogbo-festival/">Zikoko</a>, <a href="https://en.wikipedia.org/wiki/Yoruba_women%27s_clothing">Wikipedia</a></span></li>
+          <li><b>The Àgògo,</b> its rising crest, the ìkódẹ feather and the Àrẹ́mọ́rùn choker, as photographed at the 2014 festival. <span class="src"><a href="https://artsandculture.google.com/asset/osun-hairstyles-%C3%80g%C3%B2go-6-akintunde-akinleye/DwG-VR4jz73QeA">Adunni Olorisha Trust</a>, <a href="https://oriire.com/article/hairdressing-and-hairstyles-in-yorubaland-history-nature-dynamics-and-significance">Oriire</a></span></li>
+          <li><b>Cowries in the hair.</b> One writer lists parrot feathers, cowries and brass hair sticks as its adornments. <span class="src"><a href="https://www.pulse.ng/story/hairstyles-dedicated-to-the-osun-goddess-and-their-hidden-meanings-2024092615480638696">Pulse</a></span></li>
+          <li><b>The brass fan,</b> at the size of the High Museum’s, carried along the river by her priestesses. <span class="src"><a href="https://high.org/collection/fan-for-osun/">High Museum of Art</a></span></li>
+          <li><b>The ààjà,</b> a brass or bronze bell rung when praying to her. <span class="src"><a href="https://www.zikoko.com/life/8-interesting-things-about-the-annual-osun-osogbo-festival/">Zikoko</a>, <a href="https://artsandculture.google.com/asset/adedoyin-talabi-faniyi-with-the-aja-osun-abiodun-omotoso/8QGcamhakYi7kQ">Adunni Olorisha Trust</a></span></li>
+          <li><b>Yellow, coral, gold and white; the number five; amber and orange.</b> All from her Wikipedia entry. <span class="src"><a href="https://en.wikipedia.org/wiki/Oshun">Wikipedia: Oshun</a></span></li>
+          <li><b>The grove.</b> A meandering river in primary high forest, regarded as her abode. <span class="src"><a href="https://whc.unesco.org/en/list/1118/">UNESCO</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study’s choices</h3>
+        <ul>
+          <li><b>Her face, age and build.</b> None of the sources used here describes how she looks.</li>
+          <li><b>Dressing her as her priestesses dress.</b> She is the òrìṣà and they are people. The sources describe them, not her, so this is a borrowing.</li>
+          <li><b>The fish on the fan.</b> The museum’s fan has two birds. Fish come from her gallery figure, and the river.</li>
+          <li><b>The bell’s shape, the sash and the gold lines in the cloth.</b> Their colours are hers; the forms are designed.</li>
+          <li><b>Tìróò.</b> A Yorùbá cosmetic, but no source puts it on her.</li>
+          <li><b>The bead colours in the choker,</b> and how many strands she wears.</li>
+          <li><b>The morning and the place.</b> An invented bend of the river. The grove’s real sculptures are left out, because they are the works of named artists.</li>
+          <li><b>Where sources differ.</b> Sources differ on two things. Yellow and gold lead in Cuba and Brazil, while at Òṣogbo her priests wear white. And UNESCO gives the festival twelve days in July and August, Wikipedia about two weeks in August, and the Adunni Olorisha Trust ten to fourteen days in August.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How she was made</h2>
+        <p>The body starts from MakeHuman’s free base mesh, shaped younger and softer than Ahiajoku’s and rigged. Each arm was solved to its object, and each finger closed at all three joints at once, as a real finger does, until it came to rest on the handle.</p>
+        <p>The ìró is one cloth wound round the hips. The bùbá is cut from the body with its hollows bridged, then simulated as the arms come into place. While it settles, the waist is drawn in and lifted, so the gathers above and below the sash form on their own, and the tied sash then presses the pouched cloth flat under it.</p>
+        <p>The Àgògo is built braid by braid: cornrows projected onto the scalp from the hairline to the crest, and rings of thicker braid running round the crest itself. The fan’s relief is one height map, modelled as a single sheet of brass.</p>
+        <p>Every stage is a Python script in <code>3d/osun/blender/</code>, using the toolkit in <code>3d/toolkit/</code>, and the finished scene is <code>3d/osun/osun.blend</code>.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Wrapper cloth, simulated vertices</th><td>27,848</td></tr>
+            <tr><th scope="row">Bùbá cloth, simulated vertices</th><td>32,772</td></tr>
+            <tr><th scope="row">Simulated frames, wrapper / bùbá</th><td>110 / 150</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Cornrows and rings of braid</th><td>31 / 13</td></tr>
+            <tr><th scope="row">Hair curves in the braids</th><td>2,688</td></tr>
+            <tr><th scope="row">Points along those curves</th><td>358,080</td></tr>
+            <tr><th scope="row">Barbs on the two feathers</th><td>600</td></tr>
+            <tr><th scope="row">Cowries on the crest</th><td>19</td></tr>
+            <tr><th scope="row">Beads of coral and amber</th><td>294</td></tr>
+            <tr><th scope="row">Brass bangles</th><td>12</td></tr>
+            <tr><th scope="row">Trees, shrubs and reed beds in the grove</th><td>280 / 420 / 240</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>96 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Oshun">Wikipedia: Oshun</a>. Domains, colours, the number five, her list of objects and offerings.</li>
+      <li><a href="https://high.org/collection/fan-for-osun/">High Museum of Art: Fan for Osun, late 19th to early 20th century</a>. Brass, 14 × 8¾ × 1¼ in. Priestesses carry brass fans along the river; the fan as relief from anxiety.</li>
+      <li><a href="https://www.zikoko.com/life/8-interesting-things-about-the-annual-osun-osogbo-festival/">Zikoko: 8 interesting things about the annual Ọ̀ṣun-Òṣogbo festival</a>. White robes, plaited hair, the ààjà.</li>
+      <li><a href="https://artsandculture.google.com/asset/osun-hairstyles-%C3%80g%C3%B2go-1-akintunde-akinleye/ZgEKrg3lSF1Jyw">Akintunde Akinleye, Osun Hairstyles: Àgògo 1 (2014), Adunni Olorisha Trust / Adunni Osun Foundation</a>. The style as the preserve of Ọ̀ṣun initiates and priestesses.</li>
+      <li><a href="https://artsandculture.google.com/asset/osun-hairstyles-%C3%80g%C3%B2go-6-akintunde-akinleye/DwG-VR4jz73QeA">Akintunde Akinleye, Osun Hairstyles: Àgògo 6 (2014), Adunni Olorisha Trust / Adunni Osun Foundation</a>. The Àrẹ́mọ́rùn choker and ìkódẹ in the hair.</li>
+      <li><a href="https://artsandculture.google.com/asset/adedoyin-talabi-faniyi-with-the-aja-osun-abiodun-omotoso/8QGcamhakYi7kQ">Abiodun Omotoso, Adedoyin Talabi Faniyi: With the Aja-Osun (2020), Adunni Olorisha Trust / Adunni Osun Foundation</a>. The bell-like Aja-Osun.</li>
+      <li><a href="https://oriire.com/article/hairdressing-and-hairstyles-in-yorubaland-history-nature-dynamics-and-significance">Oriire: Hairdressing and hairstyles in Yorubaland</a>. Agogo as an imitation of a cockscomb.</li>
+      <li><a href="https://www.pulse.ng/story/hairstyles-dedicated-to-the-osun-goddess-and-their-hidden-meanings-2024092615480638696">Pulse: Hairstyles dedicated to the Osun goddess</a>. Parrot feathers, cowries and brass hair sticks.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Yoruba_women%27s_clothing">Wikipedia: Yoruba women’s clothing</a>. Ìró, bùbá and where beads are worn.</li>
+      <li><a href="https://whc.unesco.org/en/list/1118/">UNESCO World Heritage Centre: Osun-Osogbo Sacred Grove</a>. The forest, the river, the festival.</li>
+      <li><a href="https://pressto.amu.edu.pl/index.php/jgp/article/view/55357">Abayomi C. Ojo and Ajibola Deborah Boluwatife, Beyond Facial Beauty: The Aesthetics of Yoruba Culture in Tiro Eye-Liner, Journal of Gender and Power 23:1 (2025)</a>. Tìróò as a cosmetic for facial beauty.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>. The CC0 base mesh, targets and rig used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery, <a href="https://claude.ai/artifact/JmahtF1kFYrdWYvpxcZ5GH">Ṣàngó of Ọ̀yọ́</a>, <a href="https://claude.ai/artifact/3o8ZvmYhzWFRoEFJ3wmdnT">Amadioha of Ozuzu</a> and <a href="https://claude.ai/artifact/GCPLXEsS3MpgExsPhUzYWW">Ahiajoku of the Yam</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Ọ̀ṣun, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>

@@ -1,0 +1,749 @@
+<!doctype html>
+<!-- Ofala 360: look around and orbit the model in locations/ofala/Ofala.blend.
+     Its pictures and model come from make_viewer_assets.py. Serve this folder over HTTP to open it. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ofala 360</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,600;1,500&display=swap">
+<style>
+/* Layout: one full-bleed WebGL stage; thin chrome floats on scrims at the top and bottom edges.
+   Palette: the palace itself. Limewash for the chrome, the dado's red for whatever is switched on,
+   the frieze's black for ink, brass for readouts. Dark mode trades the limewash for night earth. */
+:root {
+  --bg: #e6dece;
+  --wall: #f5efe3;
+  --scrim: rgba(245, 239, 227, 0.88);
+  --ink: #1a1410;
+  --muted: #5f5243;
+  --line: #cbbb9c;
+  --red: #b8241c;
+  --red-mark: #b8241c;
+  --on-red: #fbf5ea;
+  --brass: #855a0b;
+  --focus: #2a3d8c;
+  --font-display: "Noto Serif Display", Georgia, "Times New Roman", serif;
+  --font-body: Andika, "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-2: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14110d; --wall: #1f1a14; --scrim: rgba(20, 17, 13, 0.84); --ink: #efe6d6; --muted: #b5a68e;
+    --line: #3d3428; --red: #a92a20; --red-mark: #e0563f; --on-red: #fff6ec; --brass: #e2b65c; --focus: #a9b8ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14110d; --wall: #1f1a14; --scrim: rgba(20, 17, 13, 0.84); --ink: #efe6d6; --muted: #b5a68e;
+  --line: #3d3428; --red: #a92a20; --red-mark: #e0563f; --on-red: #fff6ec; --brass: #e2b65c; --focus: #a9b8ff;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  overflow: hidden;
+}
+.stage { position: relative; height: 100%; overflow: hidden; background: var(--bg); }
+#view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; outline: none; }
+#view:active { cursor: grabbing; }
+#view:focus-visible { box-shadow: inset 0 0 0 2px var(--focus); }
+
+.chrome {
+  position: absolute; left: 0; right: 0; z-index: 2;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  pointer-events: none;
+}
+.chrome > * { pointer-events: auto; }
+.top {
+  top: 0; padding-top: calc(14px + env(safe-area-inset-top, 0px)); padding-bottom: 28px;
+  display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 20px;
+  background: linear-gradient(to bottom, var(--scrim), var(--scrim) 62%, transparent);
+}
+.bottom {
+  bottom: 0; padding-top: 36px; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  display: grid; gap: 10px;
+  background: linear-gradient(to top, var(--scrim) 55%, transparent);
+}
+.brand h1 {
+  margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-2);
+  line-height: 1.05; letter-spacing: 0.01em; text-wrap: balance;
+}
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: var(--step--1); text-shadow: 0 0 3px var(--wall), 0 0 8px var(--wall); }
+.brand p b { color: var(--red-mark); font-weight: 700; }
+
+.modes { display: inline-flex; border: 1px solid var(--line); background: var(--wall); }
+.seg {
+  appearance: none; border: 0; background: transparent; color: var(--muted);
+  font: 500 var(--step--1)/1 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 10px 14px; cursor: pointer; min-height: 40px;
+}
+.seg + .seg { border-left: 1px solid var(--line); }
+.seg[aria-pressed="true"] { color: var(--on-red); background: var(--red); }
+.seg:hover { color: var(--ink); }
+.seg[aria-pressed="true"]:hover { color: var(--on-red); }
+
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.tools .sep { width: 1px; align-self: stretch; background: var(--line); margin-inline: 4px; }
+.chip, .field select {
+  appearance: none; font: 400 var(--step--1)/1.2 var(--font-body);
+  color: var(--ink); background: var(--wall); border: 1px solid var(--line);
+  padding: 8px 12px; min-height: 36px; cursor: pointer;
+}
+.chip:hover, .field select:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] { border-color: var(--red-mark); box-shadow: inset 3px 0 0 var(--red-mark); }
+.field { display: inline-flex; align-items: center; gap: 8px; }
+.field span {
+  font: 500 0.6875rem/1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.field select {
+  padding-right: 30px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%;
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+button:focus-visible, select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gun {
+  font: 500 0.75rem/1 var(--font-mono); color: var(--brass); letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums; min-width: 9ch;
+}
+
+.notes { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; align-items: baseline; }
+.hint { margin: 0; color: var(--muted); font-size: var(--step--1); }
+.caption {
+  margin: 0; color: var(--brass); font: 400 0.75rem/1.4 var(--font-mono);
+  letter-spacing: 0.02em; font-variant-numeric: tabular-nums;
+}
+
+.loader {
+  position: absolute; z-index: 3; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(340px, calc(100% - 32px)); text-align: center;
+  padding: 14px 16px; background: var(--scrim);
+}
+.loader .bar { height: 2px; background: var(--line); overflow: hidden; }
+.loader .bar span { display: block; height: 100%; width: 0; background: var(--brass); transition: width 0.2s linear; }
+.loader p { margin: 10px 0 0; color: var(--muted); font: 400 0.75rem/1.5 var(--font-mono); font-variant-numeric: tabular-nums; }
+.loader.error p { color: var(--ink); }
+.loader.error .bar span { background: var(--red-mark); }
+
+@media (max-width: 560px) {
+  .top { flex-direction: column; align-items: stretch; }
+  .modes { width: 100%; }
+  .seg { flex: 1; }
+  .hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader .bar span { transition: none; }
+}
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <canvas id="view" tabindex="0" role="application" aria-label="Interactive 360-degree view of Ofala, the palace arena at Onitsha, with the empty throne, the red-cap chiefs and the crowd. Arrow keys turn the view."></canvas>
+
+  <header class="chrome top">
+    <div class="brand">
+      <h1>Ofala</h1>
+      <p><b>Ime Obi</b>, the palace arena at Onitsha · stage 21</p>
+    </div>
+    <div class="modes" role="group" aria-label="View mode">
+      <button type="button" class="seg" id="mode-look" aria-pressed="true">360° view</button>
+      <button type="button" class="seg" id="mode-orbit" aria-pressed="false">Orbit model</button>
+    </div>
+  </header>
+
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="bar"><span id="loader-fill"></span></div>
+    <p id="loader-text">Loading the 360° view</p>
+  </div>
+
+  <footer class="chrome bottom">
+    <div class="tools" id="look-tools">
+      <label class="field" for="spot"><span>Stand</span>
+        <select id="spot">
+          <option value="arena">In the arena</option>
+          <option value="dais">On the dais, by the throne</option>
+        </select>
+      </label>
+      <button type="button" class="chip" id="look-auto" aria-pressed="false">Auto-turn</button>
+      <button type="button" class="chip" id="look-reset">Reset view</button>
+    </div>
+    <div class="tools" id="orbit-tools" hidden>
+      <div class="tools" role="group" aria-label="Camera">
+        <button type="button" class="chip" data-view="front">Front</button>
+        <button type="button" class="chip" data-view="threequarter">Three-quarter</button>
+        <button type="button" class="chip" data-view="top">Top</button>
+        <button type="button" class="chip" data-view="eye">Eye level</button>
+      </div>
+      <span class="sep" aria-hidden="true"></span>
+      <label class="field" for="poi"><span>Go to</span>
+        <select id="poi">
+          <option value="">Choose a feature</option>
+          <option value="palace">Palace</option>
+          <option value="door">Great doorway</option>
+          <option value="throne">Throne and canopy</option>
+          <option value="chiefs">Red-cap chiefs</option>
+          <option value="musicians">Drums and ivory horn</option>
+          <option value="sidedoor">Side door</option>
+          <option value="cannon">Cannon</option>
+          <option value="tree">Shade tree</option>
+          <option value="crowd">Crowd</option>
+        </select>
+      </label>
+      <button type="button" class="chip" id="orbit-auto" aria-pressed="true">Auto-rotate</button>
+      <button type="button" class="chip" id="fx" aria-pressed="true">Cannon salute and dust</button>
+      <span class="gun" id="gun" aria-live="off"></span>
+    </div>
+    <div class="notes">
+      <p class="hint" id="hint">Drag to look around. Scroll or pinch to zoom.</p>
+      <p class="caption" id="caption">Eye height 1.65 m · on the fighters’ start line, 8.6 m from the palace</p>
+    </div>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var stage = $('stage'), canvas = $('view');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var loader = {
+    el: $('loader'), fill: $('loader-fill'), text: $('loader-text'),
+    show: function (msg) { this.el.hidden = false; this.el.classList.remove('error'); this.fill.style.width = '0%'; this.text.textContent = msg; },
+    progress: function (label, loaded, total) {
+      var pct = total ? Math.min(100, Math.round(loaded / total * 100)) : 0;
+      this.fill.style.width = pct + '%';
+      this.text.textContent = total ? label + ' · ' + (loaded / 1048576).toFixed(1) + ' of ' + (total / 1048576).toFixed(1) + ' MB' : label;
+    },
+    count: function (label, done, total) {
+      this.fill.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+      this.text.textContent = label + ' · ' + done + ' of ' + total;
+    },
+    hide: function () { this.el.hidden = true; },
+    fail: function (msg) { this.el.hidden = false; this.el.classList.add('error'); this.fill.style.width = '100%'; this.text.textContent = msg; }
+  };
+
+  if (location.protocol === 'file:') {
+    loader.fail('Browsers block the files this viewer loads when a page is opened straight from disk. '
+      + 'Serve the folder instead: run python3 -m http.server in locations/ofala/viewer, then open http://localhost:8000.');
+    return;
+  }
+  if (!window.THREE) { loader.fail('The 3D library did not load. Check your connection and reload the page.'); return; }
+  var renderer;
+  try {
+    // logarithmic depth: the painted frieze sits millimetres off the walls
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance', logarithmicDepthBuffer: true });
+  } catch (e) {
+    loader.fail('This viewer needs WebGL, which this browser or device has turned off.');
+    return;
+  }
+  THREE.ColorManagement.legacyMode = false;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;        // the panoramas and sky opt out: they are already graded
+  renderer.toneMappingExposure = 0.82;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  var maxAniso = renderer.capabilities.getMaxAnisotropy();
+
+  // Fetch a file with progress, so big downloads show how far along they are.
+  function fetchBlob(url, label) {
+    return new Promise(function (resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'blob';
+      xhr.onprogress = function (e) { loader.progress(label, e.loaded, e.lengthComputable ? e.total : 0); };
+      xhr.onload = function () { xhr.status >= 200 && xhr.status < 300 ? resolve(xhr.response) : reject(new Error(url + ' ' + xhr.status)); };
+      xhr.onerror = function () { reject(new Error(url)); };
+      xhr.send();
+    });
+  }
+  function loadTexture(url, label) {
+    return fetchBlob(url, label).then(function (blob) {
+      var objectUrl = URL.createObjectURL(blob);
+      return new Promise(function (resolve, reject) {
+        new THREE.TextureLoader().load(objectUrl, function (t) { URL.revokeObjectURL(objectUrl); resolve(t); }, undefined, reject);
+      });
+    });
+  }
+
+  // ------------------------------------------------------------------ 360° view
+  // start: the [longitude, latitude] in degrees the view opens on; 0, 0 is the panorama's centre
+  var SPOTS = {
+    arena: { file: 'pano-arena.jpg', start: [0, 0], caption: 'Eye height 1.65 m · on the fighters’ start line, 8.6 m from the palace' },
+    dais: { file: 'pano-dais.jpg', start: [180, -16], caption: 'Eye height 1.65 m above the 0.60 m dais · under the canopy, before the empty throne; turn round for the arena' }
+  };
+  var look = {
+    scene: new THREE.Scene(), cam: new THREE.PerspectiveCamera(75, 1, 0.1, 100),
+    lon: 0, lat: 0, vlon: 0, vlat: 0, fov: 75, auto: false, dragging: false,
+    pointers: new Map(), pinch: null, tex: {}, spot: 'arena', ready: false
+  };
+  var sphereGeo = new THREE.SphereGeometry(50, 96, 48);
+  sphereGeo.scale(-1, 1, 1);                                   // view the inside, unmirrored
+  var lookMat = new THREE.MeshBasicMaterial({ color: 0x000000, toneMapped: false });
+  var lookSphere = new THREE.Mesh(sphereGeo, lookMat);
+  lookSphere.rotation.y = -Math.PI / 2;                        // panorama centre faces -Z, where the camera starts
+  look.scene.add(lookSphere);
+
+  function showSpot(key) {
+    look.spot = key;
+    $('caption').textContent = SPOTS[key].caption;
+    var have = look.tex[key];
+    var apply = function (t) {
+      lookMat.map = t; lookMat.color.set(0xffffff); lookMat.needsUpdate = true;
+      resetLook(); look.ready = true;
+      if (mode === 'look') loader.hide();
+    };
+    if (have) { apply(have); return Promise.resolve(); }
+    loader.show('Loading the 360° view');
+    return loadTexture(SPOTS[key].file, 'Loading the 360° view').then(function (t) {
+      t.encoding = THREE.sRGBEncoding;
+      t.anisotropy = maxAniso;
+      t.minFilter = THREE.LinearMipmapLinearFilter;
+      look.tex[key] = t;
+      if (look.spot === key) apply(t);
+    }).catch(function () { loader.fail('Could not load the 360° picture. Reload the page to try again.'); });
+  }
+
+  var DEG = Math.PI / 180;
+  // vertical field of view that gives a wanted horizontal one at this aspect ratio
+  function vfovFor(hfovDeg, aspect) { return 2 * Math.atan(Math.tan(hfovDeg * DEG / 2) / aspect) / DEG; }
+  function defaultLookFov() {
+    var a = Math.max(1, stage.clientWidth) / Math.max(1, stage.clientHeight);
+    return a >= 1 ? 75 : Math.min(105, vfovFor(68, a));                  // portrait phones see more of the palace
+  }
+  function lookUpdate(dt) {
+    if (look.auto && !look.dragging) look.lon += 5 * DEG * dt;
+    if (!look.dragging) {
+      look.lon += look.vlon * dt; look.lat += look.vlat * dt;
+      var damp = Math.exp(-dt * 5); look.vlon *= damp; look.vlat *= damp;
+    }
+    look.lat = Math.max(-85 * DEG, Math.min(85 * DEG, look.lat));
+    if (look.cam.fov !== look.fov) { look.cam.fov = look.fov; look.cam.updateProjectionMatrix(); }
+    var c = Math.cos(look.lat);
+    look.cam.lookAt(Math.sin(look.lon) * c, Math.sin(look.lat), -Math.cos(look.lon) * c);
+  }
+  function setLookAuto(on) { look.auto = on; $('look-auto').setAttribute('aria-pressed', String(on)); }
+  function resetLook() {
+    var st = SPOTS[look.spot].start;
+    look.lon = st[0] * DEG; look.lat = st[1] * DEG; look.vlon = look.vlat = 0;
+  }
+
+  canvas.addEventListener('pointerdown', function (e) {
+    if (mode !== 'look') return;
+    canvas.setPointerCapture(e.pointerId);
+    look.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: performance.now() });
+    if (look.pointers.size === 2) {
+      var p = Array.from(look.pointers.values());
+      look.pinch = { d: Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y), fov: look.fov };
+    }
+    look.dragging = true; look.vlon = look.vlat = 0;
+    if (look.auto) setLookAuto(false);
+  });
+  canvas.addEventListener('pointermove', function (e) {
+    if (mode !== 'look' || !look.pointers.has(e.pointerId)) return;
+    var prev = look.pointers.get(e.pointerId), now = performance.now();
+    if (look.pointers.size === 2 && look.pinch) {
+      look.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: now });
+      var p = Array.from(look.pointers.values());
+      var d = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y);
+      look.fov = Math.max(30, Math.min(110, look.pinch.fov * look.pinch.d / Math.max(d, 1)));
+      return;
+    }
+    var k = (look.fov / 75) * 0.22 * DEG;                         // degrees of turn per pixel dragged
+    var dx = e.clientX - prev.x, dy = e.clientY - prev.y, dts = Math.max((now - prev.t) / 1000, 1 / 240);
+    look.lon -= dx * k; look.lat += dy * k;
+    look.vlon = -dx * k / dts; look.vlat = dy * k / dts;
+    look.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: now });
+  });
+  function endPointer(e) {
+    var p = look.pointers.get(e.pointerId);
+    if (!p) return;
+    look.pointers.delete(e.pointerId);
+    if (look.pointers.size < 2) look.pinch = null;
+    if (look.pointers.size === 0) {
+      look.dragging = false;
+      if (performance.now() - p.t > 80) { look.vlon = look.vlat = 0; }   // finger had stopped: no fling
+    }
+  }
+  canvas.addEventListener('pointerup', endPointer);
+  canvas.addEventListener('pointercancel', endPointer);
+  canvas.addEventListener('wheel', function (e) {
+    if (mode !== 'look') return;
+    e.preventDefault();
+    look.fov = Math.max(30, Math.min(110, look.fov + e.deltaY * 0.04));
+  }, { passive: false });
+  canvas.addEventListener('keydown', function (e) {
+    if (mode !== 'look') return;
+    var step = 6 * DEG, handled = true;
+    if (e.key === 'ArrowLeft') look.lon -= step;
+    else if (e.key === 'ArrowRight') look.lon += step;
+    else if (e.key === 'ArrowUp') look.lat += step;
+    else if (e.key === 'ArrowDown') look.lat -= step;
+    else if (e.key === '+' || e.key === '=') look.fov = Math.max(30, look.fov - 6);
+    else if (e.key === '-') look.fov = Math.min(110, look.fov + 6);
+    else handled = false;
+    if (handled) e.preventDefault();
+  });
+
+  // ------------------------------------------------------------------ orbit view
+  // Blender is Z-up with the palace facing -Y; the exported glTF is Y-up, so (x, y, z) -> (x, z, -y).
+  function B(x, y, z) { return new THREE.Vector3(x, z, -y); }
+  function Bv(a) { return B(a[0], a[1], a[2]); }
+  var VIEWS = {
+    front: [B(0, -31, 3.0), B(0, -3.0, 2.8)],
+    threequarter: [B(19.5, -27.5, 12.5), B(-0.5, -6.0, 1.8)],
+    top: [B(0, -8.02, 62), B(0, -8, 0)],
+    eye: [B(0, -13, 1.65), B(0, -4, 2.2)],
+    palace: [B(12.5, -21, 7.5), B(0, 0, 3.2)],
+    door: [B(0.8, -10.6, 2.3), B(0, -4.4, 2.2)],
+    throne: [B(0.9, -9.4, 1.9), B(0, -6.1, 1.35)],
+    chiefs: [B(-2.6, -10.2, 1.8), B(-5.5, -5.8, 0.85)],
+    musicians: [B(-6.4, -10.8, 1.9), B(-9.6, -6.7, 1.0)],
+    sidedoor: [B(-7.2, -9.8, 1.8), B(-8.585, -4.42, 1.5)],
+    cannon: [B(6.4, -14.8, 2.0), B(8.7, -10.9, 0.7)],
+    tree: [B(-2.0, -24, 4.0), B(-9.6, -13, 5.0)],
+    crowd: [B(-5.0, -15, 2.4), B(-12.3, -8.3, 1.2)]
+  };
+  // where the cannon's smoke starts and the dust drifts; replaced by the model's own marker points once loaded
+  var MARKERS = {
+    VFX_CannonSmoke: { location: [9.395, -11.171, 1.01], size: [0.4, 0.4, 0.4], yaw: 0 },
+    VFX_Dust_L: { location: [-6.8, -11, 0.3], size: [4, 1.5, 0.6], yaw: 0 },
+    VFX_Dust_R: { location: [5.1, -11, 0.3], size: [4, 1.5, 0.6], yaw: 0 }
+  };
+  var BARREL = B(0.828, -0.386, 0.407).normalize();          // 24° up, turned 25° toward the camera side
+  var orbit = null;   // built on first use
+
+  // The model ships as glTF JSON with its geometry inlined as base64 and textures as JPEGs in tex/.
+  // Repack it as an in-memory GLB so the loader never has to fetch a data: URL.
+  function glbFromGltfJson(gltf) {
+    var b64 = gltf.buffers[0].uri.split(',')[1];
+    var raw = atob(b64), bin = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) bin[i] = raw.charCodeAt(i);
+    delete gltf.buffers[0].uri;
+    var json = new TextEncoder().encode(JSON.stringify(gltf));
+    var jsonLen = (json.length + 3) & ~3, binLen = (bin.length + 3) & ~3;
+    var out = new Uint8Array(12 + 8 + jsonLen + 8 + binLen), view = new DataView(out.buffer);
+    view.setUint32(0, 0x46546C67, true); view.setUint32(4, 2, true); view.setUint32(8, out.length, true);
+    view.setUint32(12, jsonLen, true); view.setUint32(16, 0x4E4F534A, true);
+    out.set(json, 20); out.fill(0x20, 20 + json.length, 20 + jsonLen);           // JSON chunk, space padded
+    view.setUint32(20 + jsonLen, binLen, true); view.setUint32(24 + jsonLen, 0x004E4942, true);
+    out.set(bin, 28 + jsonLen);                                                   // BIN chunk, zero padded
+    return out.buffer;
+  }
+
+  // A soft cloud drawn once on a canvas: several offset blobs, so each puff is lumpy rather than a disc.
+  function puffTexture() {
+    var n = 128, c = document.createElement('canvas'); c.width = c.height = n;
+    var g = c.getContext('2d');
+    var blobs = [[0.5, 0.5, 0.42], [0.36, 0.44, 0.26], [0.64, 0.42, 0.27], [0.46, 0.64, 0.25], [0.6, 0.6, 0.22], [0.5, 0.32, 0.22]];
+    blobs.forEach(function (b) {
+      var grd = g.createRadialGradient(b[0] * n, b[1] * n, 0, b[0] * n, b[1] * n, b[2] * n);
+      grd.addColorStop(0, 'rgba(255,255,255,0.55)'); grd.addColorStop(0.6, 'rgba(255,255,255,0.22)'); grd.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = grd; g.fillRect(0, 0, n, n);
+    });
+    var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+  }
+  function dotTexture() {
+    var n = 32, c = document.createElement('canvas'); c.width = c.height = n;
+    var g = c.getContext('2d'), grd = g.createRadialGradient(n / 2, n / 2, 0, n / 2, n / 2, n / 2);
+    grd.addColorStop(0, 'rgba(255,255,255,1)'); grd.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grd; g.fillRect(0, 0, n, n);
+    var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+  }
+
+  // The salute: Ofala opens with 21 guns. Each shot throws a flash and a rolling puff of smoke along the barrel.
+  function buildSalute(scene) {
+    var s = { puffs: [], next: 2.5, gun: 0, flashT: -1, muzzle: Bv(MARKERS.VFX_CannonSmoke.location) };
+    var tex = puffTexture();
+    for (var i = 0; i < 48; i++) {
+      var mat = new THREE.SpriteMaterial({ map: tex, color: 0xf3efe7, transparent: true, opacity: 0, depthWrite: false });
+      var sp = new THREE.Sprite(mat); sp.visible = false; scene.add(sp);
+      s.puffs.push({ sprite: sp, age: 0, life: 0, vel: new THREE.Vector3(), size0: 1, size1: 1, spin: 0 });
+    }
+    s.light = new THREE.PointLight(0xffb060, 0, 14, 2); s.light.position.copy(s.muzzle); scene.add(s.light);
+    var fm = new THREE.SpriteMaterial({ map: dotTexture(), color: 0xffd08a, transparent: true, opacity: 0, depthWrite: false,
+      blending: THREE.AdditiveBlending, toneMapped: false });
+    s.flash = new THREE.Sprite(fm); s.flash.scale.setScalar(1.6); s.flash.position.copy(s.muzzle); s.flash.visible = false; scene.add(s.flash);
+    s.wind = B(-0.35, 0.1, 0);
+    s.fire = function () {
+      var used = 0;
+      s.puffs.slice().sort(function (a, b) { return (b.life ? b.age / b.life : 9) - (a.life ? a.age / a.life : 9); })
+        .forEach(function (p) {
+          if (used >= 12) return;
+          var k = used++;
+          p.age = 0; p.life = 4.2 + Math.random() * 2.2;
+          p.sprite.position.copy(s.muzzle).addScaledVector(BARREL, 0.15 + k * 0.1)
+            .add(new THREE.Vector3((Math.random() - 0.5) * 0.25, (Math.random() - 0.5) * 0.2, (Math.random() - 0.5) * 0.25));
+          p.vel.copy(BARREL).multiplyScalar(5.5 - k * 0.38)
+            .add(new THREE.Vector3((Math.random() - 0.5) * 0.6, 0.25 + Math.random() * 0.3, (Math.random() - 0.5) * 0.6));
+          p.size0 = 0.35 + k * 0.04; p.size1 = 2.0 + Math.random() * 1.6; p.spin = (Math.random() - 0.5) * 0.4;
+          p.sprite.material.rotation = Math.random() * 6.28; p.sprite.visible = true;
+        });
+      s.flashT = 0;
+      s.gun = s.gun % 21 + 1;
+      $('gun').textContent = 'Gun ' + s.gun + ' of 21';
+    };
+    s.update = function (dt, on) {
+      if (on) {
+        s.next -= dt;
+        if (s.next <= 0) { s.fire(); s.next = s.gun === 21 ? 14 : 4.5 + Math.random() * 2; }
+      }
+      s.puffs.forEach(function (p) {
+        if (!p.sprite.visible) return;
+        p.age += dt;
+        if (p.age >= p.life) { p.sprite.visible = false; return; }
+        p.vel.multiplyScalar(Math.exp(-dt * 1.8)); p.vel.y += 0.22 * dt;          // drag, then the warm smoke rises
+        p.sprite.position.addScaledVector(p.vel, dt).addScaledVector(s.wind, dt);
+        var size = p.size0 + (p.size1 - p.size0) * (1 - Math.exp(-p.age * 1.2));
+        p.sprite.scale.setScalar(size);
+        p.sprite.material.rotation += p.spin * dt;
+        var a = p.age / p.life;
+        p.sprite.material.opacity = 0.85 * Math.min(1, p.age * 10) * Math.pow(1 - a, 1.6);
+      });
+      var f = 0;
+      if (s.flashT >= 0) { s.flashT += dt; f = Math.max(0, 1 - s.flashT / 0.16); if (s.flashT > 0.16) s.flashT = -1; }
+      s.light.intensity = 9 * f; s.flash.visible = f > 0; s.flash.material.opacity = f;
+    };
+    s.clear = function () {
+      s.puffs.forEach(function (p) { p.sprite.visible = false; });
+      s.flashT = -1; s.light.intensity = 0; s.flash.visible = false; $('gun').textContent = '';
+    };
+    return s;
+  }
+
+  // Dust kicked up in the arena: slow motes in the two dust volumes the model marks.
+  function buildDust(scene) {
+    var boxes = ['VFX_Dust_L', 'VFX_Dust_R'].map(function (k) { return MARKERS[k]; });
+    var N = 360, pos = new Float32Array(N * 3), seeds = [];
+    for (var i = 0; i < N; i++) seeds.push([Math.random(), Math.random(), Math.random(), Math.random() * 6.28, i % 2]);
+    var geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    var mat = new THREE.PointsMaterial({ size: 0.07, map: dotTexture(), color: 0xd6b88a, transparent: true, opacity: 0.6, depthWrite: false });
+    var pts = new THREE.Points(geo, mat); pts.frustumCulled = false; scene.add(pts);
+    return {
+      points: pts,
+      update: function (t) {
+        for (var i = 0, j = 0; i < N; i++, j += 3) {
+          var s = seeds[i], b = boxes[s[4]], c = b.location, h = b.size;
+          var u = ((s[0] + t * 0.018 * (0.6 + s[2])) % 1 + 1) % 1;               // drift across the box and wrap
+          var x = c[0] + (u - 0.5) * 2 * h[0], y = c[1] + (s[1] - 0.5) * 2 * h[1];
+          var z = Math.max(0.03, c[2] + (s[2] - 0.5) * 2 * h[2] + 0.12 * Math.sin(t * 0.7 + s[3]));
+          pos[j] = x; pos[j + 1] = z; pos[j + 2] = -y;
+        }
+        geo.attributes.position.needsUpdate = true;
+      }
+    };
+  }
+
+  function buildOrbit() {
+    var o = { scene: new THREE.Scene(), cam: new THREE.PerspectiveCamera(42, 1, 0.25, 1500), flight: null, fx: !reduceMotion };
+    var scene = o.scene;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    var centre = B(0, -6, 0);
+    var sun = new THREE.DirectionalLight(0xffd9a8, 1.9);       // late-afternoon sun from the front right, as in the renders
+    sun.target.position.copy(centre);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    var sc = sun.shadow.camera; sc.left = -30; sc.right = 30; sc.top = 30; sc.bottom = -30; sc.near = 1; sc.far = 220;
+    sun.shadow.bias = -0.0005; sun.shadow.normalBias = 0.04;
+    scene.add(sun, sun.target);
+    o.sun = sun;
+    o.aimSun = function (dir) { sun.position.copy(centre).addScaledVector(dir.clone().normalize(), 100); };
+    o.aimSun(B(0.62, -0.70, 0.36));
+    scene.add(new THREE.HemisphereLight(0xcfe0f2, 0x9a7a52, 0.2));
+
+    // afternoon sky on a sphere that follows the camera (so it sits at infinity)
+    var skyMat = new THREE.MeshBasicMaterial({ color: 0x000000, depthWrite: false, fog: false, toneMapped: false });
+    var sky = new THREE.Mesh(new THREE.SphereGeometry(700, 64, 32).scale(-1, 1, 1), skyMat);
+    sky.rotation.y = -Math.PI / 2; sky.renderOrder = -1; scene.add(sky);
+    o.sky = sky; o.skyMat = skyMat;
+
+    var cam = o.cam;
+    cam.position.copy(VIEWS.threequarter[0]);
+    var controls = new THREE.OrbitControls(cam, canvas);
+    controls.target.copy(VIEWS.threequarter[1]);
+    controls.enableDamping = true; controls.dampingFactor = 0.08;
+    controls.minDistance = 1.2; controls.maxDistance = 95;
+    controls.maxPolarAngle = Math.PI * 0.495;
+    controls.screenSpacePanning = true;
+    controls.autoRotate = !reduceMotion; controls.autoRotateSpeed = 0.5;
+    controls.listenToKeyEvents(canvas);
+    controls.enabled = false;
+    controls.addEventListener('start', function () {
+      o.flight = null;
+      if (controls.autoRotate) { controls.autoRotate = false; $('orbit-auto').setAttribute('aria-pressed', 'false'); }
+    });
+    o.controls = controls;
+    $('orbit-auto').setAttribute('aria-pressed', String(controls.autoRotate));
+    $('fx').setAttribute('aria-pressed', String(o.fx));
+
+    o.ready = Promise.all([
+      loadTexture('sky.jpg', 'Loading the sky').then(function (t) {
+        t.encoding = THREE.sRGBEncoding; skyMat.map = t; skyMat.color.set(0xffffff); skyMat.needsUpdate = true;
+      }),
+      loadTexture('sky-env.jpg', 'Loading the sky').then(function (t) {
+        t.encoding = THREE.sRGBEncoding; t.mapping = THREE.EquirectangularReflectionMapping;
+        var pm = new THREE.PMREMGenerator(renderer);
+        scene.environment = pm.fromEquirectangular(t).texture; pm.dispose(); t.dispose();
+      })
+    ]).then(function () {
+      return fetchBlob('ofala.json', 'Loading the model').then(function (blob) { return blob.text(); });
+    }).then(function (text) {
+      var gltf = JSON.parse(text);
+      var extras = (gltf.asset && gltf.asset.extras) || {};
+      if (extras.markers) Object.keys(extras.markers).forEach(function (k) { MARKERS[k] = extras.markers[k]; });
+      if (extras.sun && extras.sun.direction) o.aimSun(Bv(extras.sun.direction));
+      var manager = new THREE.LoadingManager();
+      manager.onProgress = function (url, done, total) { loader.count('Loading textures', done, total); };
+      return new Promise(function (resolve, reject) {
+        new THREE.GLTFLoader(manager).parse(glbFromGltfJson(gltf), './', resolve, reject);
+      });
+    }).then(function (gltf) {
+      gltf.scene.traverse(function (m) {
+        if (!m.isMesh) return;
+        var backdrop = m.name === 'Preview_Backdrop';
+        m.castShadow = !backdrop && m.name !== 'Ofala_Arena' && m.name !== 'Ofala_WallPaint';
+        m.receiveShadow = !backdrop;
+        (Array.isArray(m.material) ? m.material : [m.material]).forEach(function (mat) {
+          if (mat.map) mat.map.anisotropy = maxAniso;
+          mat.envMapIntensity = 0.6;
+          // cloth carries a white sheen from Blender; tint it with the cloth's own colour, like dyed cotton
+          if (mat.sheen > 0 && mat.sheenColor) { mat.sheenColor.copy(mat.color).multiplyScalar(0.5); mat.sheenRoughness = 0.8; }
+        });
+      });
+      scene.add(gltf.scene);
+      o.salute = buildSalute(scene);
+      o.dust = buildDust(scene);
+      o.dust.points.visible = o.fx;
+    });
+    return o;
+  }
+
+  function flyTo(name) {
+    var v = VIEWS[name]; if (!v || !orbit) return;
+    var c = orbit.controls;
+    if (c.autoRotate) { c.autoRotate = false; $('orbit-auto').setAttribute('aria-pressed', 'false'); }
+    if (reduceMotion) { orbit.cam.position.copy(v[0]); c.target.copy(v[1]); c.update(); return; }
+    orbit.flight = { t: 0, p0: orbit.cam.position.clone(), t0: c.target.clone(), p1: v[0].clone(), t1: v[1].clone() };
+  }
+
+  function orbitUpdate(dt, now) {
+    var o = orbit, c = o.controls;
+    if (o.flight) {
+      var f = o.flight; f.t = Math.min(1, f.t + dt / 1.1);
+      var e = f.t < 0.5 ? 4 * f.t * f.t * f.t : 1 - Math.pow(-2 * f.t + 2, 3) / 2;
+      o.cam.position.lerpVectors(f.p0, f.p1, e); c.target.lerpVectors(f.t0, f.t1, e);
+      if (f.t >= 1) o.flight = null;
+    }
+    c.update();
+    if (o.cam.position.y < 0.4) o.cam.position.y = 0.4;            // stay above the arena floor
+    var tc = c.target; tc.y = Math.max(0, Math.min(12, tc.y));
+    o.sky.position.copy(o.cam.position);
+    if (o.salute) o.salute.update(dt, o.fx);
+    if (o.dust && o.fx) o.dust.update(now);
+  }
+
+  // ------------------------------------------------------------------ modes, layout, loop
+  var mode = null;
+  function setMode(next) {
+    if (next === mode) return;
+    mode = next;
+    var isLook = mode === 'look';
+    $('mode-look').setAttribute('aria-pressed', String(isLook));
+    $('mode-orbit').setAttribute('aria-pressed', String(!isLook));
+    $('look-tools').hidden = !isLook;
+    $('orbit-tools').hidden = isLook;
+    $('hint').textContent = isLook ? 'Drag to look around. Scroll or pinch to zoom.'
+      : 'Drag to orbit, right-drag or two fingers to pan, scroll or pinch to zoom.';
+    var want = isLook ? '#look' : '#orbit';
+    if (location.hash !== want) { try { history.replaceState(null, '', want); } catch (e) { location.hash = want; } }
+    if (isLook) {
+      if (orbit) orbit.controls.enabled = false;
+      $('caption').textContent = SPOTS[look.spot].caption;
+      if (look.ready) loader.hide(); else showSpot(look.spot);
+    } else {
+      $('caption').textContent = 'Palace 22.4 × 8.8 m · walls 4.2 m · ridge 6.97 m · side doors 0.85 × 2.68 m · player 1.8 m';
+      if (!orbit) {
+        loader.show('Loading the model');
+        orbit = buildOrbit();
+        resize();
+        orbit.ready.then(function () { if (mode === 'orbit') loader.hide(); orbit.loaded = true; })
+          .catch(function () { loader.fail('Could not load the 3D model. Reload the page to try again.'); });
+      } else if (orbit.loaded) loader.hide();
+      orbit.controls.enabled = true;
+    }
+  }
+
+  function resize() {
+    var w = Math.max(1, stage.clientWidth), h = Math.max(1, stage.clientHeight);
+    renderer.setSize(w, h, false);
+    look.cam.aspect = w / h; look.cam.updateProjectionMatrix();
+    var homeFov = defaultLookFov();
+    if (look.homeFov !== homeFov) { look.fov = look.homeFov = homeFov; }
+    if (orbit) {
+      orbit.cam.aspect = w / h;
+      orbit.cam.fov = w >= h ? 42 : Math.min(72, vfovFor(50, w / h));   // keep the palace in frame on tall screens
+      orbit.cam.updateProjectionMatrix();
+    }
+  }
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize', resize);
+
+  $('mode-look').addEventListener('click', function () { setMode('look'); });
+  $('mode-orbit').addEventListener('click', function () { setMode('orbit'); });
+  window.addEventListener('hashchange', function () { setMode(location.hash === '#orbit' ? 'orbit' : 'look'); });
+  $('spot').addEventListener('change', function (e) { showSpot(e.target.value); });
+  $('look-auto').addEventListener('click', function () { setLookAuto(!look.auto); });
+  $('look-reset').addEventListener('click', function () { resetLook(); look.fov = defaultLookFov(); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-view]'), function (b) {
+    b.addEventListener('click', function () { flyTo(b.getAttribute('data-view')); });
+  });
+  $('poi').addEventListener('change', function (e) { if (e.target.value) flyTo(e.target.value); e.target.value = ''; });
+  $('orbit-auto').addEventListener('click', function () {
+    if (!orbit) return;
+    var on = !orbit.controls.autoRotate; orbit.controls.autoRotate = on; if (on) orbit.flight = null;
+    this.setAttribute('aria-pressed', String(on));
+  });
+  $('fx').addEventListener('click', function () {
+    if (!orbit) return;
+    orbit.fx = !orbit.fx;
+    if (orbit.dust) orbit.dust.points.visible = orbit.fx;
+    if (!orbit.fx && orbit.salute) orbit.salute.clear();
+    if (orbit.fx && orbit.salute) orbit.salute.next = 0.6;
+    this.setAttribute('aria-pressed', String(orbit.fx));
+  });
+
+  resize();
+  setMode(location.hash === '#orbit' ? 'orbit' : 'look');
+
+  var last = performance.now();
+  function frame(now) {
+    var dt = Math.min(0.1, (now - last) / 1000); last = now;
+    if (mode === 'look') {
+      lookUpdate(dt);
+      renderer.render(look.scene, look.cam);
+    } else if (orbit) {
+      orbitUpdate(dt, now / 1000);
+      renderer.render(orbit.scene, orbit.cam);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
