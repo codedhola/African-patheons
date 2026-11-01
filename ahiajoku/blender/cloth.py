@@ -199,6 +199,9 @@ def wrapper_stage():
 
 BLOUSE_HEM_Z = 0.905
 SLEEVE_END = 0.155             # along the upper arm from the shoulder joint, in metres
+SLEEVE_EASE = 0.024            # how far the sleeve stands off the arm
+SLEEVE_FLARE = 0.0             # and how much more it opens by the cuff
+EASE_BLEND = 0                 # passes that blur the step in ease where sleeve meets body
 NECK = dict(centre=(0, -0.015, 1.405), radii=(0.105, 0.095, 0.085))    # a round neck, as an ellipsoid
 
 
@@ -348,11 +351,14 @@ def make_blouse(body, rig, col, wrapper):
     adj = edge_adjacency(ob.data)
     z = pos[:, 2]
     torso = np.ones(n, bool)
+    sleeve_along = np.zeros(n)
     for side, sign in (('L', 1), ('R', -1)):
         s, d = axes[side]
         along = (pos - s) @ d
         radial = np.linalg.norm((pos - s) - along[:, None] * d, axis=1)
-        torso &= ~((pos[:, 0] * sign > 0) & (along > 0.02) & (radial < 0.075))
+        here = (pos[:, 0] * sign > 0) & (along > 0.02) & (radial < 0.075)
+        torso &= ~here
+        sleeve_along[here] = along[here]
     below = np.clip((1.215 - z) / 0.08, 0, 1) * torso
     sm = pos.copy()
     for _ in range(110):
@@ -369,7 +375,10 @@ def make_blouse(body, rig, col, wrapper):
     ridge = np.clip((z - 1.27) / 0.05, 0, 1)
     chest = np.clip((1.26 - z) / 0.10, 0, 1)
     off = 0.009 + 0.018 * chest + 0.016 * below
-    off = np.where(torso, off, 0.024 * (1 - 0.65 * ridge))
+    sleeve = SLEEVE_EASE + SLEEVE_FLARE * np.clip(sleeve_along / SLEEVE_END, 0, 1) ** 1.4
+    off = np.where(torso, off, sleeve * (1 - 0.65 * ridge))
+    for _ in range(EASE_BLEND):
+        off = np.array([off[a].mean() if a else off[i] for i, a in enumerate(adj)])
     sm = sm + normals * off[:, None]
 
     # start outside the wrapper so the hem can hang over it

@@ -20,6 +20,10 @@ See `STAGES.md` for what each stage is based on and its sources.
 
 `ahiajoku/ahiajoku-of-the-yam.html` is the photoreal Ahiajoku page. It shows the Igbo yam deity at dusk on her festival, in a matching Akwete wrapper, blouse and head tie with coral and ivory, holding out a new yam as the full moon rises over a yam field and barn. It has a hero render, a 36-view turntable, eight close-ups and a list of what is sourced and what is designed. Open it in a browser; images are in `ahiajoku/img/`. The finished scene is `ahiajoku/ahiajoku.blend`, and the scripts that generate it are in `ahiajoku/blender/`.
 
+## Ọ̀ṣun of Òṣogbo
+
+`osun/osun-of-osogbo.html` is the photoreal Ọ̀ṣun page. It shows the river òrìṣà on a morning in her grove, in white ìró and bùbá with a gold sash, the Àgògo braids of her initiates, coral and amber beads, a brass fan and an ààjà bell. It has a hero render, a 36-view turntable, eight close-ups and a list of what is sourced and what is designed. Open it in a browser; images are in `osun/img/`. The finished scene is `osun/osun.blend`, and `osun/blender/` has the scripts that are hers, which build on the toolkit in `ahiajoku/blender/`.
+
 ## Stormshrine (3D)
 
 `stormshrine/` holds a game-ready Blender model of stage 11, Ṣàngó's storm hill, built from the stage board and scaled for a 1.8 m player. It contains `Stormshrine.blend`, the script `build_stormshrine.py` that generates it, PNG textures and preview renders. Its README lists the assumptions and the files it was based on.
@@ -53,3 +57,4 @@ Research notes and sources behind the work, in `docs/`:
 - [`docs/sango-render-notes.md`](docs/sango-render-notes.md): which parts of the realistic Ṣàngó come from sources, which are the render's own choices, and how it was made.
 - [`docs/amadioha-render-notes.md`](docs/amadioha-render-notes.md): the same for the realistic Amadioha and his ram.
 - [`docs/ahiajoku-render-notes.md`](docs/ahiajoku-render-notes.md): the same for the realistic Ahiajoku, plus how to rebuild the scene.
+- [`docs/osun-render-notes.md`](docs/osun-render-notes.md): the same for the realistic Ọ̀ṣun.

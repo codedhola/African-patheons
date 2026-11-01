@@ -93,15 +93,16 @@ class Graph:
         return self.mat
 
 
-def akwete(name='Akwete', binding=False, u_scale=1.0, v_offset=0.0):
-    """Warp-faced cotton ground with rayon floats. Cloth maps come from akwete.py."""
+def akwete(name='Akwete', binding=False, u_scale=1.0, v_offset=0.0, maps='akwete',
+           edge_colours=((0.05, 0.075, 0.19), (0.82, 0.76, 0.62), (0.50, 0.10, 0.075))):
+    """Warp-faced cotton ground with rayon floats. Cloth maps come from akwete.py, or any set named like them."""
     g = Graph(name)
     uv = g.node('TexCoord').outputs['UV']
     if u_scale != 1.0 or v_offset:
         uv = g.node('Mapping', Vector=uv, Scale=(u_scale, 1, 1), Location=(0, v_offset, 0)).outputs[0]
-    col = g.image('akwete_color.png', uv, 'sRGB').outputs['Color']
-    height = g.image('akwete_height.png', uv).outputs['Color']
-    floats = g.image('akwete_float.png', uv).outputs['Color']
+    col = g.image(f'{maps}_color.png', uv, 'sRGB').outputs['Color']
+    height = g.image(f'{maps}_height.png', uv).outputs['Color']
+    floats = g.image(f'{maps}_float.png', uv).outputs['Color']
 
     # one plain-weave repeat of eight threads every 5.2 mm
     fine = g.node('Mapping', Vector=uv, Scale=(116, 221, 1)).outputs[0]
@@ -119,8 +120,8 @@ def akwete(name='Akwete', binding=False, u_scale=1.0, v_offset=0.0):
     if binding:
         # a narrow indigo binding on the neck, cuffs and hem, with one red line of stitching beside it
         edge = g.node('Attribute', attribute_name='edge_dist', attribute_type='GEOMETRY').outputs['Fac']
-        band = g.ramp(edge, [(0.0, (0.05, 0.075, 0.19)), (0.109, (0.05, 0.075, 0.19)), (0.112, (0.82, 0.76, 0.62)), (0.128, (0.82, 0.76, 0.62)),
-                             (0.131, (0.50, 0.10, 0.075)), (0.150, (0.50, 0.10, 0.075)), (0.153, (1, 1, 1)), (1.0, (1, 1, 1))], 'CONSTANT')
+        c1, c2, c3 = edge_colours
+        band = g.ramp(edge, [(0.0, c1), (0.109, c1), (0.112, c2), (0.128, c2), (0.131, c3), (0.150, c3), (0.153, (1, 1, 1)), (1.0, (1, 1, 1))], 'CONSTANT')
         over = g.math('LESS_THAN', edge, 0.153)
         base = g.mix(over, shaded, band)
         rough = g.mix(over, rough, 0.8)
@@ -163,6 +164,8 @@ def skin():
     tone = g.mix(lips, tone, lip)
     tone = g.mix(nails, tone, (0.46, 0.27, 0.20))
     tone = g.mix(scalp, tone, (0.016, 0.011, 0.009))        # close-cut hair shadows the scalp
+    paint = g.node('Attribute', attribute_name='mask_b', attribute_type='GEOMETRY').outputs['Alpha']
+    tone = g.mix(paint, tone, (0.010, 0.008, 0.008))        # eye paint, where a figure wears it
 
     # pores, then fine creases across them, both in metres on the posed body
     pore = g.node('TexVoronoi', Vector=obj, Scale=1500, feature='F1', distance='EUCLIDEAN').outputs['Distance']
