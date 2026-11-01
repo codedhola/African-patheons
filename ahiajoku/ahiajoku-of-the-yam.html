@@ -1,0 +1,417 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ahiajoku of the Yam</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the Ṣàngó page's gallery wall, repainted for dusk. Big renders hang on the blue-black of the sky opposite the sunset. */
+:root {
+  --bg: #0c0e16;          /* eastern sky after sunset */
+  --wall: #141621;        /* label and viewer ground */
+  --ink: #efe5cf;         /* Akwete cream */
+  --muted: #a69e90;
+  --line: #2a2c39;
+  --coral: #d8552e;       /* nkalari */
+  --coral-deep: #8f2f18;
+  --green: #4b9a63;       /* the green floats in the cloth */
+  --moon: #f2bd7e;        /* the rising moon, used for focus and links */
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--moon); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--moon); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* the draughts band from the cloth's hem, used as the rule between sections */
+.draughts { height: 12px; max-width: 396px; background: repeating-conic-gradient(var(--green) 0 25%, transparent 0 50%) 0 0 / 12px 12px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--coral); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--coral); color: var(--ink); background: color-mix(in srgb, var(--coral) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--coral); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--moon); }
+.compass button:focus-visible { outline: 2px solid var(--moon); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--moon); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--coral-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon h2 { margin-bottom: 16px; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.colophon code { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Igbo alụsị of yams and the harvest</p>
+      <h1>Ahiajoku <span class="of">of the</span> Yam</h1>
+      <p class="lede">A photoreal study of the Igbo yam deity on the evening of her festival: a matching Akwete wrapper, blouse and head tie, coral at her throat, ivory at her wrists and ankles, a new yam held out in both hands, and the full moon rising behind the barn.</p>
+      <dl class="facts">
+        <div><dt>Also called</dt><dd>Ahia Njoku, Ifejioku</dd></div>
+        <div><dt>Festival</dt><dd>A full moon before the New Yam festival</dd></div>
+        <div><dt>Emblem</dt><dd>Ji, the yam</dd></div>
+        <div><dt>Invoked</dt><dd>To settle disputes over farmland</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="A dark-skinned woman stands barefoot on red earth at dusk in a matching cream wrapper, blouse and head tie patterned in green, red and indigo, with strands of coral at her chest, holding a large yam in both hands. A basket of yams sits beside her, a barn of tied yams stands to her right, and a full moon rises over rows of earth mounds and staked vines.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the cloth, jewellery, yams and setting were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="draughts" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn her round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the figure turns.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Ahiajoku, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The yam across her palms, three strands of coral above it, and the wrapper's outer edge falling down the front.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">Her right side</button><p>The blouse hanging over the wrapper, and how far forward the tuber sits from her body.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The ichafu's folds running to the knot, and the bands of brocade going all the way round the cloth.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">Her left side</button><p>The knot and its two ends behind the ear, and the basket at her feet.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="draughts" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of a dark-skinned woman at dusk in a cream head tie and blouse with green, red and indigo motifs, three strands of chunky coral beads on her chest and coral earrings; a full moon and tall palms are soft behind her."></button>
+        <figcaption class="label">
+          <h3>The matching pair</h3>
+          <p class="term">Akwete · wrapper, blouse, head tie</p>
+          <p>Akwete is woven and sold in identical pairs. One cloth is the wrapper, the other may become a blouse, and here the head tie comes from the same weave. Both garments are simulated: the blouse starts out on the body with the arms lifted and falls into its folds as they come down.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/hands.webp" aria-label="Open the yam close-up at full size"><img src="img/hands.webp" width="1000" height="1000" loading="lazy" alt="Two dark hands with ivory bangles and a coral bracelet hold out a large rough brown yam, thin rootlets standing from its bark and a pale cut face at one end, in front of a cream blouse and wrapper patterned in green, red and indigo."></button>
+        <figcaption class="label">
+          <h3>The new yam</h3>
+          <p class="term">Ji · Dioscorea rotundata</p>
+          <p>New yams may not be eaten until her rite is done. A large tuber often weighs 5 to 10 kg; this one is 41 cm long and 14 cm across, about 4 kg by volume, so that she can plausibly hold it out. Each finger was closed joint by joint until it came to rest on the tuber. The slanting cut that shows the white flesh is this study's.</p>
+          <p class="src">Sources: <a href="https://en.wikipedia.org/wiki/Ahia_Njoku">Wikipedia: Ahia Njoku</a>, <a href="https://www.fao.org/4/x5045e/x5045E07.htm">FAO Bulletin 59</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/ichafu.webp" aria-label="Open the head tie close-up at full size"><img src="img/ichafu.webp" width="1000" height="1100" loading="lazy" alt="Her head in profile against a pale sky, in a cream head tie tied flat, its folds running back to a knot behind the ear with two short patterned ends hanging from it; close-cut hair at the nape and a coral earring."></button>
+        <figcaption class="label">
+          <h3>Ichafu</h3>
+          <p class="term">Head tie · tied flat</p>
+          <p>A headcloth tied flat on the head, as an ichafu is, rather than the tall folded wrap of her gallery figure. Cloth pulled to a knot folds toward the knot, so every pleat here is worked out around it.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/coral.webp" aria-label="Open the coral close-up at full size"><img src="img/coral.webp" width="1000" height="1000" loading="lazy" alt="Three strands of polished orange-red coral beads, barrel-shaped and round, lying on a cream blouse with a green zigzag band and a lozenge motif."></button>
+        <figcaption class="label">
+          <h3>Nkalari</h3>
+          <p class="term">Large coral · three strands</p>
+          <p>Igbo women wear large coral at the neck and wrists and as earrings. Each of the 235 beads has its own shape and tint.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/cloth.webp" aria-label="Open the cloth close-up at full size"><img src="img/cloth.webp" width="1000" height="1100" loading="lazy" alt="Close view of the wrapper falling in soft folds: a cream cloth with rows of woven lozenges, saw-tooth bands and tortoise motifs in green, red and indigo thread."></button>
+        <figcaption class="label">
+          <h3>Woven floats</h3>
+          <p class="term">Supplementary weft · 4.2 mm grid</p>
+          <p>The motifs are threads floating on a warp-faced ground, counted out on a grid the way a weaver counts them, so they catch the light on their own. Ikaki the tortoise, the saw, draughts and the lozenge.</p>
+          <p class="src">Sources: <a href="https://www.metmuseum.org/art/collection/search/318452">The Met</a>, <a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/basket.webp" aria-label="Open the basket close-up at full size"><img src="img/basket.webp" width="1000" height="1000" loading="lazy" alt="A wide woven cane basket on red earth, heaped with dark brown yams, one showing a pale cut end; a bare foot and the hem of the wrapper at the left."></button>
+        <figcaption class="label">
+          <h3>The basket</h3>
+          <p class="term">Cane · ten tubers</p>
+          <p>Forty-six stakes and twenty-seven rows of weft, each strand modelled. The yams were dropped in under rigid-body physics, so they lie the way a heap lies.</p>
+          <p class="src">This study's own, after the gallery figure.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/feet.webp" aria-label="Open the anklet close-up at full size"><img src="img/feet.webp" width="1000" height="1000" loading="lazy" alt="Bare feet on red earth, a smooth ivory ring at the ankle just below the hem of the wrapper, which is bordered in green draughts and indigo."></button>
+        <figcaption class="label">
+          <h3>Odu</h3>
+          <p class="term">Ivory · odu ukwu at the ankle</p>
+          <p>Ivory at the wrists is odu aka and at the ankles odu ukwu, the regalia of the women of the Otu Odu society. The hem shows the draughts border.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/barn.webp" aria-label="Open the yam barn view at full size"><img src="img/barn.webp" width="1000" height="1000" loading="lazy" alt="A frame of upright posts and cross members with rows of brown yams tied on one by one, leafy shoots sprouting at the top, and a field of earth mounds and staked vines behind it at dusk."></button>
+        <figcaption class="label">
+          <h3>The yam barn</h3>
+          <p class="term">Posts, cross members, raffia</p>
+          <p>Posts 5 to 10 cm thick about a metre apart, lighter cross members, and each tuber tied on by itself. Shoots from live poles can be the only shade a barn has.</p>
+          <p class="src">Source: <a href="https://www.fao.org/4/x5045e/x5045E07.htm">FAO Bulletin 59</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="draughts" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>Many alụsị are understood as unseen forces, and the sources here describe no image of Ahiajoku at all. This figure is an interpretation in Igbo dress, not a cult image. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>The full moon.</b> Her festival falls on a full moon before the New Yam festival, and new yams may not be eaten until the rite is done. <span class="src"><a href="https://en.wikipedia.org/wiki/Ahia_Njoku">Wikipedia: Ahia Njoku</a></span></li>
+          <li><b>One cloth, two pieces.</b> Akwete is woven in identical pairs: one a wrapper, the other a stole, a second wrapper or a blouse. <span class="src"><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a></span></li>
+          <li><b>The cloth's size and structure.</b> Most Akwete is 40 to 50 inches wide. Motifs are a supplementary weft floating on a warp-faced plain weave. The map here is one 1.15 m width of loom, built from a 4.2 mm grid of floats. <span class="src"><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia</a>, <a href="https://www.metmuseum.org/art/collection/search/318452">The Met</a></span></li>
+          <li><b>Three or four motifs.</b> Weavers claim over a hundred, with usually three or four on a cloth. Here: ikaki the tortoise, the saw and draughts, all named by weavers, and a lozenge like the one on a white-ground wrapper in the Met. <span class="src"><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia</a>, <a href="https://www.metmuseum.org/art/collection/search/318452">The Met</a></span></li>
+          <li><b>Ichafu.</b> A headcloth tied flat on the head, worn with wrapper and blouse. <span class="src"><a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></span></li>
+          <li><b>Nkalari and odu.</b> Large coral at the neck and wrists and as earrings; ivory at the wrists (odu aka) and ankles (odu ukwu). <span class="src"><a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></span></li>
+          <li><b>The barn.</b> Posts 5 to 10 cm thick and about a metre apart, lighter cross members, tubers tied on one by one, shoots from live poles for shade. <span class="src"><a href="https://www.fao.org/4/x5045e/x5045E07.htm">FAO: Traditional post-harvest technology</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study's choices</h3>
+        <ul>
+          <li><b>Her face, age and build.</b> No source describes how she looks; she is drawn as a strong woman of about forty.</li>
+          <li><b>A goddess.</b> The sources disagree. Wikipedia calls Ahia Njoku a goddess and treats Njoku Ji, the guardian of the yam, in a separate entry. <a href="https://oriire.com/article/deities-in-igboland-from-myth-to-culture">Oriire</a> calls Ahiajoku the yam god, a son of Ibo whose flesh germinated into yam. This figure follows the gallery.</li>
+          <li><b>The colours.</b> No source gives her colours. Cream, green, red and indigo carry over from her figure in the gallery.</li>
+          <li><b>The ivory.</b> Ivory at the wrists and ankles belongs to the women of the Otu Odu society. It is given to her here as a mark of standing.</li>
+          <li><b>The gesture.</b> Holding the yam out in both hands is this study's own.</li>
+          <li><b>The evening.</b> A full moon rises at sunset, opposite the sun, so she stands with the last warm light on her and the moon behind. The moon is drawn far larger than it would look through this lens.</li>
+          <li><b>The basket, the field and the barn's place in the picture.</b> Set dressing, built to the measurements above where there are any.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="draughts" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How she was made</h2>
+        <p>The body starts from MakeHuman's free base mesh, shaped with its targets and rigged. The arms and legs were solved to target positions, and each finger was closed joint by joint until it came to rest on the yam.</p>
+        <p>The wrapper is one cloth wound round the hips, with its outer edge lying down the front. The blouse is cut from the body itself, loosened, and simulated while the arms come down to hold the yam, so its folds come from that movement.</p>
+        <p>The cloth's pattern is laid out on a weaver's grid, float by float. The ichafu is a surface lifted off the skull, with its pleats worked out around the knot. The coral is laid on the chest as three nested ovals, and the yams in the basket were dropped in under rigid-body physics.</p>
+        <p>Every stage is a Python script in <code>ahiajoku/blender/</code>, and the finished scene is <code>ahiajoku/ahiajoku.blend</code>.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Wrapper cloth, simulated vertices</th><td>27,848</td></tr>
+            <tr><th scope="row">Blouse cloth, simulated vertices</th><td>26,530</td></tr>
+            <tr><th scope="row">Simulated frames for each</th><td>110</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Coral beads</th><td>235</td></tr>
+            <tr><th scope="row">Brow and lash curves</th><td>2,764</td></tr>
+            <tr><th scope="row">Scalp curves, behind the ears and at the nape</th><td>5,703</td></tr>
+            <tr><th scope="row">Yam rootlet curves</th><td>1,220</td></tr>
+            <tr><th scope="row">Tubers: hands / basket / barn</th><td>1 / 10 / 125</td></tr>
+            <tr><th scope="row">Staked yam plants in the field</th><td>415</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>96 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Ahia_Njoku">Wikipedia: Ahia Njoku</a>. The deity, the full-moon festival, the bar on eating new yams, the name invoked in land disputes, children named Njoku.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Njoku_Ji">Wikipedia: Njoku Ji</a>. The guardian deity of the yam, treated as a separate entry.</li>
+      <li><a href="https://oriire.com/article/deities-in-igboland-from-myth-to-culture">Oriire: Deities in Igboland, from myth to culture</a>. Ahiajoku as the yam god, son of Ibo.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a>. Looms, width, pairs, motif names, how it is worn.</li>
+      <li><a href="https://www.metmuseum.org/art/collection/search/318452">The Metropolitan Museum of Art: Wrapper, Women's weaving cooperative in Akwete, early 1990s</a>. Supplementary weft on a warp-faced plain weave, vertical loom, lozenge motifs on a white ground.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a>. Coral, nkalari, odu, ichafu, wrappers and blouse.</li>
+      <li><a href="https://www.fao.org/4/x5045e/x5045E07.htm">Lancaster and Coursey, Traditional post-harvest technology of perishable tropical staples, FAO Agricultural Services Bulletin 59 (1984)</a>. Yam barns and tuber weights.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>, the CC0 base mesh, targets and rig used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery, <a href="https://claude.ai/artifact/JmahtF1kFYrdWYvpxcZ5GH">Ṣàngó of Ọ̀yọ́</a> and <a href="https://claude.ai/artifact/3o8ZvmYhzWFRoEFJ3wmdnT">Amadioha of Ozuzu</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Ahiajoku, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>
