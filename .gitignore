@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Blender backup saves and Python caches from rebuilding in place
+*.blend1
+__pycache__/
+
+# Default scratch folder for the 3d build scripts
+work/
