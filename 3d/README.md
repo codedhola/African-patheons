@@ -9,6 +9,7 @@ Blender Cycles renders of the deities. Each page has a hero render, a 36-view tu
 | Ahiajoku of the Yam | [`ahiajoku/ahiajoku-of-the-yam.html`](ahiajoku/ahiajoku-of-the-yam.html) | `ahiajoku/ahiajoku.blend`, `ahiajoku/blender/` |
 | Ọ̀ṣun of Òṣogbo | [`osun/osun-of-osogbo.html`](osun/osun-of-osogbo.html) | `osun/osun.blend`, `osun/blender/` |
 | Ògún of Ìrẹ̀ | [`ogun/ogun-of-ire.html`](ogun/ogun-of-ire.html) | `ogun/ogun.blend`, `ogun/blender/` |
+| Yemọja of the Ògùn | [`yemoja/yemoja-of-the-ogun.html`](yemoja/yemoja-of-the-ogun.html) | `yemoja/yemoja.blend`, `yemoja/blender/` |
 
 The README in each folder has the notes: what the sources support, the render's own choices, and how it was made.
 
@@ -17,6 +18,7 @@ The README in each folder has the notes: what the sources support, the render's 
 - **Ahiajoku** is the Igbo yam deity at dusk on her festival, in a matching Akwete wrapper, blouse and head tie with coral and ivory, holding out a new yam as the full moon rises over a yam field and barn.
 - **Ọ̀ṣun** is the river òrìṣà on a morning in her grove, in white ìró and bùbá with a gold sash, the Àgògo braids of her initiates, coral and amber beads, a brass fan and an ààjà bell.
 - **Ògún** is the òrìṣà of iron at night in his forge, in short trousers of ẹ̀tù under a fringe of màrìwò, with a chain of small iron tools across his chest, the àdá in his hand and his dog beside him. He is the first male figure built on the toolkit.
+- **Yemọja** is the mother of the òrìṣà in the shallows of the Ògùn in the late afternoon, in an ìró and bùbá of indigo àdìrẹ and a light-blue gèlè, with crystal and blue beads strung seven and seven, cowries, and a white pot at her hip, fish round her feet.
 
 ## The toolkit
 
