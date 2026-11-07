@@ -8,6 +8,7 @@ Blender Cycles renders of the deities. Each page has a hero render, a 36-view tu
 | Amadioha of Ozuzu | [`amadioha/amadioha-of-ozuzu.html`](amadioha/amadioha-of-ozuzu.html) | Not in this repo |
 | Ahiajoku of the Yam | [`ahiajoku/ahiajoku-of-the-yam.html`](ahiajoku/ahiajoku-of-the-yam.html) | `ahiajoku/ahiajoku.blend`, `ahiajoku/blender/` |
 | Ọ̀ṣun of Òṣogbo | [`osun/osun-of-osogbo.html`](osun/osun-of-osogbo.html) | `osun/osun.blend`, `osun/blender/` |
+| Ògún of Ìrẹ̀ | [`ogun/ogun-of-ire.html`](ogun/ogun-of-ire.html) | `ogun/ogun.blend`, `ogun/blender/` |
 
 The README in each folder has the notes: what the sources support, the render's own choices, and how it was made.
 
@@ -15,6 +16,7 @@ The README in each folder has the notes: what the sources support, the render's 
 - **Amadioha** is shown both ways the sources do: as a fair-skinned titled gentleman in a red isiagụ, white wrapper and red cap with eagle feathers, holding his glowing sword Mmaagha Kamalu and an akupe fan, and as the gigantic white ram beside him.
 - **Ahiajoku** is the Igbo yam deity at dusk on her festival, in a matching Akwete wrapper, blouse and head tie with coral and ivory, holding out a new yam as the full moon rises over a yam field and barn.
 - **Ọ̀ṣun** is the river òrìṣà on a morning in her grove, in white ìró and bùbá with a gold sash, the Àgògo braids of her initiates, coral and amber beads, a brass fan and an ààjà bell.
+- **Ògún** is the òrìṣà of iron at night in his forge, in short trousers of ẹ̀tù under a fringe of màrìwò, with a chain of small iron tools across his chest, the àdá in his hand and his dog beside him. He is the first male figure built on the toolkit.
 
 ## The toolkit
 
@@ -37,11 +39,11 @@ The README in each folder has the notes: what the sources support, the render's 
 | File | What it does |
 |---|---|
 | `build.py` | Runs the named stages, from textures to the packed scene |
-| `stance.py` | Her pose |
-| `render_views.py` | Her cameras |
-| `shots.py` | Renders her stills and turntable |
+| `stance.py` | The pose |
+| `render_views.py` | The cameras |
+| `shots.py` | Renders the stills and turntable |
 
-The rest of the folder is what is hers alone: her cloth, regalia and setting. To add a figure, give it the same shape, with `3d/toolkit` on `sys.path` after its own folder. `osun/blender/` is the closest example.
+The rest of the folder is what is the figure's alone: its cloth, regalia and setting. To add a figure, give it the same shape, with `3d/toolkit` on `sys.path` after its own folder. `osun/blender/` is the closest example for a woman, `ogun/blender/` for a man.
 
 ## Rebuilding
 
