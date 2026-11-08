@@ -10,6 +10,7 @@ Blender Cycles renders of the deities. Each page has a hero render, a 36-view tu
 | Ọ̀ṣun of Òṣogbo | [`osun/osun-of-osogbo.html`](osun/osun-of-osogbo.html) | `osun/osun.blend`, `osun/blender/` |
 | Ògún of Ìrẹ̀ | [`ogun/ogun-of-ire.html`](ogun/ogun-of-ire.html) | `ogun/ogun.blend`, `ogun/blender/` |
 | Yemọja of the Ògùn | [`yemoja/yemoja-of-the-ogun.html`](yemoja/yemoja-of-the-ogun.html) | `yemoja/yemoja.blend`, `yemoja/blender/` |
+| Ekwensu of the Bargain | [`ekwensu/ekwensu-of-the-bargain.html`](ekwensu/ekwensu-of-the-bargain.html) | `ekwensu/ekwensu.blend`, `ekwensu/blender/` |
 
 The README in each folder has the notes: what the sources support, the render's own choices, and how it was made.
 
@@ -19,6 +20,7 @@ The README in each folder has the notes: what the sources support, the render's 
 - **Ọ̀ṣun** is the river òrìṣà on a morning in her grove, in white ìró and bùbá with a gold sash, the Àgògo braids of her initiates, coral and amber beads, a brass fan and an ààjà bell.
 - **Ògún** is the òrìṣà of iron at night in his forge, in short trousers of ẹ̀tù under a fringe of màrìwò, with a chain of small iron tools across his chest, the àdá in his hand and his dog beside him. He is the first male figure built on the toolkit.
 - **Yemọja** is the mother of the òrìṣà in the shallows of the Ògùn in the late afternoon, in an ìró and bùbá of indigo àdìrẹ and a light-blue gèlè, with crystal and blue beads strung seven and seven, cowries, and a white pot at her hip, fish round her feet.
+- **Ekwensu** is the Igbo alụsị of bargains and the tortoise in a market square at dusk, in short trousers of raffia cloth under a raffia fringe and the striped okpu agụ of a warrior, with a machete in his right hand, his left on his hip, and a tortoise at his feet under a young moon.
 
 ## The toolkit
 
