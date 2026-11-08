@@ -6,7 +6,7 @@ Yorùbá and Igbo gods and places, made for a fighting game and as studies in th
 
 | Folder | What it holds |
 |---|---|
-| [`3d/`](3d/) | Photoreal Blender renders of Ṣàngó, Amadioha, Ahiajoku and Ọ̀ṣun, and the toolkit that builds them |
+| [`3d/`](3d/) | Photoreal Blender renders of Ṣàngó, Amadioha, Ahiajoku, Ọ̀ṣun, Ògún, Yemọja, Ekwensu, Idemili and Ọ̀ṣọ́ọ̀sì, and the toolkit that builds them |
 | [`2d-threejs/`](2d-threejs/) | Pages that run in the browser: 25 SVG fighting stages, a three.js gallery of 23 deities, and a reference to the religions of 21 African peoples |
 | [`locations/`](locations/) | Game-ready Blender models of three stages, each with a three.js 360° viewer |
 
@@ -17,6 +17,11 @@ Yorùbá and Igbo gods and places, made for a fighting game and as studies in th
   amadioha/       Amadioha of Ozuzu
   ahiajoku/       Ahiajoku of the Yam
   osun/           Ọ̀ṣun of Òṣogbo
+  ogun/           Ògún of Ìrẹ̀
+  yemoja/         Yemọja of the Ògùn
+  ekwensu/        Ekwensu of the Bargain
+  idemili/        Idemili of Nnobi
+  osoosi/         Ọ̀ṣọ́ọ̀sì of Kétu
 2d-threejs/
   stages/         the SVG stages, their previews and research notes
   gods/           the three.js gallery and the religions reference

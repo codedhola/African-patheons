@@ -1,0 +1,409 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yemọja of the Ògùn</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the same gallery wall as the other render pages, here the indigo of deep river water. Her beads divide the sections, seven light blue and seven crystal, as her necklaces are strung. */
+:root {
+  --bg: #0a0f15;          /* deep water */
+  --wall: #111a23;        /* label and viewer ground */
+  --ink: #edf2f6;         /* crystal */
+  --muted: #9cabb8;
+  --line: #24313d;
+  --blue: #8fc6ea;       /* her light blue, used for links and focus */
+  --indigo: #3c5a8c;  /* àdìrẹ indigo, lightened to show on the wall */
+  --bead-blue: #8fc6ea;        /* blue glass */
+  --bead-crystal: #dfe8ee;        /* crystal glass */
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--blue); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* seven light-blue beads, then seven crystal, as her necklaces run */
+.beadrule { position: relative; height: 10px; max-width: 420px; }
+.beadrule::before, .beadrule::after { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 5px 5px, var(--c) 3.4px, transparent 3.9px) 0 0 / 10px 10px repeat-x;
+  -webkit-mask: linear-gradient(90deg, #000 0 70px, transparent 70px 140px) var(--o) 0 / 140px 10px repeat-x;
+          mask: linear-gradient(90deg, #000 0 70px, transparent 70px 140px) var(--o) 0 / 140px 10px repeat-x; }
+.beadrule::before { --c: var(--bead-blue); --o: 0px; }
+.beadrule::after { --c: var(--bead-crystal); --o: 70px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px var(--line); }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--blue); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--blue); color: var(--ink); background: color-mix(in srgb, var(--blue) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--blue); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--blue); }
+.compass button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate.twothirds { grid-column: span 4; }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--indigo); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon h2 { margin-bottom: 16px; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.colophon code { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third, .plate.twothirds { grid-column: span 2; }
+.plate.twothirds { grid-column: span 4; }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Yorùbá òrìṣà of motherhood and the river</p>
+      <h1>Yemọja <span class="of">of the</span> Ògùn</h1>
+      <p class="lede">A photoreal study of the mother of the òrìṣà in the shallows of her river in the late afternoon. She wears an ìró and bùbá of indigo àdìrẹ and a light-blue gèlè, with crystal and blue beads strung seven and seven and a strand of cowries. She carries a white pot at her hip, and fish, her children, swim round her feet.</p>
+      <dl class="facts">
+        <div><dt>Her colours</dt><dd><span class="swatch" style="background:#8fc6ea"></span>Light blue and <span class="swatch" style="background:var(--ink)"></span>crystal</dd></div>
+        <div><dt>Her name</dt><dd>Mother whose children are fish</dd></div>
+        <div><dt>Her river</dt><dd>The Ògùn</dd></div>
+        <div><dt>Cult centre</dt><dd>Abẹ́òkúta</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="A full-figured dark-skinned woman stands ankle-deep in the clear shallows of a wide river in warm late-afternoon light. She wears a wrapper and loose blouse of dark indigo cloth patterned in pale squares, a light-blue head tie rising behind into pleats, strands of blue and clear glass beads and a strand of cowries, and she carries a white clay pot on her left hip. Oil palms and trees line the far bank, with bare granite domes beyond.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the cloth, gèlè, beads, pot, fish and river were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn her round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the figure turns.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Yemọja, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The white pot on her left hip, the beads and cowries over the bùbá, and the squares of the àdìrẹ.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">Her right side</button><p>The gèlè's pleats in profile, sweeping up behind, and three silver bangles on her right wrist.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The pleats rising round the back of her head over the knot at the nape.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">Her left side</button><p>The pot carried on her hip under her arm, her hand spread on its belly.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of a mature dark-skinned woman with a calm face, wearing a light-blue head tie that rises into pleats, strands of light-blue and clear glass beads and a strand of white cowries over an indigo blouse, with palms and a river behind her."></button>
+        <figcaption class="label">
+          <h3>A mother's face</h3>
+          <p class="term">Imagined · the sources do not describe her</p>
+          <p>Yemọja is a mother spirit and the patron of women and of mothers, so she is drawn as a full-figured woman of about fifty with a calm face. None of the sources used here says how she looks; she is often shown as a mermaid, an image this figure does not use.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/gele.webp" aria-label="Open the head tie close-up at full size"><img src="img/gele.webp" width="1000" height="1100" loading="lazy" alt="The back of her head in a light-blue head tie with a woven lozenge pattern: a close wrap with a band of rounded pleats rising behind it and a wrung knot at the nape."></button>
+        <figcaption class="label">
+          <h3>A light-blue gèlè</h3>
+          <p class="term">Head tie · in her colour</p>
+          <p>Her gallery figure wears a light-blue gèlè, the colour of her ritual dress in Brazil. Its shape is the study's own: a close wrap with its pleats running to a knot at the nape, and a band of nine folds standing round the back of the head.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/beads.webp" aria-label="Open the beads close-up at full size"><img src="img/beads.webp" width="1000" height="1000" loading="lazy" alt="Four strands of round glass beads on an indigo blouse, light blue and clear in alternating groups of seven, with a strand of white cowries hanging below them."></button>
+        <figcaption class="label">
+          <h3>Seven and seven</h3>
+          <p class="term">Glass beads · cowries</p>
+          <p>Her necklaces use crystalline beads, and in Cuba they run seven blue beads, then seven crystalline. Each strand here is strung so. The cowries below them stand for her wealth.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/pot.webp" aria-label="Open the pot close-up at full size"><img src="img/pot.webp" width="1000" height="1100" loading="lazy" alt="A round white clay pot held against her hip, her hand spread over its belly, below the short sleeve of her indigo blouse."></button>
+        <figcaption class="label">
+          <h3>The white pot</h3>
+          <p class="term">Clay under a white slip</p>
+          <p>White jars and pitchers are among her shrine objects. This one is a round water pot carried on the hip, as her gallery figure carries it. Its shape is the study's own.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/cloth.webp" aria-label="Open the cloth close-up at full size"><img src="img/cloth.webp" width="1000" height="1100" loading="lazy" alt="Dark indigo cloth falling in folds, patterned in pale blue squares framed with double lines, each with a motif: fish, a cowrie, ripples, waves, a leaf, a star."></button>
+        <figcaption class="label">
+          <h3>Àdìrẹ</h3>
+          <p class="term">Indigo · cassava-paste resist</p>
+          <p>Yorùbá women pattern àdìrẹ with a resist; for eleko, cassava paste is painted on before dyeing, and Abẹ́òkúta, her cult centre, is considered the capital of the craft. The design here is the study's own: fish, her children; cowries, her wealth; ripples and waves.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Adire_(textile_art)">Wikipedia: Adire</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/fish.webp" aria-label="Open the shallows close-up at full size"><img src="img/fish.webp" width="1000" height="1000" loading="lazy" alt="Looking down into clear shallow river water over sand, the hem of an indigo wrapper above it and bare feet below the surface, with small fish swimming nearby."></button>
+        <figcaption class="label">
+          <h3>Her children</h3>
+          <p class="term">Fish · the shallows</p>
+          <p>Her name is a contraction of the Yorùbá words for mother, child and fish: mother whose children are fish. Seven tilapia turn in the shallows round her feet.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate twothirds">
+        <button type="button" data-zoom="img/river.webp" aria-label="Open the river view at full size"><img src="img/river.webp" width="1100" height="800" loading="lazy" alt="A wide calm river in late-afternoon light seen from the shallows, with shrubs and oil palms along the far bank and bare granite domes rising beyond."></button>
+        <figcaption class="label">
+          <h3>The Ògùn</h3>
+          <p class="term">River · granite domes</p>
+          <p>She is the patron spirit of rivers, especially the Ògùn, and Abẹ́òkúta, on its banks, is a major centre of her cult. The city is named for the granite of Olúmọ Rock. This bend of the river and its domes are invented, and Olúmọ Rock is not copied.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>None of the sources used here describes how Yemọja looks. What she wears follows her gallery figure and what the sources say of her colours, beads and shrine objects, so this figure is an interpretation, not a cult image. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>Her name,</b> mother whose children are fish, and her place as a mother spirit and patron of women. <span class="src"><a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></span></li>
+          <li><b>The Ògùn,</b> the river she is patron of, and Abẹ́òkúta, a major cult centre. <span class="src"><a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></span></li>
+          <li><b>Blue and crystal,</b> her colours; crystalline beads; seven blue then seven crystalline in her Cuban necklaces. <span class="src"><a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></span></li>
+          <li><b>Cowries,</b> her symbol and her wealth. <span class="src"><a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></span></li>
+          <li><b>White jars,</b> among her shrine objects in Brazil. <span class="src"><a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a></span></li>
+          <li><b>Àdìrẹ,</b> indigo cloth patterned with cassava paste by Yorùbá women, with Abẹ́òkúta as its capital. <span class="src"><a href="https://en.wikipedia.org/wiki/Adire_(textile_art)">Wikipedia: Adire</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study’s choices</h3>
+        <ul>
+          <li><b>Her face, age and build.</b> None of the sources used here describes how she looks.</li>
+          <li><b>Following her gallery figure:</b> the ìró and short-sleeved bùbá of àdìrẹ, the light-blue gèlè, the beads and cowries, three silver bangles, and the white pot at her hip.</li>
+          <li><b>The àdìrẹ's design.</b> Its squares and motifs are the study's own, not the Olókun design or any other named one.</li>
+          <li><b>The gèlè's shape,</b> the pot's shape, and stringing every strand seven and seven.</li>
+          <li><b>The place and the hour.</b> An invented bend of the Ògùn in the late afternoon, its fish and the granite domes beyond.</li>
+          <li><b>Where sources differ.</b> In Nigeria she is a river òrìṣà and Olókun holds the sea, while in Brazil and Cuba she is queen or owner of the ocean. She is often shown as a mermaid; her gallery figure is not, and neither is this one.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How she was made</h2>
+        <p>The body starts from MakeHuman’s free base mesh, shaped as a full-figured woman and rigged. The pot was set against her left hip first, with room for the cloth, and her left hand was solved to it, the fingers closing until they rest on its belly.</p>
+        <p>The ìró is one cloth wound round the hips and the bùbá is cut from the body, both simulated with the pot as solid, so the cloth settles round it. The àdìrẹ is painted square by square, with the fine veins where dye runs into cracked paste.</p>
+        <p>The gèlè is a surface lifted off the skull with its pleats running to a knot at the nape, and a band of folds standing round the back of the head. The river is a slab of water over a sandy bed, its sunlight let through to the bed, with fish below the surface and granite domes beyond.</p>
+        <p>Every stage is a Python script in <code>3d/yemoja/blender/</code>, using the toolkit in <code>3d/toolkit/</code>, and the finished scene is <code>3d/yemoja/yemoja.blend</code>.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Wrapper cloth, simulated vertices</th><td>27,848</td></tr>
+            <tr><th scope="row">Bùbá cloth, simulated vertices</th><td>28,981</td></tr>
+            <tr><th scope="row">Simulated frames, wrapper / bùbá</th><td>110 / 110</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Blue / crystal glass beads</th><td>223 / 211</td></tr>
+            <tr><th scope="row">Cowries</th><td>62</td></tr>
+            <tr><th scope="row">Folds in the gèlè's band</th><td>9</td></tr>
+            <tr><th scope="row">Fish in the shallows</th><td>7</td></tr>
+            <tr><th scope="row">Trees and palms / shrubs</th><td>195 / 170</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>96 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Yem%E1%BB%8Dja">Wikipedia: Yemọja</a>. Her name, her place as mother and patron of women, the Ògùn River and Abẹ́òkúta, her colours and crystalline beads, the Cuban seven and seven, cowries, white jars, and the mermaid image.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Adire_(textile_art)">Wikipedia: Adire</a>. Indigo resist-dyed cloth made by Yorùbá women: eleko with cassava paste, Abẹ́òkúta as its capital, its themes and named designs.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>. The CC0 base mesh, targets and rig used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery, <a href="https://claude.ai/artifact/JmahtF1kFYrdWYvpxcZ5GH">Ṣàngó of Ọ̀yọ́</a>, <a href="https://claude.ai/artifact/3o8ZvmYhzWFRoEFJ3wmdnT">Amadioha of Ozuzu</a>, <a href="https://claude.ai/artifact/GCPLXEsS3MpgExsPhUzYWW">Ahiajoku of the Yam</a>, <a href="https://claude.ai/artifact/CDxt7bfdX3PF5FrtxNyyT1">Ọ̀ṣun of Òṣogbo</a> and <a href="https://claude.ai/artifact/7RmYcg3KaL3DVwLpGrDZ3A">Ògún of Ìrẹ̀</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Yemọja, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>

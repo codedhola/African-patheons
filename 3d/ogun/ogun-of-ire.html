@@ -1,0 +1,416 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ògún of Ìrẹ̀</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the same gallery wall as the other render pages, here the soot-black of a smithy at night. A length of forged chain divides the sections: flat links and links on edge, as his chain lies across his chest. */
+:root {
+  --bg: #0c0a09;          /* soot */
+  --wall: #17120f;        /* label and viewer ground */
+  --ink: #efe6d8;         /* ash */
+  --muted: #a89a88;
+  --line: #2e2621;
+  --ember: #ec7a34;       /* the bar at forging heat, used for links and focus */
+  --ember-deep: #96421a;
+  --iron: #7d848b;        /* forged iron */
+  --palm: #c9c06a;        /* màrìwò */
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--ember); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* forged chain: an oval link lying flat, then one on its edge, every 24px */
+.chainrule { position: relative; height: 12px; max-width: 408px; }
+.chainrule::before, .chainrule::after { content: ""; position: absolute; inset: 0; }
+.chainrule::before { background: radial-gradient(ellipse 7.5px 4.6px at 8px 6px, transparent 52%, var(--iron) 60% 86%, transparent 94%) 0 0 / 24px 12px repeat-x; }
+.chainrule::after { background: linear-gradient(90deg, transparent 0 13px, var(--iron) 13px 23px, transparent 23px) 0 5px / 24px 2px repeat-x; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px var(--line); }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--ember); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--ember); color: var(--ink); background: color-mix(in srgb, var(--ember) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--ember); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--ember); }
+.compass button:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--ember-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon h2 { margin-bottom: 16px; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.colophon code { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Yorùbá òrìṣà of iron, war, hunting and the road</p>
+      <h1>Ògún <span class="of">of</span> Ìrẹ̀</h1>
+      <p class="lede">A photoreal study of the òrìṣà of iron at night in his forge: short trousers of ẹ̀tù under a fringe of màrìwò, a chain of small iron tools across his chest, the àdá in his hand, and his dog lying beside him in the firelight.</p>
+      <dl class="facts">
+        <div><dt>Emblem</dt><dd><span class="swatch" style="background:var(--iron)"></span>Iron</dd></div>
+        <div><dt>His other symbols</dt><dd>The dog and the palm frond</dd></div>
+        <div><dt>Colours in Candomblé</dt><dd><span class="swatch" style="background:#b8321f"></span>Red, <span class="swatch" style="background:#111"></span>black and <span class="swatch" style="background:#2f6b3a"></span>green in Rio de Janeiro; <span class="swatch" style="background:#2c4fa3"></span>blue in Bahia</dd></div>
+        <div><dt>His town</dt><dd>Ìrẹ̀, where he was the first king</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="A powerfully built dark-skinned man stands barefoot in an open smithy at night, bare-chested, with a fringe of pale green palm-frond strips over dark indigo shorts and a crown of palm leaflets on his head. An iron chain hung with small tools crosses his chest and he holds a machete low in his right hand. Beside him a tan dog with a white chest lies with its head up, a clay hearth glows and throws sparks on his left, and an anvil with a glowing bar stands on his right against a mud wall under a thatched roof.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the cloth, fronds, iron, dog and forge were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="chainrule" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn him round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the figure and his dog turn.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Ògún, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The chain from his left shoulder to his right side with its six tools, the àdá held low, and the dog at his left foot.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">His right side</button><p>The àdá's blade in full, from the fist to the rounded point, and the fringe falling over the trousers.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The chain crossing his back, the twisted cord the fringe hangs from, and the close-cut hair under the band of fronds.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">His left side</button><p>The dog lying alongside him and three iron bangles on his left wrist.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="chainrule" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of a dark-skinned man with a short full beard and close-cut hair, lit warm from one side by firelight. A band of twisted palm leaflet with pale green leaflet ends standing up from it circles his head, and an iron chain crosses his bare shoulder."></button>
+        <figcaption class="label">
+          <h3>A smith's face</h3>
+          <p class="term">Imagined · the sources do not describe him</p>
+          <p>No source used here says how Ògún looks. He is the smith, the hunter and the warrior, so he is drawn as a heavy-shouldered man of about thirty-five, with his hair and beard kept short for the fire. The band of màrìwò on his head follows his gallery figure.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/chain.webp" aria-label="Open the chain close-up at full size"><img src="img/chain.webp" width="1000" height="1100" loading="lazy" alt="A heavy forged chain lying diagonally across a bare chest, hung with six small black iron tools: a hoe blade, a hammer, a small machete, a pair of tongs, a spearhead and a ring."></button>
+        <figcaption class="label">
+          <h3>A chain of tools</h3>
+          <p class="term">Iron · hoe, hammer, àdá, tongs, spearhead, ring</p>
+          <p>Iron is his primary emblem, and his followers wear chains of iron implements. The six here run from the farmer's hoe to the hunter's spearhead, by the study's choice; the gallery figure carries a hoe, a hammer, a blade and a ring.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/ada.webp" aria-label="Open the machete close-up at full size"><img src="img/ada.webp" width="1000" height="1100" loading="lazy" alt="A right fist with two iron bangles holding a machete by its dark wooden handle. The broad blade is black with forge scale and ground bright along its edge."></button>
+        <figcaption class="label">
+          <h3>Àdá</h3>
+          <p class="term">Machete · about 58 cm</p>
+          <p>In some traditions he cleared a path for the other òrìṣà to enter the world with a metal machete, helped by a dog. This one is a smith's blade, left black from the fire and ground bright along the edge. Its shape is the study's own.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/mariwo.webp" aria-label="Open the palm-frond fringe close-up at full size"><img src="img/mariwo.webp" width="1000" height="1100" loading="lazy" alt="Pale yellow-green strips of young palm frond folded over a twisted cord at the waist and hanging in a long fringe, with dark indigo checked cloth showing between them."></button>
+        <figcaption class="label">
+          <h3>Màrìwò over ẹ̀tù</h3>
+          <p class="term">Young palm fronds · indigo aṣọ-òkè</p>
+          <p>Ògún's worshippers tie young, unwilted palm fronds round the body at festivals such as Ọlọ́jọ́. Under them he wears short trousers of ẹ̀tù: very dark indigo with a fine check of lighter threads, named for the guinea fowl's speckled feathers.</p>
+          <p class="src">Sources: <a href="https://en.wiktionary.org/wiki/mariwo">Wiktionary: màrìwò</a>, <a href="https://adireafricantextiles.blogspot.com/2014/05/cloth-of-month-early-indigo-dyed-aso.html">Adire African Textiles</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/dog.webp" aria-label="Open the dog close-up at full size"><img src="img/dog.webp" width="1000" height="1000" loading="lazy" alt="A short-coated tan dog with a white chest and white paws lying on a beaten-earth floor with its head raised and ears pricked, lit warm by the fire."></button>
+        <figcaption class="label">
+          <h3>Ajá</h3>
+          <p class="term">The dog · the hunter's companion</p>
+          <p>The dog is one of his three primary symbols, with iron and the palm frond, and dogs are the traditional companions of hunters. Here a village dog lies by the fire at his side. Its coat and pose are the study's own.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/anvil.webp" aria-label="Open the anvil close-up at full size"><img src="img/anvil.webp" width="1000" height="1000" loading="lazy" alt="An iron anvil block set in a hardwood stump, with an iron bar glowing orange at its heated end held by long tongs, and a hammer on the floor beside it."></button>
+        <figcaption class="label">
+          <h3>The anvil</h3>
+          <p class="term">Iron block · bar at forging heat</p>
+          <p>Hunters, blacksmiths and warriors are his traditional followers. The anvil is an iron block let into a hardwood stump, with a bar on its face held in long tongs, its end at forging heat.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/hearth.webp" aria-label="Open the hearth close-up at full size"><img src="img/hearth.webp" width="1000" height="1000" loading="lazy" alt="A low clay hearth heaped with glowing charcoal and throwing sparks, fed by a clay pipe from two clay pot bellows with hide tops and wooden sticks, against a sooty mud wall."></button>
+        <figcaption class="label">
+          <h3>Hearth and bellows</h3>
+          <p class="term">Clay · charcoal · sparks</p>
+          <p>The smithy follows the forge stage of the game these studies are made for: a clay hearth fed through a clay pipe from two pot bellows, a heap of charcoal, and sparks thrown up by the fire. Its forms are generic, not a record of a real smithy.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/feet.webp" aria-label="Open the floor close-up at full size"><img src="img/feet.webp" width="1000" height="1000" loading="lazy" alt="Bare feet on a floor of beaten red earth, dark with charcoal dust and strewn with small black lumps of slag, under the ends of the palm-frond fringe."></button>
+        <figcaption class="label">
+          <h3>The floor</h3>
+          <p class="term">Beaten earth · slag · night</p>
+          <p>Laterite beaten flat, dark with charcoal dust round the hearth and the anvil, with slag kicked about it. The night and the moonlight through the open side of the shed are the study's own.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="chainrule" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>None of the sources used here describes how Ògún looks. What he wears follows his gallery figure and what the sources say his followers wear and carry, so this figure is an interpretation, not a cult image. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>Iron,</b> his primary emblem, and the chains of iron implements his followers wear. <span class="src"><a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></span></li>
+          <li><b>The dog and the palm frond,</b> his other two primary symbols. Dogs are the traditional companions of hunters. <span class="src"><a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></span></li>
+          <li><b>Màrìwò,</b> young unwilted palm fronds tied round the body by Ògún's worshippers at festivals such as Ọlọ́jọ́. <span class="src"><a href="https://en.wiktionary.org/wiki/mariwo">Wiktionary</a></span></li>
+          <li><b>The machete.</b> In some traditions he cleared a path for the other òrìṣà with a metal machete, helped by a dog. <span class="src"><a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></span></li>
+          <li><b>Ẹ̀tù,</b> very dark indigo aṣọ-òkè with a fine check of lighter threads, named for the speckled plumage of the guinea fowl. <span class="src"><a href="https://guardian.ng/life/the-rich-colours-of-aso-oke/">Guardian Nigeria</a>, <a href="https://adireafricantextiles.blogspot.com/2014/05/cloth-of-month-early-indigo-dyed-aso.html">Adire African Textiles</a></span></li>
+          <li><b>Smiths, hunters and warriors,</b> his traditional followers. <span class="src"><a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></span></li>
+          <li><b>Ìrẹ̀,</b> where he was the first king, and Ìrẹ̀-Èkìtì, where his followers say he went into the earth. <span class="src"><a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study’s choices</h3>
+        <ul>
+          <li><b>His face, age and build, his hair and beard.</b> None of the sources used here describes how he looks.</li>
+          <li><b>Following his gallery figure:</b> the trousers of ẹ̀tù under the fringe, the band of fronds on his head, the iron bangles, and the dog at his side.</li>
+          <li><b>The six tools on the chain</b> and their forms, and the shape of the àdá.</li>
+          <li><b>The cut of the trousers and the spacing of the check</b> in the cloth.</li>
+          <li><b>How the fronds are split,</b> folded over the cord and tied.</li>
+          <li><b>The dog's coat and pose.</b> A village dog, lying alert.</li>
+          <li><b>The forge and the night.</b> The layout follows the game's forge stage; the hearth, bellows and anvil are generic forms, and the moonlight is invented.</li>
+          <li><b>Where sources differ.</b> Wikipedia tells two endings at Ìrẹ̀: in some stories he killed the subjects who failed to respect him and then himself with his own sword, while his followers believe he went into the earth instead of dying. His colours vary by tradition, and the gallery gives his day as the third of the Yorùbá four-day week, while Candomblé consecrates Tuesday to him.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="chainrule" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How he was made</h2>
+        <p>The body starts from MakeHuman’s free base mesh, shaped as a heavy-shouldered man and rigged. His right hand was solved to the àdá’s real handle: each finger closes at all three joints at once until it rests on the wood, and the thumb comes over onto the index finger.</p>
+        <p>The ṣòkòtò are cut from the body with the fork of the legs bridged, as woven cloth bridges it, then simulated while a drawstring draws the waist in, so the gathers form on their own. Each strip of màrìwò folds over a twisted cord and falls the way a fringe hangs from the hips: below its widest it may spread, but it never draws in.</p>
+        <p>The chain lies where a plane from his left shoulder to his right side cuts the body, pulled taut across the hollows, and each tool hangs from it until it meets his chest. The dog is a set of metaballs joined into one skin and coated with hair curves combed from nose to tail.</p>
+        <p>Every stage is a Python script in <code>3d/ogun/blender/</code>, using the toolkit in <code>3d/toolkit/</code>, and the finished scene is <code>3d/ogun/ogun.blend</code>.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Ṣòkòtò cloth, simulated vertices</th><td>13,766</td></tr>
+            <tr><th scope="row">Simulated frames</th><td>100</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Frond strips at the waist / on the head</th><td>280 / 40</td></tr>
+            <tr><th scope="row">Hair curves, head / beard</th><td>71,003 / 28,416</td></tr>
+            <tr><th scope="row">Chain links / tools on the chain</th><td>45 / 6</td></tr>
+            <tr><th scope="row">Iron bangles</th><td>5</td></tr>
+            <tr><th scope="row">Hair curves in the dog's coat</th><td>197,141</td></tr>
+            <tr><th scope="row">Sparks over the hearth</th><td>46</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>96 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Ogun">Wikipedia: Ogun</a>. His domains and symbols, the chains of iron worn by his followers, the path cleared with a machete and a dog, Ìrẹ̀ and Ìrẹ̀-Èkìtì, dogs as hunters’ companions, his colours and day in Candomblé.</li>
+      <li><a href="https://en.wiktionary.org/wiki/mariwo">Wiktionary: màrìwò</a>. Young unwilted palm fronds, tied round the body at festivals such as Ọlọ́jọ́ by Ògún’s worshippers.</li>
+      <li><a href="https://guardian.ng/life/the-rich-colours-of-aso-oke/">N. Egbo, “The rich colours of aso-oke”, Guardian Nigeria (2021)</a>. Ẹ̀tù as dark indigo aṣọ-òkè with light stripes, said to take the colour of the guinea fowl.</li>
+      <li><a href="https://adireafricantextiles.blogspot.com/2014/05/cloth-of-month-early-indigo-dyed-aso.html">Duncan Clarke, “Cloth of the month: an early indigo dyed aso oke wrapper”, Adire African Textiles (2014)</a>. Very dark indigo strip weave patterned with a fine check of lighter threads is called etu, after the guinea fowl’s speckled plumage.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>. The CC0 base mesh, targets and rig used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery, <a href="https://claude.ai/artifact/JmahtF1kFYrdWYvpxcZ5GH">Ṣàngó of Ọ̀yọ́</a>, <a href="https://claude.ai/artifact/3o8ZvmYhzWFRoEFJ3wmdnT">Amadioha of Ozuzu</a>, <a href="https://claude.ai/artifact/GCPLXEsS3MpgExsPhUzYWW">Ahiajoku of the Yam</a> and <a href="https://claude.ai/artifact/CDxt7bfdX3PF5FrtxNyyT1">Ọ̀ṣun of Òṣogbo</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Ògún, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>

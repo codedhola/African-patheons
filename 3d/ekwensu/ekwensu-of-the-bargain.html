@@ -1,0 +1,420 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ekwensu of the Bargain</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the same gallery wall as the other render pages, here the violet of the sky after sunset. His beads divide the sections, black, white and red in turn, as his strand is strung. */
+:root {
+  --bg: #0e0c14;          /* twilight */
+  --wall: #18151f;        /* label and viewer ground */
+  --ink: #f1e9dc;
+  --muted: #a99fb0;
+  --line: #2d2837;
+  --flame: #f2a444;       /* a palm-oil lamp, used for links and focus */
+  --flame-deep: #9b5a1f;
+  --cap-red: #c0362a;     /* okpu agụ */
+  --cap-white: #efe9dc;
+  --cap-black: #131116;
+  --raffia: #b8955a;
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--flame); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* his strand: black, white and red beads in turn on a cord, one every 12px */
+.beadrule { position: relative; height: 12px; max-width: 432px; }
+.beadrule::before { content: ""; position: absolute; left: 0; right: 0; top: 5.5px; height: 1px; background: var(--line); }
+.beadrule::after { content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 6px 6px, var(--cap-black) 3.6px, #6b6475 4.1px, #6b6475 4.6px, transparent 5.1px) 0 0 / 36px 12px repeat-x,
+    radial-gradient(circle at 18px 6px, var(--cap-white) 4.6px, transparent 5.1px) 0 0 / 36px 12px repeat-x,
+    radial-gradient(circle at 30px 6px, var(--cap-red) 4.6px, transparent 5.1px) 0 0 / 36px 12px repeat-x; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px #6b6475; }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--flame); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--flame); color: var(--ink); background: color-mix(in srgb, var(--flame) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--flame); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--flame); }
+.compass button:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate.full { grid-column: 1 / -1; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: end; gap: 12px clamp(16px, 2.4vw, 28px); }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--flame-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon h2 { margin-bottom: 16px; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.colophon code { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .plate.full { grid-template-columns: minmax(0, 1fr); }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Igbo alụsị of bargains and the tortoise</p>
+      <h1>Ekwensu <span class="of">of the</span> Bargain</h1>
+      <p class="lede">A photoreal study of the alụsị of bargains at dusk in a market square: short trousers of raffia cloth under a raffia fringe, the striped okpu agụ of a warrior, a machete in one hand and the other on his hip, and a tortoise at his feet under a young moon.</p>
+      <dl class="facts">
+        <div><dt>Alụsị of</dt><dd>Bargains and the tortoise</dd></div>
+        <div><dt>Invoked</dt><dd>For guidance in difficult trading</dd></div>
+        <div><dt>His cap</dt><dd><span class="swatch" style="background:var(--cap-black)"></span>Black, <span class="swatch" style="background:var(--cap-white)"></span>white and <span class="swatch" style="background:var(--cap-red)"></span>red</dd></div>
+        <div><dt>Once honoured</dt><dd>Among the benevolent lunar deities</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="A lean dark-skinned man stands barefoot in an empty market square at dusk, bare-chested, in a knitted cap striped red, black and white, a fringe of straw-coloured raffia over short trousers of woven raffia, and a strand of black, white and red beads. A leather strap crosses his chest to a small pouch at his hip. He holds a broad machete low in his right hand and rests his left hand on his hip. A tortoise walks past his left foot beside a clay lamp burning on the ground. Behind him stand thatched stalls with pots, baskets and small lamps on their tables, oil palms against a violet twilight, and a thin crescent moon.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the cloth, raffia, cap, iron, tortoise and market were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn him round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the other figures while he and his tortoise turn.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Ekwensu, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The strap from his left shoulder to the pouch at his right hip, the strand of beads, the machete low in his right hand, and the tortoise by his left foot.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">His right side</button><p>The machete angled forward from his fist, two iron bangles above it, and the fringe falling over the trousers.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The strap crossing his back, the twisted cord the fringe hangs from, and the cap coming down over the back of his head.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">His left side</button><p>His hand on his hip over the fringe, the cap at its lowest over his left ear, and the tortoise at his feet.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of a lean dark-skinned man with high cheekbones and a level, knowing look, lit warm from one side by lamplight. He wears a knitted cap striped red, black and white and a strand of black, white and red beads, with a leather strap across his bare chest; close-cut hair shows at his temple below the cap."></button>
+        <figcaption class="label">
+          <h3>A trader's face</h3>
+          <p class="term">Imagined · the sources do not describe him</p>
+          <p>No source used here says how Ekwensu looks. He is crafty at trade and negotiation, so he is drawn as a lean man of about thirty with a half-smile, his head turned a little, weighing you up. The cap follows his gallery figure.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/cap.webp" aria-label="Open the cap close-up at full size"><img src="img/cap.webp" width="1100" height="1100" loading="lazy" alt="A round knitted cap striped red, black and white, its white bands spotted with small black rings like a leopard's and its red brim rolled, the columns of knit stitches showing. It slants lower over the man's left ear. A clay lamp burns on a stall table behind him."></button>
+        <figcaption class="label">
+          <h3>Okpu agụ</h3>
+          <p class="term">Knitted wool · black, white and red</p>
+          <p>The leopard cap of bravery, tied to Ohafia warrior traditions: a round, slanting cap of knitted wool. Its black and white recall the leopard; the red was reserved for warriors who had taken heads in battle or brought home a strong animal such as a leopard. The order of the bands and the leopard's rings on the white are the study's.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/machete.webp" aria-label="Open the machete close-up at full size"><img src="img/machete.webp" width="1000" height="1100" loading="lazy" alt="A right fist with two iron bangles holding a broad machete low beside the leg. The blade is dark with forge scale and widens to a clipped point, its edge ground bright. Behind it hang the straw-coloured strands of a raffia fringe over woven raffia trousers."></button>
+        <figcaption class="label">
+          <h3>The machete</h3>
+          <p class="term">Iron · about 55 cm</p>
+          <p>Ekwensu was a war god who guided warriors in battle, and his gallery figure carries a machete. This one is broad, its spine dropping to a clipped point, the flats dark and the edge bright from the stone. Its shape is the study's own.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/hip.webp" aria-label="Open the close-up of his hand on his hip at full size"><img src="img/hip.webp" width="1000" height="1100" loading="lazy" alt="A left hand resting on the hip over a fringe of straw-coloured raffia strands, two dark iron bangles on the wrist, the woven raffia trousers showing between the strands. A lamp glows on a stall table in the dusk behind."></button>
+        <figcaption class="label">
+          <h3>Hand on the hip</h3>
+          <p class="term">Iron bangles · two on each wrist</p>
+          <p>As on his gallery figure, one hand rests on his hip and two forged iron rings sit on each wrist. The hand was placed on the cloth over his flank, measured on the posed body, so the strands of the fringe pass under it.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/raffia.webp" aria-label="Open the raffia close-up at full size"><img src="img/raffia.webp" width="1000" height="1100" loading="lazy" alt="A fringe of dry, straw-coloured raffia strands hanging from a twisted cord at the waist to above the knees, over short trousers of brown woven raffia cloth. One hand with iron bangles rests on the hip; the twilight sky and a stall are behind."></button>
+        <figcaption class="label">
+          <h3>Raffia over raffia cloth</h3>
+          <p class="term">Raffia fringe · woven raffia</p>
+          <p>Raffia was among the traditional weaving fibres, and coarse raffia cloth was used for masquerades, warrior garb and ceremonial dress. He wears short trousers of it under a fringe of dry raffia, as his gallery figure does. The weave and its brown stripes are the study's.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/beads.webp" aria-label="Open the beads and strap close-up at full size"><img src="img/beads.webp" width="1000" height="1100" loading="lazy" alt="A bare chest with a strand of black, white and red beads at the neck and a brown leather strap running from the left shoulder across the body to a small leather pouch with a curved flap and a dark toggle at the right hip, above the woven waistband of the trousers and the raffia fringe. Iron bangles circle both wrists."></button>
+        <figcaption class="label">
+          <h3>Beads and strap</h3>
+          <p class="term">Glass beads · leather</p>
+          <p>One strand of black, white and red beads, the colours of his cap, and a leather strap over his left shoulder, both from his gallery figure. The strap lies taut across his chest, and a small pouch hangs from it in front of his right hip, its flap closed with a horn toggle.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/tortoise.webp" aria-label="Open the tortoise close-up at full size"><img src="img/tortoise.webp" width="1000" height="1000" loading="lazy" alt="A tortoise with a domed shell of dark scutes lit amber at their centres walks past a bare foot on red earth at dusk, its scaly head stretched forward."></button>
+        <figcaption class="label">
+          <h3>Mbe</h3>
+          <p class="term">The tortoise · his creature</p>
+          <p>Wikipedia calls Ekwensu the alụsị of the tortoise as well as of bargains, and his gallery figure keeps one at his feet. It is drawn as a hinge-back tortoise of the West African forest and farmland, walking. Its form is the study's own.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate full">
+        <button type="button" data-zoom="img/market.webp" aria-label="Open the market view at full size"><img src="img/market.webp" width="1600" height="1000" loading="lazy" alt="A wide view of a market square at dusk: thatched stalls with pots, baskets and small lamps on their tables, a man standing in the open square with a machete beside a lamp on the ground and a tortoise at his feet, a dark line of bush and tall oil palms against a sky fading from violet to a last orange glow, and a thin crescent moon above."></button>
+        <figcaption class="label">
+          <h3>The market at dusk</h3>
+          <p class="term">Thatched stalls · palm-oil lamps · a young moon</p>
+          <p>He is invoked in difficult bargains and was once honoured among the benevolent lunar deities, so he stands in a market square as it empties at dusk, under a crescent moon. The square, its stalls and wares, the oil palms and the hour are the study's own.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>None of the sources used here describes how Ekwensu looks. What he wears follows his gallery figure and what the sources say of Igbo warrior dress, so this figure is an interpretation, not a cult image. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>The alụsị of bargains and of the tortoise,</b> a trickster crafty at trade and negotiation. <span class="src"><a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></span></li>
+          <li><b>Called on in difficult trading,</b> for guidance in hard mercantile situations. <span class="src"><a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></span></li>
+          <li><b>A war god</b> who guided warriors in battle. <span class="src"><a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></span></li>
+          <li><b>Once highly honoured</b> as one of the benevolent lunar deities. <span class="src"><a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a></span></li>
+          <li><b>The okpu agụ,</b> the knitted, slanting leopard cap of bravery, striped black, white and red, its red reserved for proven warriors. <span class="src"><a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></span></li>
+          <li><b>Raffia</b> among the traditional weaving fibres, its coarse cloth used for masquerades, warrior garb and ceremonial dress. <span class="src"><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study’s choices</h3>
+        <ul>
+          <li><b>His face, age and build.</b> None of the sources used here describes how he looks.</li>
+          <li><b>Following his gallery figure:</b> the raffia trousers and fringe, the cap, the beads, the strap, the iron bangles, the machete, his hand on his hip and the tortoise at his feet.</li>
+          <li><b>The cap's fit and bands,</b> the weave and stripes of the raffia cloth, and the cut of the trousers.</li>
+          <li><b>The machete's shape</b> and the pouch on the strap.</li>
+          <li><b>The tortoise,</b> drawn as a West African hinge-back, walking.</li>
+          <li><b>The market and the hour:</b> the stalls, wares and palm-oil lamps, the oil palms, the dusk and the young moon, drawn about four times its true size so that it reads.</li>
+          <li><b>Where sources differ.</b> Wikipedia gives two figures: the alụsị of the trader and the warrior, honoured among the benevolent lunar deities, and a spirit of violence. It says that with Christianity his more beneficent aspects were supplanted by missionaries who came to represent him as Satan. This study draws the older figure.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="beadrule" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How he was made</h2>
+        <p>The body starts from MakeHuman’s free base mesh, shaped as a lean man and rigged. His left hand is set on the cloth over his flank, measured on the posed body. His right hand was solved to the machete’s handle: each finger closes at all three joints until it rests on the wood.</p>
+        <p>The trousers are cut from the body and simulated while a drawstring draws the waist in, so their gathers form on their own; their raffia cloth is a woven pattern of flat fibres, each its own shade of straw. The fringe’s strips fold over a twisted cord and fall the way a fringe hangs from the hips, crinkled as dry raffia is.</p>
+        <p>The cap is a surface lifted off the skull, its lower edge set by angle round the head, with the knit in its material. The strap lies where a plane from his left shoulder to his right side cuts the body, pulled taut. The tortoise is a set of metaballs joined into one skin under a painted shell, and the sky is Blender’s physical sky with the sun just below the horizon.</p>
+        <p>Every stage is a Python script in <code>3d/ekwensu/blender/</code>, using the toolkit in <code>3d/toolkit/</code>, and the finished scene is <code>3d/ekwensu/ekwensu.blend</code>.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Trousers cloth, simulated vertices</th><td>12,380</td></tr>
+            <tr><th scope="row">Simulated frames</th><td>100</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Raffia strips in the fringe</th><td>300</td></tr>
+            <tr><th scope="row">Hair curves below the cap</th><td>6,028</td></tr>
+            <tr><th scope="row">Beads on the strand</th><td>54</td></tr>
+            <tr><th scope="row">Iron bangles</th><td>4</td></tr>
+            <tr><th scope="row">Thatch strands on the stalls' eaves</th><td>14,920</td></tr>
+            <tr><th scope="row">Oil palms</th><td>26</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>96 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Ekwensu">Wikipedia: Ekwensu</a>. The alụsị of bargains and the tortoise, invoked in difficult mercantile situations; the war god who guided warriors; once honoured among the benevolent lunar deities; recast by missionaries as Satan.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a>. The okpu agụ, the knitted, slanting leopard cap of bravery, its stripes and the meaning of its red.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a>. Raffia among the traditional fibres, and coarse raffia cloth for masquerades, warrior garb and ceremonial dress.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>. The CC0 base mesh, targets and rig used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery, <a href="https://claude.ai/artifact/JmahtF1kFYrdWYvpxcZ5GH">Ṣàngó of Ọ̀yọ́</a>, <a href="https://claude.ai/artifact/3o8ZvmYhzWFRoEFJ3wmdnT">Amadioha of Ozuzu</a>, <a href="https://claude.ai/artifact/GCPLXEsS3MpgExsPhUzYWW">Ahiajoku of the Yam</a>, <a href="https://claude.ai/artifact/CDxt7bfdX3PF5FrtxNyyT1">Ọ̀ṣun of Òṣogbo</a>, <a href="https://claude.ai/artifact/7RmYcg3KaL3DVwLpGrDZ3A">Ògún of Ìrẹ̀</a> and <a href="https://claude.ai/artifact/NH8UMHdZQWA7NHX4cFhXF5">Yemọja of the Ògùn</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Ekwensu, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>

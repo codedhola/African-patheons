@@ -1,0 +1,450 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ọ̀ṣọ́ọ̀sì of Kétu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the same gallery wall as the other render pages, here the blue-green of the forest under mist. A strip of his tunic cloth divides the sections: pale sky blue, a pair of deep indigo stripes at each edge of the strip and a white thread down its middle. */
+:root {
+  --bg: #0a1211;          /* the forest floor in shade */
+  --wall: #111b19;        /* label and viewer ground */
+  --ink: #eef1ec;
+  --muted: #9cb1a9;
+  --line: #21312d;
+  --flame: #74c4cc;       /* turquoise glass, used for links and focus */
+  --flame-deep: #2d6d74;
+  --cloth: #8fb0c8;       /* the tunic's pale indigo */
+  --indigo: #17224a;
+  --thread: #e6ebee;
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--flame); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* a strip of his tunic cloth, one 10.5 cm strip to every 60px: indigo pairs at the edges, a white thread in the middle */
+.clothrule { height: 10px; max-width: 480px; background:
+  linear-gradient(90deg, var(--indigo) 0 3px, transparent 3px 6px, var(--indigo) 6px 7px, transparent 7px 29px, var(--thread) 29px 31px, transparent 31px 53px, var(--indigo) 53px 54px, transparent 54px 57px, var(--indigo) 57px 60px) 0 0 / 60px 10px repeat-x,
+  var(--cloth); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px var(--muted); }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* the story, told as the sources tell it */
+.story { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.story p { margin: 0 0 14px; max-width: 38em; }
+.story .tally { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.story .tally li { display: grid; grid-template-columns: 3.4ch minmax(0, 1fr); gap: 14px; align-items: baseline; padding-top: 10px; border-top: 1px solid var(--line); }
+.story .tally .n { font: 500 var(--step-1)/1 var(--font-mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.story .tally li:last-child .n { color: var(--flame); }
+.story .tally b { font-family: var(--font-display); font-weight: 600; }
+.story .src { color: var(--muted); font-size: var(--step--1); }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--flame); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--flame); color: var(--ink); background: color-mix(in srgb, var(--flame) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--flame); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--flame); }
+.compass button:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate.full { grid-column: 1 / -1; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: end; gap: 12px clamp(16px, 2.4vw, 28px); }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--flame-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon h2 { margin-bottom: 16px; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.colophon code { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon, .story { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .plate.full { grid-template-columns: minmax(0, 1fr); }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Yorùbá òrìṣà of the hunt</p>
+      <h1>Ọ̀ṣọ́ọ̀sì <span class="of">of</span> Kétu</h1>
+      <p class="lede">A photoreal study of the hunter of one arrow at full draw in the high forest: a pale blue tunic of strip cloth over indigo trousers, blue beads at his neck, a quiver of arrows fletched with guinea-fowl feathers on his back, and his single arrow aimed up into the trees beside a giant iroko in the mist.</p>
+      <dl class="facts">
+        <div><dt>Òrìṣà of</dt><dd>The hunt, the forest and its animals</dd></div>
+        <div><dt>His symbols</dt><dd>Ọrun àti ọfà, the bow and arrow</dd></div>
+        <div><dt>In Kétu, Benin</dt><dd>Called Ọ̀ṣọ́ọ̀sìn</dd></div>
+        <div><dt>His colour in Candomblé</dt><dd><span class="swatch" style="background:var(--cloth)"></span>Blue in the Ketu nation, with blue beads</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="A lean young man with close-cut hair stands barefoot in a clearing of a misty forest, drawing a long dark bow: his left arm stretched to the bow, his right hand drawn back to the corner of his jaw, a reed arrow with an iron head aimed up to his left. He wears a pale blue tunic striped in deep indigo with short sleeves, deep indigo shorts, three strands of turquoise beads, and a leather strap across his chest to the quiver on his back. On the left a giant iroko rises with deeply fissured bark, a clay pot and a calabash at its foot; behind him lie ferns and a mossy fallen log, and tall trunks fade into blue-green mist.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the cloth, bow, arrows, quiver, beads and forest were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="story" aria-labelledby="story-h">
+    <div class="head">
+      <h2 id="story-h">The hunter of one arrow</h2>
+    </div>
+    <div class="story">
+      <div>
+        <p>A myth told in the candomblé houses of Brazil, as Pierre Verger recorded it. Olon, king of Ifẹ̀, was keeping the festival of the new yams when a huge bird flew over the feast and settled on the roof of his palace. The witches had sent it, angry that they had not been invited.</p>
+        <p>Three hunters tried and missed, and were thrown in prison. The fourth came from Iremã with a single arrow. His mother, told by a diviner that her only son stood a step from death or from riches, opened the breast of a hen and laid it on the road for the witches. The bird reached for the offering, its charm slipped, and the one arrow struck it full in the breast.</p>
+        <p>The king gave the hunter half his fortune; the freed hunters gave him sacks of cowries; and the diviner sang <i>Oxowusi!</i>, “the hunter Oxo is popular”, which became his name. This figure is drawn at the moment before the arrow leaves the string.</p>
+        <p class="src">After <a href="https://doi.org/10.18224/mos.v13.n0.7553">J. M. Souza, Revista Mosaico (2020)</a>, retelling Verger’s <i>Lendas africanas dos orixás</i> (1997)</p>
+      </div>
+      <ol class="tally" aria-label="The hunters who tried">
+        <li><span class="n">20</span><div><b>Oxotogun</b><br>the hunter of twenty arrows: none struck</div></li>
+        <li><span class="n">40</span><div><b>Oxotogí</b><br>the hunter of forty arrows: none struck</div></li>
+        <li><span class="n">50</span><div><b>Oxotadotá</b><br>the hunter of fifty arrows: none struck</div></li>
+        <li><span class="n">1</span><div><b>Oxotokanxoxô</b><br>the hunter of one arrow, from Iremã: full in the breast</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn him round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the other figures while he turns with his bow drawn.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Ọ̀ṣọ́ọ̀sì, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The strap across his chest from his right shoulder, three strands of blue beads, the bow drawn at arm's length on his left and the string at the corner of his jaw.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">His right side</button><p>His drawing arm, its elbow raised beside his head, and the mouth of the quiver behind his shoulder with its fletched arrows standing in it.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>The quiver of hide across his back on its strap, from behind his right shoulder to his left hip, and the tunic's stripes running down from his shoulders.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">His left side</button><p>The bow arm reaching toward his mark, his fist on the leather-bound grip with the arrow resting on it, and the bow's limbs bent back toward him.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of a young dark-skinned man with close-cut hair, his face turned to look up along an arrow. His right hand is drawn back to the corner of his jaw, three fingers hooked on a fibre bowstring that crosses in front of his face, and the reed arrow runs past his mouth toward the upper right. Three strands of turquoise beads lie on his pale blue striped tunic, a leather strap crosses his chest, and the fletched ends of the arrows in his quiver show behind his shoulder against blurred forest."></button>
+        <figcaption class="label">
+          <h3>The hunter of one arrow</h3>
+          <p class="term">Imagined · the sources do not describe him</p>
+          <p>No source used here says how Ọ̀ṣọ́ọ̀sì looks. He is drawn as a lean young hunter of about twenty-five at the moment before the arrow leaves the string, his head turned to look along it at his mark, the string crossing in front of his face.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/face.webp" aria-label="Open the close-up of his face at full size"><img src="img/face.webp" width="1100" height="1100" loading="lazy" alt="A close view of a young man's face as he draws a bow: dark skin with fine pores and close-cut hair, his brown eyes looking up past the bowstring, which crosses his cheek and brow. His hooked fingers hold the string at the corner of his jaw, and the reed arrow, its grey feathers at the nock, runs just clear of his lips, with turquoise beads at his neck."></button>
+        <figcaption class="label">
+          <h3>Along the arrow</h3>
+          <p class="term">The study's choice · the eye on the mark</p>
+          <p>His eyes follow the arrow up into the trees, past the string drawn back almost to his cheek. The arrow lies a few centimetres from his face, close enough to sight along and clear of the skin.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/draw.webp" aria-label="Open the drawing hand close-up at full size"><img src="img/draw.webp" width="1000" height="1000" loading="lazy" alt="A close view of the drawing hand at the corner of a young man's jaw: three dark fingers hooked round the bowstring, the reed arrow's bound nock held between the first two, its grey feathers lying beside his lips. The string runs up past his cheek and down across the turquoise beads on his pale blue tunic."></button>
+        <figcaption class="label">
+          <h3>Three fingers on the string</h3>
+          <p class="term">The study's choice · a Mediterranean draw</p>
+          <p>The string sits in the crooks of his first three fingers, the arrow's nock between the first two, and his hand rests at the corner of his jaw. The anchor was chosen from forty-five tried, as the closest that does not press into his face.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/grip.webp" aria-label="Open the bow hand close-up at full size"><img src="img/grip.webp" width="1000" height="1000" loading="lazy" alt="A dark fist closed round the handle of a long hardwood bow, the handle bound in a wound strip of hide. A reed arrow rests across the top of the fist and runs on past the bow to a leaf-shaped iron head, with the archer's face blurred at the edge and the forest misty behind."></button>
+        <figcaption class="label">
+          <h3>Ọrun àti ọfà</h3>
+          <p class="term">The bow and arrow · his main symbols</p>
+          <p>A self bow of dark hardwood, its handle bound in a strip of hide, held at arm's length with the arrow resting on his fist. The head is a leaf of forged iron with its edges filed bright. Their forms are the study's.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/quiver.webp" aria-label="Open the quiver close-up at full size"><img src="img/quiver.webp" width="1000" height="1100" loading="lazy" alt="An archer at full draw seen from behind and to his right: a quiver of brown hide lies diagonally across his back on its strap, from behind his right shoulder to his left hip, its foot closed in a rounded dome and a band of burned zigzags below its mouth. Reed arrows stand in it with their grey feathers out of the mouth beside his raised drawing elbow, and beyond him his bow arm reaches toward misty trees."></button>
+        <figcaption class="label">
+          <h3>The quiver</h3>
+          <p class="term">Hide · six arrows · guinea-fowl feathers</p>
+          <p>His gallery figure carries a quiver on his back. This one is a tube of hide on a strap across his back, closed in a dome at the foot, its mouth behind his right shoulder and a band of zigzags burned in below it; the zigzags are the study's. The arrows stand in it heads down, fletched with guinea fowl, a bird offered to him in Candomblé.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/beads.webp" aria-label="Open the beads close-up at full size"><img src="img/beads.webp" width="1000" height="1000" loading="lazy" alt="Three strands of turquoise glass beads hanging at the base of a man's neck over a pale blue tunic woven in strips, with deep indigo stripes and a fine white thread. A flat brown leather strap crosses his chest under the lowest strand, and the bowstring crosses the picture."></button>
+        <figcaption class="label">
+          <h3>Blue beads</h3>
+          <p class="term">Three strands of turquoise glass</p>
+          <p>In Candomblé his ritual garment is blue and his necklace blue beads, blue being his colour in the Ketu nation. Three strands of turquoise glass lie at the base of his neck, over the tunic and the leather strap, each bead its own shade.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/cloth.webp" aria-label="Open the cloth close-up at full size"><img src="img/cloth.webp" width="1000" height="1100" loading="lazy" alt="The lower half of a standing man seen from his front left: the hem of a pale blue tunic striped in deep indigo, bound at the edge in indigo with a white line, over drawstring shorts of deep indigo cloth with pale pinstripes, gathered and creased at the waist. The domed leather foot of his quiver shows at his hip, and behind him lie fallen leaves, ferns, and a clay pot and a calabash at the foot of a great tree."></button>
+        <figcaption class="label">
+          <h3>Strip cloth from the indigo vat</h3>
+          <p class="term">Handwoven cotton · dyed in aró</p>
+          <p>His gallery figure wears a blue tunic over short trousers. The tunic is a pale sky blue, dipped only a few times in the indigo vat, with pairs of deep indigo stripes at the edges of each strip and a white thread down the middle; the drawstring trousers are dyed deeper. The stripes are the study's.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate full">
+        <button type="button" data-zoom="img/offering.webp" aria-label="Open the offerings at the iroko at full size"><img src="img/offering.webp" width="1100" height="900" loading="lazy" alt="At the foot of a great tree with fissured grey bark: a round red-brown clay pot and a yellow calabash holding red kola nuts and a few cowries, set on dark soil strewn with fallen leaves, with white cowrie shells scattered on the ground in front and a twig among the leaves."></button>
+        <figcaption class="label">
+          <h3>At the iroko's foot</h3>
+          <p class="term">A clay pot · a calabash of kola nuts · cowries</p>
+          <p>The Yorùbá hold that the iroko houses a spirit, Olúwéré, and where it grows it is revered with offerings. In a niche between two of its buttresses stand a clay pot and a calabash of kola nuts, with cowries on the soil before them; cowries were also the hunters' gift to the hunter of one arrow.</p>
+          <p class="src">Sources: <a href="https://en.wikipedia.org/wiki/Iroko">Wikipedia: Iroko</a>, <a href="https://doi.org/10.18224/mos.v13.n0.7553">Souza</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>None of the sources used here describes how Ọ̀ṣọ́ọ̀sì looks. What he wears and carries follows his gallery figure and what the sources say of his colours and symbols, so this figure is an interpretation, not a cult image. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>A hunter and warrior,</b> one of the most important of Yorùbá culture, worshipped in Nigeria, Benin and Togo. <span class="src"><a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a></span></li>
+          <li><b>The bow and arrow,</b> ọrun àti ọfà, his main symbols; in Candomblé he hunts with the ofá. <span class="src"><a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a></span></li>
+          <li><b>Kétu:</b> on the Benin side of Yorùbáland he is called Ọ̀ṣọ́ọ̀sìn; Souza calls him a hunter and king of Ketu. <span class="src"><a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a>, <a href="https://doi.org/10.18224/mos.v13.n0.7553">Souza</a></span></li>
+          <li><b>Blue:</b> his colour in the Ketu nation of Candomblé, his ritual garment blue and his necklace blue beads. <span class="src"><a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a></span></li>
+          <li><b>The forest, its animals and wealth</b> are his in Candomblé, and guinea fowl are among what is offered to him. <span class="src"><a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a></span></li>
+          <li><b>The hunter of one arrow,</b> who killed the witches' bird at the king's yam festival and was paid in half the king's fortune and in cowries. <span class="src"><a href="https://doi.org/10.18224/mos.v13.n0.7553">Souza, after Verger</a></span></li>
+          <li><b>The iroko,</b> held by the Yorùbá to house a spirit, Olúwéré, and revered with offerings where it grows. <span class="src"><a href="https://en.wikipedia.org/wiki/Iroko">Wikipedia: Iroko</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study’s choices</h3>
+        <ul>
+          <li><b>His face, age and build.</b> None of the sources used here describes how he looks.</li>
+          <li><b>The moment:</b> full draw, his one arrow aimed up into the trees. What he aims at is left out of the picture.</li>
+          <li><b>Following his gallery figure:</b> the blue tunic over short trousers, three strands of blue beads, the quiver on his back on a strap over his right shoulder.</li>
+          <li><b>The cloth:</b> indigo-dyed strips, pale sky blue with deep indigo stripes for the tunic and deep indigo for the trousers; the stripes are this study's.</li>
+          <li><b>The bow, arrows and quiver:</b> their forms and woods, the leaf-shaped iron heads, and the guinea-fowl fletching, chosen for the bird offered to him.</li>
+          <li><b>The draw:</b> three fingers on the string, the arrow between the first two, anchored at the corner of the jaw.</li>
+          <li><b>The forest:</b> a clearing after stage 06 of this repo, with its iroko, offerings, ferns, lianas, fallen log and blue-green mist.</li>
+          <li><b>Where sources differ.</b> In Candomblé his colour is blue in the Ketu nation and green elsewhere; this figure, of Kétu, wears blue.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How he was made</h2>
+        <p>The body starts from MakeHuman’s free base mesh, shaped as a lean young hunter and rigged. An archer shooting upward bends at the waist to keep the T of his shoulders and arms, so his upper body is tilted along the shot. The drawing hand was placed first: forty-five places for the nock were tried round the corner of his jaw, and the one kept is where his hooked fingers come closest to his face without pressing into it. The bow’s grip is a full draw of 66 cm ahead of it along the shot, and the bow arm is solved to reach it.</p>
+        <p>The bow is built already bent, each limb an arc bent as far as a string of fixed length lets it come, and his left hand closes on its leather grip finger by finger. The string runs through the crooks of his three hooked fingers, and the arrow rests on his fist, raised until it clears the skin.</p>
+        <p>The tunic and the drawstring trousers are cut from his body and simulated. The sleeves are cut round his arms close to where they end, since a sleeve carried far up with a rising arm is left behind inside it. The strap is his body’s section in a plane through his right shoulder and his left side, pulled taut, and the quiver lies along its run across his back. The forest is Ọ̀ṣun’s grove without the river, with the iroko larger than any tree round it; its canopy of nearly a quarter of a million leaves is stored as one leaf and the places of the rest.</p>
+        <p>Every stage is a Python script in <code>3d/osoosi/blender/</code>, using the toolkit in <code>3d/toolkit/</code>, and the finished scene is <code>3d/osoosi/osoosi.blend</code>.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Tunic cloth, simulated vertices</th><td>30,049</td></tr>
+            <tr><th scope="row">Trousers cloth, simulated vertices</th><td>14,052</td></tr>
+            <tr><th scope="row">Simulated frames, tunic / trousers</th><td>110 / 100</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Places tried for the nock</th><td>45</td></tr>
+            <tr><th scope="row">Draw, nock to arrow rest</th><td>66 cm</td></tr>
+            <tr><th scope="row">The bow, along its curve</th><td>1.35 m</td></tr>
+            <tr><th scope="row">Arrows, on the string and in the quiver</th><td>1 + 6</td></tr>
+            <tr><th scope="row">Glass beads, three strands</th><td>291</td></tr>
+            <tr><th scope="row">Hair curves</th><td>68,293</td></tr>
+            <tr><th scope="row">Trees and shrubs round the clearing</th><td>771</td></tr>
+            <tr><th scope="row">Leaves in the canopy</th><td>231,960</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>96 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://en.wikipedia.org/wiki/Oshosi">Wikipedia: Oshosi</a>. A hunter and warrior deity of Yorùbá culture and his symbols, the bow and arrow; his name in Kétu; and in Candomblé the hunt, the forest, animals and wealth, his blue in the Ketu nation, his blue garment and beads, the ofá and the guinea fowl.</li>
+      <li><a href="https://doi.org/10.18224/mos.v13.n0.7553">J. M. Souza, “Oxóssi: o herói de uma flecha só”, Revista Mosaico 13 (2020), 57–63</a>. The myth of the hunter of one arrow, as recorded by Pierre Verger in <i>Lendas africanas dos orixás</i> (1997), and Oxóssi as hunter and king of Ketu.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Iroko">Wikipedia: Iroko</a>. A large hardwood of the west coast of tropical Africa, which can live 500 years; the Yorùbá spirit Olúwéré; offerings at the tree.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>. The CC0 base mesh, targets and rig used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery, <a href="https://claude.ai/artifact/JmahtF1kFYrdWYvpxcZ5GH">Ṣàngó of Ọ̀yọ́</a>, <a href="https://claude.ai/artifact/3o8ZvmYhzWFRoEFJ3wmdnT">Amadioha of Ozuzu</a>, <a href="https://claude.ai/artifact/GCPLXEsS3MpgExsPhUzYWW">Ahiajoku of the Yam</a>, <a href="https://claude.ai/artifact/CDxt7bfdX3PF5FrtxNyyT1">Ọ̀ṣun of Òṣogbo</a>, <a href="https://claude.ai/artifact/7RmYcg3KaL3DVwLpGrDZ3A">Ògún of Ìrẹ̀</a>, <a href="https://claude.ai/artifact/NH8UMHdZQWA7NHX4cFhXF5">Yemọja of the Ògùn</a>, <a href="https://claude.ai/artifact/Hu6eQPzDeKUw3Mt4DiKPxZ">Ekwensu of the Bargain</a> and <a href="https://claude.ai/artifact/E5Qjgj2T2dgZpnZhRRWRm9">Idemili of Nnobi</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Ọ̀ṣọ́ọ̀sì, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>

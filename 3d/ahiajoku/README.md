@@ -4,7 +4,7 @@ A photoreal Ahiajoku in Blender, following her figure in the Òrìṣà and Al�
 
 In this folder, `ahiajoku-of-the-yam.html` is that page, `ahiajoku.blend` is the finished scene with its textures packed in, and `blender/` holds what is hers. The shared method lives in [`../toolkit/`](../toolkit/).
 
-It follows the method and page layout of the Ṣàngó and Amadioha renders, with its own scripts because theirs are not in the repo. Ògún has no Blender render yet; he exists only as a three.js figure in the gallery.
+It follows the method and page layout of the Ṣàngó and Amadioha renders, with its own scripts because theirs are not in the repo.
 
 ## What the sources support
 
