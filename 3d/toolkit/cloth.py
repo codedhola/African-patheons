@@ -301,7 +301,8 @@ def cut_inside(bm, f):
     bmesh.ops.delete(bm, geom=[v for v in bm.verts if vals[v] < 0], context='VERTS')
 
 
-def make_blouse(body, rig, col, wrapper):
+def make_blouse(body, rig, col, wrapper, raised_arms=False):
+    """raised_arms: keep the sleeves whole where an arm lifts them above the height the neck is cut at."""
     me = body.data
     co = verts_world(body)
     armw = arm_weight(body)
@@ -312,7 +313,7 @@ def make_blouse(body, rig, col, wrapper):
         s, d = axes[side]
         along = (co - s) @ d
         keep |= (armw > 0.35) & (co[:, 0] * sign > 0) & (along < SLEEVE_END + 0.05)
-    keep &= co[:, 2] < 1.47
+    keep &= (co[:, 2] < 1.47) | ((armw > 0.35) if raised_arms else False)
 
     polys = [p for p in me.polygons if all(keep[i] for i in p.vertices)]
     used = sorted({i for p in polys for i in p.vertices})

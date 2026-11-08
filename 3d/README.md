@@ -12,6 +12,7 @@ Blender Cycles renders of the deities. Each page has a hero render, a 36-view tu
 | Yemọja of the Ògùn | [`yemoja/yemoja-of-the-ogun.html`](yemoja/yemoja-of-the-ogun.html) | `yemoja/yemoja.blend`, `yemoja/blender/` |
 | Ekwensu of the Bargain | [`ekwensu/ekwensu-of-the-bargain.html`](ekwensu/ekwensu-of-the-bargain.html) | `ekwensu/ekwensu.blend`, `ekwensu/blender/` |
 | Idemili of Nnobi | [`idemili/idemili-of-nnobi.html`](idemili/idemili-of-nnobi.html) | `idemili/idemili.blend`, `idemili/blender/` |
+| Ọ̀ṣọ́ọ̀sì of Kétu | [`osoosi/osoosi-of-ketu.html`](osoosi/osoosi-of-ketu.html) | `osoosi/osoosi.blend`, `osoosi/blender/` |
 
 The README in each folder has the notes: what the sources support, the render's own choices, and how it was made.
 
@@ -23,6 +24,7 @@ The README in each folder has the notes: what the sources support, the render's 
 - **Yemọja** is the mother of the òrìṣà in the shallows of the Ògùn in the late afternoon, in an ìró and bùbá of indigo àdìrẹ and a light-blue gèlè, with crystal and blue beads strung seven and seven, cowries, and a white pot at her hip, fish round her feet.
 - **Ekwensu** is the Igbo alụsị of bargains and the tortoise in a market square at dusk, in short trousers of raffia cloth under a raffia fringe and the striped okpu agụ of a warrior, with a machete in his right hand, his left on his hip, and a tortoise at his feet under a young moon.
 - **Idemili** is the Igbo goddess of the Idemili River at dawn in her own water, in a wrapper of akwa miri tied at the chest, a white head tie, nzu chalk on her face, coral and ivory, with a clay pot on her hip and the royal python, her messenger, rising beside her.
+- **Ọ̀ṣọ́ọ̀sì** is the Yorùbá hunter òrìṣà as the hunter of one arrow, at full draw in a misty clearing of high forest beside a giant iroko, in a pale blue tunic of strip cloth over indigo trousers, with three strands of blue beads and a quiver of guinea-fowl-fletched arrows on his back.
 
 ## The toolkit
 
