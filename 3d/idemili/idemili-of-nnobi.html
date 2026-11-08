@@ -1,0 +1,417 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Idemili of Nnobi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the same gallery wall as the other render pages, here the dark green of deep river water. A strip of her akwa miri divides the sections: white, with a broad indigo stripe and two fine lines in each group. */
+:root {
+  --bg: #0a1313;          /* deep river water */
+  --wall: #111c1c;        /* label and viewer ground */
+  --ink: #eef0ea;
+  --muted: #9db0aa;
+  --line: #213130;
+  --flame: #e8735a;       /* coral, used for links and focus */
+  --flame-deep: #9c3b2a;
+  --cloth: #ecebe4;       /* akwa miri */
+  --indigo: #34508f;
+  --mist: #c9d3cf;
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Andika", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3.6vw, 2.9rem);
+  --step-4: clamp(2.9rem, 7.4vw, 5.8rem);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--flame); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* a strip of akwa miri: a broad indigo stripe and two fine lines every 54px, on white */
+.clothrule { height: 10px; max-width: 432px; background:
+  linear-gradient(90deg, transparent 0 8px, var(--indigo) 8px 17px, transparent 17px 23px, var(--indigo) 23px 25px, transparent 25px 29px, var(--indigo) 29px 31px, transparent 31px) 0 0 / 54px 10px repeat-x,
+  var(--cloth); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 5vw, 64px); align-items: center; padding-block: clamp(28px, 5vw, 56px) clamp(32px, 5vw, 64px); }
+.eyebrow { margin: 0 0 14px; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 22px; text-wrap: balance; }
+h1 .of { font-style: italic; font-weight: 500; color: var(--muted); }
+.lede { margin: 0 0 26px; font-size: var(--step-1); line-height: 1.5; max-width: 34em; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); max-width: 34em; }
+.facts div { min-width: 0; }
+.facts dt { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; }
+.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.3em; box-shadow: 0 0 0 1px var(--muted); }
+.hero figure { margin: 0; }
+.hero img { width: 100%; aspect-ratio: 1100 / 1375; object-fit: cover; background: var(--wall); }
+.credit { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+section { padding-block: clamp(36px, 6vw, 72px); }
+.head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 44em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.05; margin: 0; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); max-width: 40em; }
+
+/* turntable */
+.turn { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.viewer { position: relative; background: var(--wall); aspect-ratio: 720 / 960; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.viewer.dragging { cursor: grabbing; }
+.viewer img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.viewer .load { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 3px 8px; font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--muted); background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.controls input[type="range"] { flex: 1 1 220px; min-width: 0; accent-color: var(--flame); }
+.btn { font: 500 var(--step--1)/1 var(--font-body); letter-spacing: 0.04em; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 9px 14px; min-height: 38px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { border-color: var(--flame); color: var(--ink); background: color-mix(in srgb, var(--flame) 18%, transparent); }
+.angle { font: 500 var(--step-0)/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 7.5ch; }
+.compass { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.compass li { display: grid; grid-template-columns: 4.6ch minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.compass .deg { font: 500 var(--step--1)/1.4 var(--font-mono); color: var(--flame); }
+.compass button { all: unset; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.25; }
+.compass button:hover, .compass button:focus-visible { color: var(--flame); }
+.compass button:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+.compass p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+/* close-ups, museum labels */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 28px); }
+.plate { margin: 0; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.plate.wide { grid-column: span 3; }
+.plate.third { grid-column: span 2; }
+.plate.full { grid-column: 1 / -1; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: end; gap: 12px clamp(16px, 2.4vw, 28px); }
+.plate button { all: unset; cursor: zoom-in; display: block; }
+.plate button:focus-visible { outline: 2px solid var(--flame); outline-offset: 3px; }
+.plate img { width: 100%; background: var(--wall); }
+.label { border-left: 2px solid var(--flame-deep); padding-left: 14px; }
+.label h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.2; }
+.label .term { margin: 2px 0 6px; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.label p { margin: 0; font-size: 0.95rem; max-width: 36em; }
+.label .src { margin-top: 6px; font-size: var(--step--1); color: var(--muted); }
+
+/* sourced vs imagined */
+.ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 48px); }
+.ledger h3 { margin: 0 0 12px; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ledger ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.ledger li { padding-top: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.ledger b { font-weight: 700; }
+.ledger .src { color: var(--muted); font-size: var(--step--1); }
+
+/* colophon */
+.colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 48px); align-items: start; }
+.colophon h2 { margin-bottom: 16px; }
+.colophon p { margin: 0 0 12px; max-width: 38em; }
+.colophon code { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+.nums { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.nums th, .nums td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.nums th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.nums td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+
+.sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 52em; }
+.sources li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.85em; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: var(--step--1); }
+
+/* full-size viewer */
+.zoom { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.zoom .close { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); background: var(--wall); }
+
+@media (max-width: 860px) {
+  .hero, .turn, .colophon { grid-template-columns: minmax(0, 1fr); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate.wide, .plate.third { grid-column: span 2; }
+  .plate.full { grid-template-columns: minmax(0, 1fr); }
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Igbo alụsị of the Idemili River</p>
+      <h1>Idemili <span class="of">of</span> Nnobi</h1>
+      <p class="lede">A photoreal study of the river goddess at dawn in her own water: a wrapper of akwa miri tied at the chest, a white head tie, white chalk on her face, coral at her neck and a clay pot on her hip, with the royal python rising beside her from the river.</p>
+      <dl class="facts">
+        <div><dt>Alụsị of</dt><dd>The Idemili River</dd></div>
+        <div><dt>Her messenger</dt><dd>The royal python, éké Idemili</dd></div>
+        <div><dt>Her great shrine</dt><dd>At Nnobi</dd></div>
+        <div><dt>Her cloth</dt><dd><span class="swatch" style="background:var(--cloth)"></span>White with <span class="swatch" style="background:var(--indigo)"></span>indigo stripes</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="img/hero.webp" width="1100" height="1375" alt="A tall dark-skinned woman stands ankle-deep in a still river at dawn, in a white wrapper with indigo stripes tied across her chest, a white head tie, white chalk lines on her forehead and cheeks, and three strands of coral beads. She holds a clay pot against her left hip, two ivory bangles circle her right wrist, and beside her right hand a brown python with light blotches rises from the water. Mist lies on the river behind her under raffia palms, oil palms and dark forest, and the water holds her reflection.">
+      <figcaption class="credit">Rendered in Blender Cycles at 1100 × 1375. The body is built on MakeHuman's free base mesh; the cloth, chalk, coral, ivory, pot, python and river were made for this page.</figcaption>
+    </figure>
+  </header>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="turn" aria-labelledby="turn-h">
+    <div class="head">
+      <h2 id="turn-h">Turn her round</h2>
+      <p>Drag across the figure, use the slider, or focus it and press the arrow keys. Thirty-six views, ten degrees apart, rendered under the same lights as the other figures while she and the python turn.</p>
+    </div>
+    <div class="turn">
+      <div>
+        <div class="viewer" id="viewer" tabindex="0" role="img" aria-label="Turntable view of Idemili, facing 0 degrees">
+          <img id="frame" src="img/turn/turn_00.webp" width="720" height="960" alt="">
+          <p class="load" id="load">Loading views 0 / 36</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Rotate back 10 degrees">◀</button>
+          <input type="range" id="angle-range" min="0" max="35" step="1" value="0" aria-label="Turn angle">
+          <button class="btn" id="next" type="button" aria-label="Rotate on 10 degrees">▶</button>
+          <button class="btn" id="play" type="button" aria-pressed="false">Spin</button>
+          <span class="angle" id="angle">0°</span>
+        </div>
+      </div>
+      <ol class="compass" aria-label="Views worth stopping at">
+        <li><span class="deg">0°</span><div><button type="button" data-f="0">Front</button><p>The stripes and border of the wrapper tied across her chest, the coral at her neck, the pot on her left hip, and the python rising at her right.</p></div></li>
+        <li><span class="deg">90°</span><div><button type="button" data-f="9">Her right side</button><p>Her right side: the python's curve below her hand and its two ivory bangles, and the cloth falling straight from her bust.</p></div></li>
+        <li><span class="deg">180°</span><div><button type="button" data-f="18">Back</button><p>Her back: the knot of the head tie and its two tails at her nape, the wrapper's top edge across her shoulder blades, and the python's coils round her heels.</p></div></li>
+        <li><span class="deg">270°</span><div><button type="button" data-f="27">Her left side</button><p>Her left side: the pot leaning out from her hip under her hand, and the wrapper's outer edge running down the front.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="details" aria-labelledby="det-h">
+    <div class="head">
+      <h2 id="det-h">Close up</h2>
+      <p>Select a picture to see it at full size.</p>
+    </div>
+    <div class="plates">
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/portrait.webp" aria-label="Open the portrait at full size"><img src="img/portrait.webp" width="1100" height="1375" loading="lazy" alt="Head and shoulders of a dark-skinned woman with full lips and a calm, level gaze, in a white head tie wound high over her crown. A line of white chalk runs down her forehead and a short stroke crosses each cheek. Three strands of red coral beads lie at the base of her neck above the striped white wrapper tied across her chest."></button>
+        <figcaption class="label">
+          <h3>A face of the river</h3>
+          <p class="term">Imagined · the sources do not describe her</p>
+          <p>No source used here says how Idemili looks. She is drawn as a tall, composed woman of about thirty-five, still in the water at first light. The white head tie, the chalk and the coral follow her gallery figure.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/face.webp" aria-label="Open the close-up of the chalk on her face at full size"><img src="img/face.webp" width="1100" height="1100" loading="lazy" alt="A close view of a woman's face: a dry white chalk line down the middle of her forehead and a white stroke slanting across each cheek below the eyes, under the folded white band of her head tie, with coral beads at her neck."></button>
+        <figcaption class="label">
+          <h3>Nzu</h3>
+          <p class="term">Sacred white chalk · kaolin</p>
+          <p>Nzu is offered at shrines and tied to purity and the ancestors, and priests and diviners mark their foreheads and eyelids with it. Her gallery figure wears a line down the forehead and a stroke across each cheek; they are drawn so here, dry and a little broken, as if with a finger.</p>
+          <p class="src">Source: <a href="https://re-entanglements.net/chalk/">Basu with Chika-Kanu, [Re:]Entanglements</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/ichafu.webp" aria-label="Open the head tie close-up at full size"><img src="img/ichafu.webp" width="1100" height="1100" loading="lazy" alt="A white cotton head tie seen from behind and to one side, wound high over the crown in soft pleats and tied in a knot at the nape, its two short ends hanging below, close-cut hair showing behind the ear."></button>
+        <figcaption class="label">
+          <h3>Ichafu</h3>
+          <p class="term">A white head tie</p>
+          <p>Members of the Otu Odu society of Igbo women wear white head ties, ichafu, with white wrappers. Hers is wound high over the crown and tied at the nape, its two ends left as short tails; its shape is the study's.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/coral.webp" aria-label="Open the coral close-up at full size"><img src="img/coral.webp" width="1000" height="1100" loading="lazy" alt="Three strands of red coral barrel beads at the base of a woman's neck, above the top of a white wrapper bordered in indigo."></button>
+        <figcaption class="label">
+          <h3>Coral</h3>
+          <p class="term">Three strands · erulu</p>
+          <p>Large coral beads are worn round the neck and on the wrists by Igbo women and men. Hers are three strands of barrel beads, each a little different in length and girth, lying at the base of her neck and over the top of her wrapper.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate third">
+        <button type="button" data-zoom="img/pot.webp" aria-label="Open the pot close-up at full size"><img src="img/pot.webp" width="1000" height="1100" loading="lazy" alt="A woman's left hand cradling a round red-brown clay pot against her hip, the pot leaning out with its mouth tilted away, beside the folds of a white wrapper with indigo stripes."></button>
+        <figcaption class="label">
+          <h3>The clay pot</h3>
+          <p class="term">Hand-built · open-fired · burnished</p>
+          <p>Her gallery figure carries a clay pot on her hip. This one is red-brown, with the dark clouds of the fire on it and the gloss of the burnishing stone, held against her by her left hand. Its form is the study's own.</p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/python.webp" aria-label="Open the python close-up at full size"><img src="img/python.webp" width="1000" height="1100" loading="lazy" alt="A royal python, dark brown with light brown blotches, rising from still dark water in a curve beside a woman's bare legs, its small head held level and turned toward her, the rest of its body lying in a ring on the riverbed round her feet."></button>
+        <figcaption class="label">
+          <h3>Éké Idemili</h3>
+          <p class="term">The royal python · her messenger</p>
+          <p>The Idemili North government calls the river a goddess who sent the royal python as her messenger, and in Idemili a python killed by accident is wrapped in white cloth and given a funeral. Here one rises from the water beside her: a stocky snake of about 1.69 m with a small head and smooth scales, dark brown with light brown blotches and a cream belly.</p>
+          <p class="src">Sources: <a href="https://idemilinorth.an.gov.ng">Idemili North Local Government</a>, <a href="https://gazettengr.com/rudolf-okonkwo-the-changing-fortunes-idemili-pythons/">Okonkwo, Peoples Gazette</a>, <a href="https://en.wikipedia.org/wiki/Ball_python">Wikipedia: Ball python</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate wide">
+        <button type="button" data-zoom="img/ivory.webp" aria-label="Open the ivory bangles close-up at full size"><img src="img/ivory.webp" width="1000" height="1000" loading="lazy" alt="A woman's right hand hanging at her side with two heavy cream ivory bangles at the wrist, against the white striped cloth of her wrapper, and below it the python's head, turned toward her."></button>
+        <figcaption class="label">
+          <h3>Odu</h3>
+          <p class="term">Ivory · two on the right wrist</p>
+          <p>Ivory ornaments, odu, were the insignia of the Otu Odu society of Igbo women, worn on the wrists and ankles. Two heavy bangles sit on her right wrist, as on her gallery figure, above the python's raised head.</p>
+          <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></p>
+        </figcaption>
+      </figure>
+      <figure class="plate full">
+        <button type="button" data-zoom="img/river.webp" aria-label="Open the river view at full size"><img src="img/river.webp" width="1600" height="1000" loading="lazy" alt="A wide view of a river at dawn: a woman in white standing in the shallows with a pot on her hip and a python rising beside her, mist lying on the water, raffia palms and oil palms crowding the far bank under a pale sky, and reeds along the near bank."></button>
+        <figcaption class="label">
+          <h3>The river at dawn</h3>
+          <p class="term">Still water · mist · raffia palms</p>
+          <p>Idemili is both a river and a goddess. This reach of it is invented: first light, mist still lying on the water, raffia palms crowding the far bank with oil palms and forest behind, and the river nearly still round her ankles.</p>
+          <p class="src">Source: <a href="https://idemilinorth.an.gov.ng">Idemili North Local Government</a></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="ledger" aria-labelledby="led-h">
+    <div class="head">
+      <h2 id="led-h">What is sourced, what is imagined</h2>
+      <p>None of the sources used here describes how Idemili looks. What she wears follows her gallery figure and what the sources say of Igbo regalia, so this figure is an interpretation, not a cult image. This list keeps the two apart.</p>
+    </div>
+    <div class="ledger">
+      <div>
+        <h3>From the sources</h3>
+        <ul>
+          <li><b>Idemili, river and goddess,</b> who sent the royal python, éké Idemili, as her messenger. <span class="src"><a href="https://idemilinorth.an.gov.ng">Idemili North Local Government</a></span></li>
+          <li><b>The python protected:</b> no one may harm one, and one killed by accident is wrapped in white cloth and given a funeral. <span class="src"><a href="https://gazettengr.com/rudolf-okonkwo-the-changing-fortunes-idemili-pythons/">Okonkwo, Peoples Gazette</a></span></li>
+          <li><b>Her great shrine</b> at Nnobi. <span class="src"><a href="https://gazettengr.com/rudolf-okonkwo-the-changing-fortunes-idemili-pythons/">Okonkwo, Peoples Gazette</a></span></li>
+          <li><b>The royal python's look:</b> stocky, with a small head and smooth scales, dark brown with light brown blotches and a cream belly marked with black. <span class="src"><a href="https://en.wikipedia.org/wiki/Ball_python">Wikipedia: Ball python</a></span></li>
+          <li><b>Akwa miri,</b> "cloth of the water", woven white or white with indigo stripes. <span class="src"><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a></span></li>
+          <li><b>Nzu,</b> the sacred white chalk of purity and the ancestors, worn on the forehead and round the eyes. <span class="src"><a href="https://re-entanglements.net/chalk/">Basu with Chika-Kanu</a></span></li>
+          <li><b>Coral and ivory:</b> large coral beads at the neck and wrists, and odu, the ivory of the Otu Odu women, who also wear white head ties and wrappers. <span class="src"><a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>This study’s choices</h3>
+        <ul>
+          <li><b>Her face, age and build.</b> None of the sources used here describes how she looks.</li>
+          <li><b>Following her gallery figure:</b> the akwa miri tied at the chest, the white head tie, the chalk lines, three strands of coral, two ivory bangles on her right wrist, the clay pot at her hip and the python rising beside her.</li>
+          <li><b>The stripes' spacing</b> and the narrow indigo border at the cloth's edges; the chalk's strokes; the head tie's shape.</li>
+          <li><b>The python's pose</b> and the layout of its blotches, and the pot's form and its lean on her hip.</li>
+          <li><b>The river and the hour:</b> an invented reach of the Idemili at dawn, its mist, palms and forest.</li>
+          <li><b>Where sources differ.</b> The Idemili North government calls her a goddess whose messenger is the python; Okonkwo writes of the pythons as messengers of "the gods of Idemili".</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="clothrule" role="presentation"></div>
+
+  <section id="made" aria-labelledby="made-h">
+    <div class="colophon">
+      <div>
+        <h2 id="made-h">How she was made</h2>
+        <p>The body starts from MakeHuman’s free base mesh, shaped as a tall woman and rigged. The pot was placed first, against her hip with room for the cloth, and her left hand solved to it, each finger closing until it rests on the clay.</p>
+        <p>The wrapper is cut from the body just above her bust and hangs from there, spreading over her hips but never drawing back in to the waist, and it is simulated while her arms come down into the pose and the pot stands against it. Its stripes are painted in the scheme the series' woven cloths share.</p>
+        <p>The chalk is a thin film laid over her face as it renders, its strokes set in millimetres from the midpoint between her eyes. The python is a tube swept along its path, slim at the neck and stocky through the body, with a separate head held level and a pattern laid out by its length and by the way round its body.</p>
+        <p>Every stage is a Python script in <code>3d/idemili/blender/</code>, using the toolkit in <code>3d/toolkit/</code>, and the finished scene is <code>3d/idemili/idemili.blend</code>.</p>
+      </div>
+      <div class="tablebox">
+        <table class="nums" id="nums">
+          <caption class="eyebrow" style="text-align:left">Counts from the final scene</caption>
+          <tbody>
+            <tr><th scope="row">Wrapper cloth, simulated vertices</th><td>28,800</td></tr>
+            <tr><th scope="row">Simulated frames</th><td>110</td></tr>
+            <tr><th scope="row">Body mesh vertices, before smoothing</th><td>13,380</td></tr>
+            <tr><th scope="row">Coral beads, three strands</th><td>181</td></tr>
+            <tr><th scope="row">Ivory bangles</th><td>2</td></tr>
+            <tr><th scope="row">Hair curves below the head tie</th><td>6,267</td></tr>
+            <tr><th scope="row">The python, neck to tail</th><td>1.69 m</td></tr>
+            <tr><th scope="row">Trees and palms on the banks</th><td>380</td></tr>
+            <tr><th scope="row">Samples per pixel, stills / turntable</th><td>96 / 32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" id="sources" aria-labelledby="src-h">
+    <div class="head"><h2 id="src-h">Sources</h2></div>
+    <ol>
+      <li><a href="https://idemilinorth.an.gov.ng">Idemili North Local Government, “The pillar of Anambra waters”</a>. The river as a goddess, who sent the royal python, Eke Idemili, as her messenger. The site did not load when this page was made; its wording here follows the gallery, which cites it, and the site's search listing.</li>
+      <li><a href="https://gazettengr.com/rudolf-okonkwo-the-changing-fortunes-idemili-pythons/">R. Okonkwo, “The changing fortunes of Idemili pythons”, Peoples Gazette (2021)</a>. Pythons as messengers of the gods of Idemili, the funeral in white cloth, and the great shrine at Nnobi.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Ball_python">Wikipedia: Ball python</a>. The royal python's size, build, colour and pattern, and its reverence among the Igbo.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Akwete_cloth">Wikipedia: Akwete cloth</a>. Akwa miri, “cloth of the water”, white or white with indigo stripes.</li>
+      <li><a href="https://re-entanglements.net/chalk/">P. Basu with G. Chika-Kanu, “Nzu, orhue, sacred chalk”, [Re:]Entanglements (2020)</a>. Nzu at shrines, its whiteness, and its marks on the forehead and round the eyes.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Igbo_regalia_and_headdresses">Wikipedia: Igbo regalia and headdresses</a>. Coral beads, the ivory odu of the Otu Odu women, and their white head ties and wrappers.</li>
+      <li><a href="https://github.com/makehumancommunity/mpfb2">MakeHuman Community: MPFB2</a>. The CC0 base mesh, targets and rig used for the body.</li>
+    </ol>
+  </section>
+
+  <footer>A companion to the <a href="https://claude.ai/artifact/8nTf9hVzBjARi2kByE5nAw">Òrìṣà and Alụsị</a> gallery, <a href="https://claude.ai/artifact/JmahtF1kFYrdWYvpxcZ5GH">Ṣàngó of Ọ̀yọ́</a>, <a href="https://claude.ai/artifact/3o8ZvmYhzWFRoEFJ3wmdnT">Amadioha of Ozuzu</a>, <a href="https://claude.ai/artifact/GCPLXEsS3MpgExsPhUzYWW">Ahiajoku of the Yam</a>, <a href="https://claude.ai/artifact/CDxt7bfdX3PF5FrtxNyyT1">Ọ̀ṣun of Òṣogbo</a>, <a href="https://claude.ai/artifact/7RmYcg3KaL3DVwLpGrDZ3A">Ògún of Ìrẹ̀</a>, <a href="https://claude.ai/artifact/NH8UMHdZQWA7NHX4cFhXF5">Yemọja of the Ògùn</a> and <a href="https://claude.ai/artifact/Hu6eQPzDeKUw3Mt4DiKPxZ">Ekwensu of the Bargain</a>. Every image here is a render, not a photograph.</footer>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Full-size image">
+  <img id="zoom-img" alt="">
+  <button class="btn close" id="zoom-close" type="button">Close</button>
+</div>
+
+<script>
+(() => {
+  const N = 36, STEP = 360 / N;
+  const frame = document.getElementById('frame'), viewer = document.getElementById('viewer');
+  const range = document.getElementById('angle-range'), angle = document.getElementById('angle'), load = document.getElementById('load');
+  const play = document.getElementById('play');
+  const src = i => `img/turn/turn_${String(i).padStart(2, '0')}.webp`;
+  const imgs = [];
+  let cur = 0, loaded = 0;
+  for (let i = 0; i < N; i++) {
+    const im = new Image();
+    im.onload = im.onerror = () => { loaded++; load.textContent = `Loading views ${loaded} / ${N}`; if (loaded === N) load.hidden = true; };
+    im.src = src(i); imgs.push(im);
+  }
+  function show(i) {
+    cur = ((i % N) + N) % N;
+    frame.src = src(cur);
+    range.value = cur;
+    const deg = Math.round(cur * STEP);
+    angle.textContent = deg + '°';
+    viewer.setAttribute('aria-label', `Turntable view of Idemili, facing ${deg} degrees`);
+  }
+  range.addEventListener('input', () => show(+range.value));
+  document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+  document.getElementById('next').addEventListener('click', () => show(cur + 1));
+  viewer.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
+  });
+  document.querySelectorAll('.compass button').forEach(b => b.addEventListener('click', () => { stop(); show(+b.dataset.f); viewer.focus({ preventScroll: true }); }));
+  // drag
+  let down = null;
+  viewer.addEventListener('pointerdown', e => { down = { x: e.clientX, f: cur }; viewer.setPointerCapture(e.pointerId); viewer.classList.add('dragging'); stop(); });
+  viewer.addEventListener('pointermove', e => {
+    if (!down) return;
+    const per = Math.max(10, viewer.clientWidth / 30);
+    show(down.f + Math.round((e.clientX - down.x) / per));
+  });
+  const end = () => { down = null; viewer.classList.remove('dragging'); };
+  viewer.addEventListener('pointerup', end); viewer.addEventListener('pointercancel', end);
+  // spin
+  let timer = null;
+  function stop() { if (timer) { clearInterval(timer); timer = null; } play.setAttribute('aria-pressed', 'false'); play.textContent = 'Spin'; }
+  play.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    play.setAttribute('aria-pressed', 'true'); play.textContent = 'Stop';
+    timer = setInterval(() => show(cur + 1), 140);
+  });
+  // full-size view
+  const zoom = document.getElementById('zoom'), zimg = document.getElementById('zoom-img'), zclose = document.getElementById('zoom-close');
+  let opener = null;
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    opener = b; zimg.src = b.dataset.zoom; zimg.alt = b.querySelector('img').alt; zoom.hidden = false; zclose.focus();
+  }));
+  const closeZoom = () => { zoom.hidden = true; zimg.removeAttribute('src'); if (opener) opener.focus(); };
+  zclose.addEventListener('click', closeZoom);
+  zoom.addEventListener('click', e => { if (e.target === zoom) closeZoom(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+})();
+</script>
