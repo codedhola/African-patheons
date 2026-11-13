@@ -2,14 +2,21 @@
 
 The bow and arrow are his main symbols (Wikipedia: Oshosi), and his gallery figure draws the
 bow as if to loose his single arrow. He stands side-on to his mark, the bow in his left hand at
-arm's length and the string drawn back with the right to the corner of his mouth, his head
+arm's length and the string drawn back with the right to under his jaw, his head
 turned to look along the arrow. The shot is aimed up, at something high in the trees.
 
 An archer shooting upward bends at the waist and keeps the T of his shoulders and arms, so the
 whole upper body is tilted along the shot. The draw is then built from the face outward: the
-string hand is set beside the mouth, as close as it comes without pressing into the face; the
-bow's grip is set ahead of it along the aim, a full draw away or as far as the bow arm reaches;
+string hand is set under the jaw, where the string comes closest to the face without the hand pressing in;
+the bow's grip is set ahead of it along the aim, a full draw away or as far as the bow arm reaches;
 and the bow arm is solved to reach it.
+
+The hands are held as an archer holds them. The drawing hand keeps its wrist straight, in line
+with the forearm; the back of the hand stays flat, three fingers hooked on the string at their
+first joints, the little finger folded and the thumb relaxed along the top of the index finger. The bow's handle sits in the
+palm, against the pad at the base of the thumb, with the fingers wrapped loosely round its front
+and the thumb laid forward over them. The drawing hand is turned nearly half round about the
+forearm, which the ordinary skinning would wring thin, so the forearms are skinned to keep their volume.
 
 He faces -Y; his left is +X, where the mark is.
 """
@@ -31,15 +38,18 @@ TILT = (('spine05', 2.0), ('spine04', 3.2), ('spine03', 3.4), ('spine02', 2.8), 
 HEAD_YAW = (('neck01', 24), ('neck02', 26), ('head', 24))           # as far round as the shot, so the arrow lies along his cheek
 HEAD_PITCH = 3.0
 # where the nock may sit, from the midpoint between the eyes in the head's rest frame: beside the right corner of the mouth
-ANCHORS = [(x, y, z) for x in (-0.045, -0.055, -0.065, -0.075, -0.085) for y in (-0.020, 0.0, 0.020) for z in (-0.065, -0.080, -0.095)]
-ARM_ROLL = dict(lowerarm01=0.2, lowerarm02=0.8)
+ANCHORS = [(x, y, z) for x in (-0.045, -0.055, -0.065, -0.075, -0.085) for y in (-0.020, 0.0, 0.020) for z in (-0.070, -0.085, -0.100, -0.115)]
+ARM_CHAIN = ('upperarm01', 'upperarm02', 'lowerarm01', 'lowerarm02', 'wrist')
+FORE_TWIST = (('lowerarm02', 0.5), ('wrist', 0.5))       # the hand's turn about the forearm, half in the forearm's far half and half at the wrist
+FOREARM_VOLUME = (0.12, 0.30, 1.04, 1.18)       # along the forearm, elbow 0 to wrist 1: where preserve-volume skinning fades in and out
 POLE = {'L': Vector((0.0, 0.45, -1.0)), 'R': Vector((-1.00, 0.55, -0.10))}      # the drawing elbow out beside his head
-GRIP_REACH = 0.074
-GRIP_DEPTH = 0.0235
+WRIST_STRAIGHT = 0.8      # how far the drawing hand follows the forearm's line rather than the arrow's
+GRIP_REACH = 0.056        # the handle in the palm, against the pad at the base of the thumb, not hooked at the finger roots
+GRIP_DEPTH = 0.031        # and far enough out that the palm meets the leather rather than sinking into it
 FINGER_R = {2: 0.0090, 3: 0.0092, 4: 0.0088, 5: 0.0078}
 CURL_RATE = (2.0, 3.0, 1.8)
-CURL_LIMIT = (85, 100, 55)
-HOOK = {2: (18, 62, 38), 3: (16, 66, 40), 4: (22, 64, 36), 5: (46, 80, 44)}      # the draw: three fingers hooked on the string, the little finger tucked
+CURL_LIMIT = (95, 100, 60)
+HOOK = {2: (6, 72, 48), 3: (4, 76, 50), 4: (8, 74, 46), 5: (58, 88, 56)}      # the draw: knuckles flat, three fingers hooked at their first joints, the little finger folded
 
 
 def bow_up():
@@ -54,10 +64,18 @@ def pitch_axis():
     return flat.cross(Vector((0, 0, 1))).normalized()
 
 
-def pose_arm(rig, side, wrist, hand_dir, palm_dir, quiet=False):
+def pose_arm(rig, side, wrist, hand_dir, palm_dir, quiet=False, straight=0.0):
+    """Solve an arm to put its wrist at wrist, then turn the hand along hand_dir with its palm toward palm_dir.
+    straight (0 to 1) bends hand_dir that far toward the forearm's own line, for a wrist held straight.
+
+    Every solve starts from rest, so no turn is carried over from the one before. The turn the hand needs
+    about the forearm is shared between the forearm's far half and the hand; keep_forearms_round keeps
+    the skin from being wrung thin by it.
+    """
     P = rig.pose.bones
     B = rig.data.bones
-    for name in ('upperarm01', 'upperarm02', 'lowerarm01', 'lowerarm02', 'wrist'):
+    for name in ARM_CHAIN:
+        P[f'{name}.{side}'].rotation_quaternion = (1, 0, 0, 0)
         P[f'{name}.{side}'].scale = (1, 1, 1)
     tk.update()
     shoulder = P[f'upperarm01.{side}'].matrix.translation.copy()
@@ -66,27 +84,67 @@ def pose_arm(rig, side, wrist, hand_dir, palm_dir, quiet=False):
     elbow = tk.two_bone(shoulder, wrist, la, lb, POLE[side])
     tk.aim(P[f'upperarm01.{side}'], elbow - shoulder)
     tk.aim(P[f'upperarm02.{side}'], elbow - P[f'upperarm02.{side}'].matrix.translation)
-    tk.aim(P[f'lowerarm01.{side}'], wrist - elbow)
+    tk.aim(P[f'lowerarm01.{side}'], wrist - P[f'lowerarm01.{side}'].matrix.translation)
     tk.aim(P[f'lowerarm02.{side}'], wrist - P[f'lowerarm02.{side}'].matrix.translation)
-    base = {n: P[f'{n}.{side}'].rotation_quaternion.copy() for n in ARM_ROLL}
-    wbase = P[f'wrist.{side}'].rotation_quaternion.copy()
+    if straight:
+        hand_dir = hand_dir.lerp((wrist - elbow).normalized(), straight).normalized()
+        palm_dir = (palm_dir - palm_dir.dot(hand_dir) * hand_dir).normalized()
+    base = {n: P[f'{n}.{side}'].rotation_quaternion.copy() for n, _ in FORE_TWIST}
 
     def try_roll(a):
-        for name, share in ARM_ROLL.items():
+        for name, share in FORE_TWIST:
             P[f'{name}.{side}'].rotation_quaternion = base[name] @ Quaternion((0, 1, 0), a * share)
-        P[f'wrist.{side}'].rotation_quaternion = wbase
         tk.update()
         tk.aim_hand(rig, side, hand_dir)
         return tk.palm_normal(rig, side).dot(palm_dir)
 
-    best = max((try_roll(math.radians(a)), a) for a in range(-170, 171, 10))[1]
+    best = max((try_roll(math.radians(a)), a) for a in range(-180, 180, 10))[1]
     span = 5
     while span > 0.2:
         best = max((try_roll(math.radians(a)), a) for a in (best - span, best, best + span))[1]
         span /= 2
     match = try_roll(math.radians(best))
     if not quiet:
-        print('palm', side, 'roll', best, 'match', round(match, 3), 'elbow', tuple(round(c, 3) for c in elbow), flush=True)
+        print('arm', side, 'hand turned', best, 'about the forearm, palm match', round(match, 3), 'elbow', tuple(round(c, 3) for c in elbow), flush=True)
+
+
+def smoothstep(a, b, x):
+    s = np.clip((x - a) / (b - a), 0.0, 1.0)
+    return s * s * (3 - 2 * s)
+
+
+def keep_forearms_round(body, rig):
+    """Skin the forearms so they keep their round when the hand is turned.
+
+    The skin follows its bones by blending where they would carry it. Across a large turn about the
+    forearm that blend cuts the corner, and the forearm comes out wrung thin; the drawing hand is turned
+    nearly half round, and his right forearm lost two fifths of its girth before this. Blender's
+    preserve-volume skinning blends the turns themselves, so it is mixed in along each forearm, from
+    below the elbow to the heel of the hand, and faded out at both ends, where the bent elbow and
+    fingers keep the ordinary skinning.
+    """
+    co = np.array([body.matrix_world @ v.co for v in body.data.vertices])
+    weight = np.zeros(len(co))
+    for side in 'LR':
+        elbow = np.array(rig.matrix_world @ rig.data.bones[f'lowerarm01.{side}'].head_local)
+        wrist = np.array(rig.matrix_world @ rig.data.bones[f'wrist.{side}'].head_local)
+        d = wrist - elbow
+        t = (co - elbow) @ d / (d @ d)
+        a, b, c, e = FOREARM_VOLUME
+        fore = np.clip(limb_weight(body, ('lowerarm', 'wrist'), side) * 2, 0, 1)
+        weight = np.maximum(weight, smoothstep(a, b, t) * (1 - smoothstep(c, e, t)) * fore)
+    group = body.vertex_groups.get('ForearmVolume') or body.vertex_groups.new(name='ForearmVolume')
+    for i in np.nonzero(weight > 1e-3)[0]:
+        group.add([int(i)], float(weight[i]), 'REPLACE')
+    skin = next(m for m in body.modifiers if m.type == 'ARMATURE')
+    mod = body.modifiers.get('Forearm volume') or body.modifiers.new('Forearm volume', 'ARMATURE')
+    mod.object = skin.object
+    mod.use_vertex_groups, mod.use_bone_envelopes = True, False
+    mod.use_deform_preserve_volume = True
+    mod.use_multi_modifier = True            # mixed with the ordinary skinning above it, by the group's weight
+    mod.vertex_group = group.name
+    body.modifiers.move(body.modifiers.find(mod.name), body.modifiers.find(skin.name) + 1)
+    print('forearms kept round over', int((weight > 0.5).sum()), 'vertices', flush=True)
 
 
 def grip_centre(rig, side):
@@ -200,8 +258,8 @@ def walk_thumb(rig, names, target, tree=None, clear=0.0080, quiet=False):
 
 
 def hook_hand(rig, side, thumb=True, face=None):
-    """The drawing hand: three fingers hooked round the string at their first joints, the little finger tucked,
-    the thumb lying relaxed along the top of the index finger. Given the face, the thumb keeps clear of it."""
+    """The drawing hand: three fingers hooked round the string at their first joints, the little finger folded,
+    the thumb relaxed along the top of the index finger. Given the face, the thumb keeps clear of it."""
     P = rig.pose.bones
     along = tk.hand_along(rig, side)
     for k, angles in HOOK.items():
@@ -214,6 +272,7 @@ def hook_hand(rig, side, thumb=True, face=None):
     if thumb:
         names = [f'finger1-{j}.{side}' for j in (1, 2, 3)]
         palm = tk.palm_normal(rig, side)
+        # with his palm against his jaw there is no room to tuck the thumb under: it lies along the top of the index finger
         target = P[f'finger2-2.{side}'].head + bow_up() * 0.012 - palm * 0.006
         if face is not None:
             swing_thumb(rig, side, names, target, face, 0.0085)
@@ -283,13 +342,13 @@ def draw_hand_to(rig, nock, thumb=False, face=None):
     palm_r = Vector((0, 1, 0))
     palm_r = (palm_r - palm_r.dot(AIM) * AIM).normalized()
     wrist = nock - AIM * 0.082 - palm_r * 0.014
-    for _ in range(2):
+    for _ in range(4):
         unhook(rig, 'R')
-        pose_arm(rig, 'R', wrist, AIM, palm_r, quiet=True)
+        pose_arm(rig, 'R', wrist, AIM, palm_r, quiet=True, straight=WRIST_STRAIGHT)
         hook_hand(rig, 'R', thumb=False, face=face)
         wrist = wrist + (nock - string_point(rig, 'R'))
     unhook(rig, 'R')
-    pose_arm(rig, 'R', wrist, AIM, palm_r, quiet=not thumb)
+    pose_arm(rig, 'R', wrist, AIM, palm_r, quiet=not thumb, straight=WRIST_STRAIGHT)
     hook_hand(rig, 'R', thumb=thumb, face=face)
     return (string_point(rig, 'R') - nock).length
 
@@ -300,7 +359,7 @@ def limb_weight(body, keys, side=None):
 
 
 def find_anchor(rig, body, up):
-    """Try nocks round the right corner of his mouth; keep the one whose fingers come closest to his face without pressing in.
+    """Try nocks round the right corner of his jaw and under it; of those whose fingers do not press into his face, keep the one that brings the string closest to it.
 
     The string near the hand and the arrow along his cheek must stay clear of the face too.
     """
@@ -342,7 +401,7 @@ def find_anchor(rig, body, up):
         arrow = [nock + AIM * s for s in np.linspace(0.0, 0.30, 31)]
         clear_string = min(tree.find_nearest(p)[3] for p in string)
         clear_arrow = min(tree.find_nearest(p)[3] for p in arrow)
-        ok = touch > -0.0010 and clear_string > 0.0030 and clear_arrow > 0.0065 and miss < 0.004
+        ok = touch > -0.0010 and clear_string > 0.0030 and clear_arrow > 0.0065 and miss < 0.008
         score = clear_string + 0.5 * max(touch - 0.002, 0.0)        # the string close by his mouth, the hand resting on his face
         print('anchor', off, 'fingers', round(touch * 1000, 1), 'mm, forearm', round(forearm * 1000, 1), 'mm, string', round(clear_string * 1000, 1), 'mm, arrow',
               round(clear_arrow * 1000, 1), 'mm, miss', round(miss * 1000, 1), 'mm', 'ok' if ok else '', flush=True)
@@ -410,6 +469,7 @@ def take_up_bow(rig, body, props):
     What the dress stage needs to string the bow and nock the arrow is kept on the bow as a property.
     """
     import bow as gear
+    keep_forearms_round(body, rig)
     grip, nock = solve(rig, body)
     up = bow_up()
     draw = (grip + up * ARROW_OVER_GRIP - nock).dot(AIM)
