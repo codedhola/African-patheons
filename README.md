@@ -9,6 +9,7 @@ Yorùbá and Igbo gods and places, made for a fighting game and as studies in th
 | [`3d/`](3d/) | Photoreal Blender renders of Ṣàngó, Amadioha, Ahiajoku, Ọ̀ṣun, Ògún, Yemọja, Ekwensu, Idemili and Ọ̀ṣọ́ọ̀sì, and the toolkit that builds them |
 | [`2d-threejs/`](2d-threejs/) | Pages that run in the browser: 25 SVG fighting stages, a three.js gallery of 23 deities, and a reference to the religions of 21 African peoples |
 | [`locations/`](locations/) | Game-ready Blender models of three stages, each with a three.js 360° viewer |
+| [`characters/`](characters/) | Game-ready fighters made from the portraits in `3d/`: skinned, on a game skeleton, with FBX exports. Ògún is the first |
 
 ```
 3d/
@@ -29,6 +30,9 @@ locations/
   stormshrine/    stage 11, Ṣàngó's storm hill
   ofala/          stage 21, the Ofala palace arena
   newyam/         stage 25, the New Yam festival
+characters/
+  gamekit.py      shared steps from portrait to fighter
+  ogun/           Ògún, the pilot
 ```
 
 Every deity, stage set and location keeps its pages, images, scripts and notes together. The `README.md` in each folder is its notes: what the sources support, what was designed, and how it was made.

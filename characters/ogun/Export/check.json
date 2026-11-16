@@ -1,0 +1,136 @@
+[
+ {
+  "file": "SK_Ogun.fbx",
+  "megabytes": 4.39,
+  "objects": {
+   "ARMATURE": 1,
+   "MESH": 1
+  },
+  "bones": 54,
+  "root_bones": [
+   "root"
+  ],
+  "armature_scale": [
+   0.01,
+   0.01,
+   0.01
+  ],
+  "actions": [],
+  "SK_Ogun": {
+   "vertices": 26773,
+   "triangles": 45455,
+   "ngons": 0,
+   "loose_vertices": 0,
+   "edges_with_3_faces": 0,
+   "flipped_neighbours": 0,
+   "zero_area_faces": 0,
+   "broken_vertices": 0,
+   "materials": [
+    "M_Ogun_Skin",
+    "M_Ogun_Hair",
+    "M_Ogun_Gear",
+    "M_Ogun_Etu",
+    "M_Ogun_Mariwo"
+   ],
+   "uv_layers": [
+    "UVMap"
+   ],
+   "faces_without_uv_area": 0,
+   "unweighted_vertices": 0,
+   "most_weights_on_a_vertex": 4,
+   "weights_not_summing_to_one": 0,
+   "bones_with_weight": 52,
+   "skinned": true,
+   "textures": {
+    "M_Ogun_Skin": [
+     "T_Ogun_Skin_BaseColor.png",
+     "T_Ogun_Skin_Normal.png"
+    ],
+    "M_Ogun_Hair": [
+     "T_Ogun_Hair_BaseColor.png",
+     "T_Ogun_Hair_Normal.png"
+    ],
+    "M_Ogun_Gear": [
+     "T_Ogun_Gear_BaseColor.png",
+     "T_Ogun_Gear_Normal.png"
+    ],
+    "M_Ogun_Etu": [
+     "T_Ogun_Etu_BaseColor.png",
+     "T_Ogun_Etu_Normal.png"
+    ],
+    "M_Ogun_Mariwo": [
+     "T_Ogun_Mariwo_BaseColor.png",
+     "T_Ogun_Mariwo_Normal.png"
+    ]
+   }
+  },
+  "size_m": [
+   1.227,
+   0.605,
+   1.846
+  ],
+  "lowest_point_m": -0.0
+ },
+ {
+  "file": "SM_Ogun_Ada.fbx",
+  "megabytes": 0.06,
+  "objects": {
+   "MESH": 1
+  },
+  "SM_Ogun_Ada": {
+   "vertices": 330,
+   "triangles": 616,
+   "ngons": 0,
+   "loose_vertices": 0,
+   "edges_with_3_faces": 0,
+   "flipped_neighbours": 0,
+   "zero_area_faces": 0,
+   "broken_vertices": 0,
+   "materials": [
+    "M_Ogun_Ada"
+   ],
+   "uv_layers": [
+    "UVMap"
+   ],
+   "faces_without_uv_area": 0,
+   "skinned": false,
+   "textures": {
+    "M_Ogun_Ada": [
+     "T_Ogun_Ada_BaseColor.png",
+     "T_Ogun_Ada_Normal.png"
+    ]
+   }
+  },
+  "size_m": [
+   0.03,
+   0.069,
+   0.579
+  ],
+  "lowest_point_m": -0.064
+ },
+ {
+  "file": "A_Ogun_GuardIdle.fbx",
+  "megabytes": 0.54,
+  "objects": {
+   "ARMATURE": 1
+  },
+  "bones": 54,
+  "root_bones": [
+   "root"
+  ],
+  "armature_scale": [
+   0.01,
+   0.01,
+   0.01
+  ],
+  "actions": [
+   [
+    "Armature|Scene",
+    [
+     1,
+     61
+    ]
+   ]
+  ]
+ }
+]
