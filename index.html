@@ -170,7 +170,7 @@ const FLYKICK = { reach: 225, hurt: 10, push: 560, at: 200, level: 'mid' };
 
 function fighter(key, name, face) {
   return { key, name, face, x: 0, y: 0, vy: 0, vx: 0, hp: 100, shown: 100, state: 'idle', t: 0, slide: 0,
-    landed: false, kicking: false, flash: 0, cool: 0, wins: 0 };
+    landed: false, kicking: false, flash: 0, cool: 0, wins: 0, pace: -1, fell: false };
 }
 const ogun = fighter('ogun', 'ÒGÚN', 1), ekwensu = fighter('ekwensu', 'EKWENSU', -1);
 const game = { phase: 'title', t: 0, round: 1, clock: ROUND_TIME, banner: '', bannerT: 0, stop: 0, shake: 0, sparks: [], winner: null, time: 0 };
@@ -180,10 +180,10 @@ function set(f, state) { f.state = state; f.t = 0; f.landed = false; f.kicking =
 
 function newRound() {
   ogun.x = 480; ekwensu.x = 1060;
-  for (const f of [ogun, ekwensu]) { f.hp = f.shown = 100; f.slide = f.flash = f.cool = f.y = f.vy = f.vx = 0; set(f, 'idle'); }
+  for (const f of [ogun, ekwensu]) { f.hp = f.shown = 100; f.slide = f.flash = f.cool = f.y = f.vy = f.vx = 0; f.fell = false; set(f, 'idle'); }
   game.phase = 'ready'; game.t = 0; game.clock = ROUND_TIME; game.winner = null; game.sparks = [];
   ai.wait = 0; ai.want = {};
-  say('Round ' + game.round, 1.2);
+  say('Round ' + game.round, 1.2); sound.round(game.round, ekwensu);
 }
 function newMatch() { ogun.wins = ekwensu.wins = 0; game.round = 1; newRound(); stayAwake(); }
 function say(text, seconds) { game.banner = text; game.bannerT = seconds; }
@@ -201,13 +201,13 @@ function strike(f, foe, m) {
   const burn = m === MOVES.fire;
   if (foe.state === 'block') {
     foe.hp -= m.hurt * (burn ? 0.25 : 0.15); foe.slide = m.push * 0.45; if (!burn) f.slide = m.push * 0.25;
-    game.sparks.push({ ...at, t: 0, kind: 'block' }); sound.block();
+    game.sparks.push({ ...at, t: 0, kind: 'block' }); sound.blocked(foe, m);
   } else {
     foe.hp -= m.hurt; foe.slide = m.push; foe.flash = burn ? 0.3 : 0.12; foe.vx = 0; set(foe, 'hit');
     game.stop = 0.07; game.shake = 0.18;
-    game.sparks.push({ ...at, t: 0, kind: burn ? 'burn' : 'hit' }); sound.hit();
+    game.sparks.push({ ...at, t: 0, kind: burn ? 'burn' : 'hit' }); sound.hit(foe, m);
   }
-  if (foe.hp <= 0) { foe.hp = 0; foe.slide = 520; set(foe, 'ko'); endRound(f); sound.ko(); }
+  if (foe.hp <= 0) { foe.hp = 0; foe.slide = 520; set(foe, 'ko'); endRound(f); sound.ko(foe); }
 }
 
 function endRound(winner, onTime) {
@@ -222,31 +222,36 @@ function endRound(winner, onTime) {
 function act(f, foe, want, dt) {
   f.t += dt;
   f.flash = Math.max(0, f.flash - dt);
-  f.cool = Math.max(0, f.cool - dt);
+  if (f.cool > 0 && (f.cool -= dt) <= 0) { f.cool = 0; if (f === ogun && game.phase === 'fight') sound.ready(f); }
   if (f.slide > 1) { f.x -= f.face * f.slide * dt; f.slide *= Math.pow(0.0015, dt); }
   if (f.y > 0 || f.vy > 0) {                                 // in the air
     f.vy -= FALL * dt; f.y += f.vy * dt; f.x += f.face * f.vx * dt;
-    if (f.y <= 0) { f.y = f.vy = f.vx = 0; if (f.state === 'jump') set(f, 'idle'); }
+    if (f.y <= 0) {
+      f.y = f.vy = f.vx = 0;
+      if (f.state === 'ko') { f.fell = true; sound.fell(f); } else sound.land(f);
+      if (f.state === 'jump') set(f, 'idle');
+    }
   }
   if (MOVES[f.state]) {
     const m = MOVES[f.state];
+    if (f.state === 'fire' && f.t >= m.wind && f.t - dt < m.wind) sound.flame(f);
     if (!f.landed && f.t >= m.wind && f.t < m.wind + m.live) strike(f, foe, m);
     if (f.t >= m.wind + m.live + m.rest) set(f, 'idle');
     return;
   }
   if (f.state === 'jump') {
-    if (!f.kicking && want.kick && f.t > 0.08 && game.phase === 'fight') { f.kicking = true; sound.swing(); }
+    if (!f.kicking && want.kick && f.t > 0.08 && game.phase === 'fight') { f.kicking = true; sound.swing(f, 'fly'); }
     if (f.kicking && !f.landed) strike(f, foe, FLYKICK);
     return;
   }
   if (f.state === 'hit') { if (f.t >= 0.32 && f.y === 0) set(f, 'idle'); return; }
   if (f.state === 'ko' || f.state === 'win') return;
   if (game.phase !== 'fight') { if (f.state !== 'idle') set(f, 'idle'); return; }
-  if (want.fire && f.cool <= 0) { set(f, 'fire'); f.cool = FIRE_WAIT; sound.fire(); return; }
-  if (want.jump) { set(f, 'jump'); f.vy = LEAP; f.vx = (want.move || 0) * (want.move > 0 ? SPEED : BACK) * 0.9; return; }
-  if (want.kick && want.crouch) { set(f, 'sweep'); sound.swing(); return; }
-  if (want.slash) { set(f, 'slash'); sound.swing(); return; }
-  if (want.kick) { set(f, 'kick'); sound.swing(); return; }
+  if (want.fire && f.cool <= 0) { set(f, 'fire'); f.cool = FIRE_WAIT; sound.breathe(f); return; }
+  if (want.jump) { set(f, 'jump'); f.vy = LEAP; f.vx = (want.move || 0) * (want.move > 0 ? SPEED : BACK) * 0.9; sound.jump(f); return; }
+  if (want.kick && want.crouch) { set(f, 'sweep'); sound.swing(f, 'sweep'); return; }
+  if (want.slash) { set(f, 'slash'); sound.swing(f, 'slash'); return; }
+  if (want.kick) { set(f, 'kick'); sound.swing(f, 'kick'); return; }
   const next = want.block ? 'block' : want.crouch ? 'crouch' : want.move ? 'walk' : 'idle';
   if (next !== f.state) set(f, next);
   if (next === 'walk') f.x += f.face * want.move * (want.move > 0 ? SPEED : BACK) * dt;
@@ -272,8 +277,8 @@ function think(me, foe, dt) {
     ai.judged = true;
     const r = Math.random(), level = blow ? blow.level : 'mid';
     const through = blow ? blow.wind + blow.live - foe.t + 0.1 : 0.4;       // until the blow is spent
-    if (level === 'high' && r < 0.26) { ai.want = { crouch: true }; ai.wait = through; }
-    else if (level === 'low' && r < 0.3) { ai.want = { jump: true }; ai.fly = false; ai.wait = 0.1; }
+    if (level === 'high' && r < 0.26) { ai.want = { crouch: true }; ai.wait = through; sound.mock(me); }
+    else if (level === 'low' && r < 0.3) { ai.want = { jump: true }; ai.fly = false; ai.wait = 0.1; sound.mock(me); }
     else if (r < 0.52) { ai.want = { block: true }; ai.wait = Math.max(0.4, through); }
   }
   if (blow && !coming && !ai.answered && foe.t >= blow.wind + blow.live) {
@@ -319,7 +324,7 @@ function press(name) {
   }
   held[name] = true;
   if (game.phase === 'title' || game.phase === 'over') {
-    if (name === 'start' || name === 'slash' || name === 'kick') { sound.wake(); newMatch(); sound.bell(); }
+    if (name === 'start' || name === 'slash' || name === 'kick') { sound.wake(); newMatch(); }
   }
 }
 function release(name) { held[name] = false; }
@@ -403,8 +408,9 @@ function letAllGo() {
 }
 addEventListener('blur', letAllGo);
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) letAllGo();
-  else if (game.phase !== 'title' && game.phase !== 'over') stayAwake();
+  if (document.hidden) { letAllGo(); sound.sleep(); return; }
+  if (sound.m) sound.wake();
+  if (game.phase !== 'title' && game.phase !== 'over') stayAwake();
 });
 
 function playerWants(dt) {
@@ -423,7 +429,7 @@ function spent(f) {                                  // a tap that has been answ
 
 // ----- the screen: sound, full screen, staying awake, the fire button filling -----
 const muteButton = document.getElementById('mute'), fullButton = document.getElementById('full');
-function mute(off) { sound.muted = off; muteButton.setAttribute('aria-pressed', String(!off)); }
+function mute(off) { sound.muted = off; sound.level(); muteButton.setAttribute('aria-pressed', String(!off)); }
 muteButton.addEventListener('click', () => mute(!sound.muted));
 
 fullButton.hidden = !(document.fullscreenEnabled || document.webkitFullscreenEnabled);
@@ -454,27 +460,487 @@ function showFire() {
   fireButton.classList.toggle('ready', ready >= 1);
 }
 
-// ----- sound: a few plain tones -----
-const sound = {
-  muted: false, ac: null,
-  wake() {
-    if (!this.ac) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) this.ac = new AC(); }
-    if (this.ac && this.ac.state === 'suspended') Promise.resolve(this.ac.resume()).catch(() => {});
-  },
-  tone(type, from, to, seconds, loud) {
-    if (this.muted || !this.ac) return;
-    const t = this.ac.currentTime, o = this.ac.createOscillator(), g = this.ac.createGain();
-    o.type = type; o.frequency.setValueAtTime(from, t); o.frequency.exponentialRampToValueAtTime(to, t + seconds);
-    g.gain.setValueAtTime(loud, t); g.gain.exponentialRampToValueAtTime(0.001, t + seconds);
-    o.connect(g).connect(this.ac.destination); o.start(t); o.stop(t + seconds);
-  },
-  swing() { this.tone('triangle', 520, 170, 0.12, 0.07); },
-  hit() { this.tone('square', 170, 48, 0.17, 0.16); },
-  block() { this.tone('square', 980, 520, 0.07, 0.09); },
-  fire() { this.tone('sawtooth', 110, 320, 0.3, 0.05); this.tone('sawtooth', 340, 60, 0.9, 0.1); },
-  ko() { this.tone('sawtooth', 230, 38, 0.7, 0.18); },
-  bell() { this.tone('sine', 700, 690, 0.5, 0.14); },
-};
+// ----- sound. Nothing here is recorded: every sound is made as it plays, from noise and plain waves -----
+const sound = (() => {
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const any = list => list[Math.floor(Math.random() * list.length)];
+  const gain = (ac, v) => { const g = ac.createGain(); g.gain.value = v; return g; };
+  const filter = (ac, type, f, q) => { const b = ac.createBiquadFilter(); b.type = type; b.frequency.value = f; b.Q.value = q || 0.7; return b; };
+
+  // A sound worked out once, sample by sample, and kept. peak, if given, is how loud its loudest moment is made,
+  // and such a sound fades over its last fiftieth of a second, so that it ends without a click
+  const RATE = 48000;
+  function made(seconds, channels, fill, peak, rate = RATE) {
+    const b = new AudioBuffer({ length: Math.ceil(seconds * rate), numberOfChannels: channels, sampleRate: rate });
+    let top = 0;
+    for (let c = 0; c < channels; c++) {
+      const d = b.getChannelData(c);
+      for (let i = 0; i < d.length; i++) { d[i] = fill(i / rate, c); top = Math.max(top, Math.abs(d[i])); }
+    }
+    if (peak && top) for (let c = 0; c < channels; c++) {
+      const d = b.getChannelData(c), fade = rate / 50;
+      for (let i = 0; i < d.length; i++) d[i] *= peak / top * Math.min(1, (d.length - i) / fade);
+    }
+    return b;
+  }
+  // something struck that rings: each part a note, how loud, and how long it takes to die away. click is the stick
+  function ring(parts, seconds, click) {
+    const p = parts.map(([f, a, d]) => ({ a, k: Math.exp(-1 / (d * RATE)), c: Math.cos(2 * Math.PI * f / RATE), s: Math.sin(2 * Math.PI * f / RATE), x: 1, y: 0 }));
+    return made(seconds, 1, t => {
+      let v = t < 0.006 ? (Math.random() * 2 - 1) * click * (1 - t / 0.006) : 0;
+      for (const q of p) { v += q.a * q.y; const x = q.x * q.c - q.y * q.s; q.y = q.y * q.c + q.x * q.s; q.x = x; q.a *= q.k; }
+      return v * Math.min(1, t / 0.0008);
+    }, 1);
+  }
+  // a skin: its note falls as it settles. slap is the crack of the hand on it
+  function skin(from, to, settle, die, slap, seconds) {
+    let phase = 0;
+    return made(seconds, 1, t => {
+      phase += 2 * Math.PI * (to + (from - to) * Math.exp(-t / settle)) / RATE;
+      return (Math.sin(phase) * Math.exp(-t / die) + (Math.random() * 2 - 1) * slap * Math.exp(-t / 0.006)) * Math.min(1, t / 0.0008);
+    }, 1);
+  }
+  // a blade: a thin bar of steel rings at these odd ratios, and each near pair beats against itself
+  const steel = f => [[f, 1, 0.55], [f * 1.006, 0.7, 0.6], [f * 2.756, 0.55, 0.35], [f * 2.771, 0.35, 0.33], [f * 5.404, 0.3, 0.18], [f * 8.933, 0.18, 0.09]];
+  const RECIPES = {
+    noise: () => made(1.5, 1, () => Math.random() * 2 - 1),
+    // slow random wandering between -1 and 1, to shake a note or a level
+    wobble: () => {
+      const n = 2 * 30, p = Array.from({ length: n }, () => Math.random() * 2 - 1);
+      return made(2, 1, t => { const x = t * 30, i = Math.floor(x), u = (1 - Math.cos(Math.PI * (x - i))) / 2; return p[i % n] * (1 - u) + p[(i + 1) % n] * u; });
+    },
+    // fire's crackle: sparse snaps in silence
+    crackle: () => {
+      let left = 0, size = 0;
+      return made(1.5, 1, () => {
+        if (left <= 0 && Math.random() < 0.0012) { left = 30 + Math.random() * 120; size = 0.3 + Math.random() * 0.7; }
+        return left-- > 0 ? (Math.random() * 2 - 1) * size * Math.min(1, left / 40) : 0;
+      }, 1);
+    },
+    // a crowd clapping: many short claps at random
+    claps: () => {
+      const b = made(3, 1, () => 0), d = b.getChannelData(0);
+      for (let n = 0; n < 220; n++) {
+        const at = Math.floor(Math.random() * (d.length - RATE * 0.02)), loud = 0.3 + Math.random() * 0.7, long = RATE * (0.004 + Math.random() * 0.008);
+        for (let i = 0; i < long; i++) d[at + i] += (Math.random() * 2 - 1) * loud * Math.exp(-3 * i / long);
+      }
+      return b;
+    },
+    bellLow:  () => ring([[560, 1, 0.42], [1210, 0.3, 0.2], [1530, 0.45, 0.22], [2280, 0.25, 0.12], [3010, 0.15, 0.07]], 1, 0.3),
+    bellHigh: () => ring([[840, 1, 0.36], [1790, 0.3, 0.18], [2290, 0.45, 0.2], [3400, 0.25, 0.1], [4480, 0.12, 0.06]], 0.9, 0.3),
+    gong:     () => ring([[170, 1, 1.5], [353, 0.55, 1.1], [472, 0.5, 0.9], [711, 0.3, 0.6], [962, 0.2, 0.45], [1320, 0.12, 0.3]], 2.5, 0.12),
+    slitLow:  () => ring([[310, 1, 0.08], [720, 0.3, 0.035], [1190, 0.12, 0.02]], 0.4, 0.35),
+    slitHigh: () => ring([[430, 1, 0.07], [990, 0.3, 0.03], [1640, 0.12, 0.018]], 0.4, 0.35),
+    clang:    () => [640, 730, 820].map(f => ring(steel(f), 1.3, 0.9)),
+    drum:     () => skin(150, 82, 0.025, 0.2, 0.08, 1),
+    slap:     () => skin(330, 230, 0.008, 0.045, 0.45, 0.3),
+    boom:     () => skin(110, 40, 0.09, 0.55, 0.2, 1.8),
+    thump:    () => skin(160, 52, 0.02, 0.085, 0.55, 0.5),
+    // the rattle: noise with its low end taken off, in a quick shake
+    shake: () => { let was = 0; return made(0.09, 1, t => { const x = Math.random() * 2 - 1, y = x - was; was = x; return y * Math.min(1, t / 0.005) * Math.exp(-Math.max(0, t - 0.005) / 0.022); }, 1); },
+    // dust: dull noise in a short puff, for feet and falls
+    dust: () => { let low = 0; return made(0.3, 1, t => { low += (Math.random() * 2 - 1 - low) * 0.09; return low * Math.min(1, t / 0.003) * Math.exp(-t / 0.05); }, 1); },
+  };
+  const KIT = ['bellLow', 'bellHigh', 'gong', 'slitLow', 'slitHigh', 'clang', 'drum', 'slap', 'boom', 'thump', 'shake', 'dust'];
+  const kept = {};
+  const keep = name => kept[name] || (kept[name] = RECIPES[name]());
+  // While the title shows, the kept sounds are made one at a time, so that the first tap need not wait for them
+  setTimeout(function next() {
+    const name = Object.keys(RECIPES).find(k => !kept[k]);
+    if (!name) return;
+    try { keep(name); setTimeout(next, 40); } catch (err) { /* this browser cannot make them ahead; the first tap will */ }
+  }, 600);
+  // the courtyard before the palace: a first echo off the wall, then a short tail that darkens as it dies.
+  // An echo must be made at the speed the sound runs at, so this one waits for the first tap
+  function courtyard(ac) {
+    const soft = [0, 0];
+    return made(1.4, 2, (t, c) => {
+      soft[c] += ((Math.random() * 2 - 1) * Math.exp(-t / 0.22) - soft[c]) * (0.85 - Math.min(0.8, t * 1.3));
+      const wall = Math.abs(t - (c ? 0.047 : 0.041)) < 0.0006 ? 0.5 : 0;
+      return t < 0.012 ? 0 : soft[c] + wall;
+    }, 0, ac.sampleRate);
+  }
+  // everything a sound needs, made once for the page: four buses (blows, voices, the band, the crowd) into one
+  // that is turned down for silence, through a squeeze that keeps many sounds at once from crackling
+  function mixer(ac) {
+    const m = { ac, talking: {}, flames: {} };
+    m.master = gain(ac, 0);
+    const limit = ac.createDynamicsCompressor();
+    limit.threshold.value = -10; limit.knee.value = 6; limit.ratio.value = 8; limit.attack.value = 0.003; limit.release.value = 0.2;
+    m.master.connect(limit).connect(ac.destination);
+    const echo = ac.createConvolver(); echo.buffer = courtyard(ac);
+    m.room = filter(ac, 'highpass', 280);          // the drum's boom is kept out of the echo, which would turn it to mud
+    m.room.connect(echo).connect(gain(ac, 0.6)).connect(m.master);
+    for (const [bus, level] of [['fx', 0.9], ['voice', 1], ['music', 0.15], ['crowd', 0.6]]) { m[bus] = gain(ac, level); m[bus].connect(m.master); }
+    for (const name of ['noise', 'wobble', 'crackle', 'claps']) m[name] = keep(name);
+    m.kit = {}; for (const name of KIT) m.kit[name] = keep(name);
+    // the voice box's buzz: every harmonic, each a little quieter than the one below
+    const im = new Float32Array(64);
+    for (let k = 1; k < 64; k++) im[k] = Math.pow(k, -0.95) * (k === 1 ? 0.8 : 1);
+    m.buzz = ac.createPeriodicWave(new Float32Array(64), im);
+    return m;
+  }
+  // noise and the like, looped from a random place so that no two sounds are the same
+  function loop(m, buffer, t, end, rate) {
+    const s = m.ac.createBufferSource(); s.buffer = buffer; s.loop = true; if (rate) s.playbackRate.value = rate;
+    s.start(t, Math.random() * buffer.duration); if (end) s.stop(end);
+    return s;
+  }
+  // where a sound goes: turned toward where it happens, into its bus, and some of it to the courtyard's echo
+  function route(m, node, bus, pan, room) {
+    let out = node;
+    if (pan && m.ac.createStereoPanner) { out = m.ac.createStereoPanner(); out.pan.value = Math.max(-1, Math.min(1, pan)); node.connect(out); }
+    out.connect(bus);
+    if (room) out.connect(gain(m.ac, room)).connect(m.room);
+    return node;
+  }
+  // a kept sound, played once
+  function shot(m, buffer, t, o) {
+    const s = m.ac.createBufferSource(); s.buffer = buffer; s.playbackRate.value = o.rate || 1;
+    s.connect(route(m, gain(m.ac, o.loud), o.bus || m.fx, o.pan, o.room)); s.start(t);
+    return s;
+  }
+
+  // ----- the voices: a buzz like the voice box's, shaped by the mouth into ah, uh, ee or oo. Cries, not words -----
+  // where a man's mouth makes each vowel ring (its four formants), in hertz
+  const VOWEL = { ah: [780, 1150, 2500, 3500], uh: [640, 1190, 2390, 3400], ae: [700, 1700, 2450, 3400],
+    eh: [560, 1820, 2500, 3500], ee: [300, 2250, 3000, 3700], oo: [320, 870, 2250, 3300], oh: [520, 860, 2450, 3300] };
+  // pitch: the voice's own note. size: the mouth; a bigger one rings lower. chest: the low hum. edge: the bright top.
+  // breath: air through the voice. growl: a note an octave down. rough: a rattle in it. waver: how far the note wanders, in cents.
+  // drive: how hard the shout is pushed
+  const VOICE = {
+    ogun:    { pitch: 100, size: 0.9, chest: 0.22, edge: 1,   breath: 1,   growl: 0,    rough: 0.12, waver: 20, drive: 1.6 },
+    ekwensu: { pitch: 128, size: 1,   chest: 0.12, edge: 1.3, breath: 1.5, growl: 0.35, rough: 0.3,  waver: 35, drive: 2.6 },
+  };
+  // a laugh: ha, ha, ha, each a breath and then the voice, the note falling from one to the next
+  function syllables(n, gap, vowel, from, to, loud) {
+    const rows = [];
+    for (let i = 0; i < n; i++) {
+      const t = i * gap, p = from + (to - from) * i / Math.max(1, n - 1);
+      rows.push([t, vowel, p, 0, 0], [t + 0.025, vowel, p, 0, 0.55], [t + 0.045, vowel, p * 1.04, loud, 0.15],
+        [t + gap * 0.62, vowel, p * 0.92, loud * 0.75, 0.1], [t + gap * 0.8, vowel, p * 0.88, 0, 0.06]);
+    }
+    rows.push([n * gap + 0.1, vowel, to, 0, 0]);
+    return rows;
+  }
+  // Each cry is one or more takes, and each take a list of moments:
+  // [seconds in, vowel, note as times the voice's own, voice 0–1, breath 0–1, hiss 0–1]. Between moments everything slides.
+  // A breath before the voice is an h: so "hah", "hup", "hi-yah"; a voice with no breath before it is a grunt: "ugh"
+  const CRY = {
+    slash: [
+      [[0, 'ah', 1.9, 0, 0], [0.03, 'ah', 1.9, 0, 0.7], [0.06, 'ah', 2.1, 1, 0.25], [0.16, 'ah', 1.85, 0.85, 0.15], [0.24, 'ah', 1.5, 0, 0.1], [0.34, 'ah', 1.4, 0, 0]],
+      [[0, 'ee', 1.9, 0, 0], [0.03, 'ee', 1.9, 0, 0.6], [0.06, 'ee', 2.2, 0.8, 0.2], [0.11, 'ah', 2.2, 1, 0.2], [0.22, 'ah', 1.8, 0.8, 0.12], [0.3, 'ah', 1.5, 0, 0.08], [0.4, 'ah', 1.4, 0, 0]],
+      [[0, 'ae', 2, 0, 0], [0.025, 'ae', 2, 0, 0.6], [0.05, 'ae', 2.2, 1, 0.2], [0.14, 'ah', 1.9, 0.8, 0.12], [0.22, 'ah', 1.55, 0, 0.08], [0.32, 'ah', 1.5, 0, 0]],
+    ],
+    kick: [
+      [[0, 'uh', 1.8, 0, 0], [0.025, 'uh', 1.8, 0, 0.6], [0.05, 'uh', 2, 1, 0.2], [0.12, 'uh', 1.8, 0.9, 0.1], [0.135, 'oo', 1.7, 0, 0.05], [0.2, 'oo', 1.6, 0, 0]],
+      [[0, 'uh', 1.9, 0, 0], [0.02, 'uh', 1.9, 0, 0.6], [0.045, 'ah', 2.05, 1, 0.2], [0.13, 'uh', 1.7, 0.7, 0.1], [0.19, 'uh', 1.5, 0, 0.06], [0.26, 'uh', 1.5, 0, 0]],
+    ],
+    sweep: [[[0, 'ae', 1.7, 0, 0], [0.03, 'ae', 1.7, 0, 0.6], [0.06, 'ah', 1.85, 1, 0.2], [0.17, 'ah', 1.6, 0.8, 0.12], [0.25, 'ah', 1.35, 0, 0.08], [0.33, 'ah', 1.3, 0, 0]]],
+    fly: [[[0, 'ee', 2, 0, 0], [0.03, 'ee', 2, 0, 0.6], [0.06, 'ee', 2.1, 0.9, 0.2], [0.12, 'ee', 2.25, 1, 0.15], [0.19, 'ah', 2.4, 1, 0.15], [0.33, 'ah', 2.1, 0.9, 0.1], [0.43, 'ah', 1.6, 0, 0.08], [0.53, 'ah', 1.5, 0, 0]]],
+    jump: [[[0, 'uh', 1.6, 0, 0], [0.02, 'uh', 1.6, 0, 0.5], [0.04, 'uh', 1.75, 0.55, 0.15], [0.1, 'oo', 1.6, 0.4, 0.08], [0.12, 'oo', 1.5, 0, 0.04], [0.18, 'oo', 1.5, 0, 0]]],
+    inhale: [[[0, 'oo', 1, 0, 0], [0.08, 'oh', 1, 0, 0.6], [0.24, 'uh', 1, 0, 0.9], [0.28, 'uh', 1, 0, 0]]],
+    roar: [[[0, 'ah', 1.3, 0, 0.2], [0.04, 'ah', 1.4, 0.75, 0.3], [0.3, 'ah', 1.35, 0.7, 0.3], [0.45, 'oh', 1.1, 0.5, 0.2], [0.55, 'oh', 1, 0, 0.1], [0.65, 'oh', 1, 0, 0]]],
+    hurt: [
+      [[0, 'uh', 1.7, 0, 0.1], [0.012, 'uh', 1.75, 1, 0.2], [0.08, 'uh', 1.5, 0.8, 0.15], [0.15, 'uh', 1.2, 0, 0.1], [0.25, 'uh', 1.1, 0, 0]],
+      [[0, 'oo', 1.6, 0, 0.1], [0.015, 'oo', 1.6, 1, 0.2], [0.07, 'uh', 1.4, 0.8, 0.15], [0.11, 'uh', 1.2, 0, 0.1, 0.8], [0.2, 'uh', 1.2, 0, 0, 0]],
+      [[0, 'ah', 1.9, 0, 0.1], [0.01, 'ah', 2, 1, 0.25], [0.07, 'ah', 1.7, 0.7, 0.2], [0.14, 'uh', 1.3, 0, 0.1], [0.22, 'uh', 1.2, 0, 0]],
+    ],
+    burnt: [[[0, 'ah', 2, 0, 0.2], [0.02, 'ah', 2.1, 1, 0.3], [0.2, 'ah', 1.95, 0.9, 0.25], [0.38, 'ah', 1.4, 0.5, 0.2], [0.48, 'ah', 1.2, 0, 0.1], [0.6, 'ah', 1.1, 0, 0]]],
+    ko: [[[0, 'ah', 2.2, 0, 0.2], [0.03, 'ah', 2.3, 1, 0.25], [0.35, 'ah', 2, 0.9, 0.2], [0.75, 'oh', 1.4, 0.6, 0.25], [1.05, 'oh', 1, 0.2, 0.3], [1.25, 'uh', 0.9, 0, 0.15], [1.4, 'uh', 0.9, 0, 0]]],
+    laugh: () => syllables(4, 0.21, 'ah', 1.5, 1.2, 0.9),
+    cackle: () => syllables(7, 0.125, 'eh', 2.1, 1.55, 0.8),
+    chuckle: () => syllables(3, 0.12, 'eh', 1.75, 1.5, 0.5),
+  };
+  const SHAKEN = { ko: 30, laugh: 15, cackle: 20, roar: 25, burnt: 20 };     // the long cries tremble (vibrato), by this many cents
+  const curves = {};
+  function pushed(drive) {           // a shout pushed hard: its loudest parts rounded off, as a strained throat does
+    if (!curves[drive]) {
+      const c = new Float32Array(1024);
+      for (let i = 0; i < 1024; i++) c[i] = Math.tanh(drive * (i / 511.5 - 1)) / Math.tanh(drive);
+      curves[drive] = c;
+    }
+    return curves[drive];
+  }
+  function cry(m, t0, who, name, pan) {
+    const ac = m.ac, v = VOICE[who], take = CRY[name], rows = typeof take === 'function' ? take() : any(take);
+    const note = v.pitch * rnd(0.94, 1.06), pace = rnd(0.92, 1.08), end = t0 + rows[rows.length - 1][0] * pace + 0.05;
+    const buzz = ac.createOscillator(), flutter = ac.createOscillator(), sources = [buzz, flutter];
+    buzz.setPeriodicWave(m.buzz);
+    const voiced = gain(ac, 0), breath = gain(ac, 0), hiss = gain(ac, 0), rattle = gain(ac, 1 - v.rough);
+    const throat = gain(ac, 1), lips = gain(ac, 1), level = gain(ac, 0.6);
+    buzz.connect(voiced).connect(rattle).connect(throat);
+    loop(m, m.noise, t0, end).connect(breath).connect(throat);
+    loop(m, m.noise, t0, end).connect(filter(ac, 'highpass', 2600)).connect(hiss).connect(lips);
+    // the rattle: the voice's loudness shaken a few dozen times a second
+    flutter.frequency.value = rnd(38, 56); flutter.connect(gain(ac, v.rough)).connect(rattle.gain);
+    // the note wanders a little all the time, jitters from one beat of the voice box to the next, and in the long cries trembles
+    const wander = gain(ac, v.waver);
+    loop(m, m.wobble, t0, end, 1.5).connect(wander).connect(buzz.detune);
+    loop(m, m.wobble, t0, end, 5).connect(gain(ac, v.waver * 0.6)).connect(buzz.detune);
+    if (SHAKEN[name]) { const lfo = ac.createOscillator(); lfo.frequency.value = rnd(5, 6.2); lfo.connect(gain(ac, SHAKEN[name])).connect(buzz.detune); sources.push(lfo); }
+    let under = null;
+    if (v.growl) { under = ac.createOscillator(); under.setPeriodicWave(m.buzz); under.connect(gain(ac, v.growl)).connect(voiced); wander.connect(under.detune); sources.push(under); }
+    // the mouth: four resonances side by side, every other one turned over so that together they sound as one mouth
+    const amps = [1, -0.75, 0.3 * v.edge, -0.15 * v.edge];
+    const bands = VOWEL[rows[0][1]].map((f, k) => {
+      const b = filter(ac, 'bandpass', f * v.size, f * v.size / (50 + 0.08 * f * v.size));
+      throat.connect(b).connect(gain(ac, amps[k])).connect(lips);
+      return b;
+    });
+    voiced.connect(filter(ac, 'lowpass', 320)).connect(gain(ac, v.chest)).connect(lips);
+    const shaper = ac.createWaveShaper(); shaper.curve = pushed(v.drive); shaper.oversample = '2x';
+    lips.connect(shaper).connect(level);
+    rows.forEach(([at, vowel, p, on, air, s = 0], i) => {
+      const t = t0 + at * pace, how = i ? 'linearRampToValueAtTime' : 'setValueAtTime';
+      buzz.frequency[how](note * p, t); if (under) under.frequency[how](note * p / 2, t);
+      voiced.gain[how](on, t); breath.gain[how](air * 0.5 * v.breath, t); hiss.gain[how](s * 0.3, t);
+      VOWEL[vowel].forEach((f, k) => bands[k].frequency[how](f * v.size, t));
+    });
+    for (const s of sources) { s.start(t0); s.stop(end); }
+    route(m, level, m.voice, pan, 0.12);
+    return { until: end, hush(t) {
+      level.gain.setValueAtTime(level.gain.value, t); level.gain.linearRampToValueAtTime(0, t + 0.03);
+      for (const s of sources) try { s.stop(t + 0.04); } catch (err) { /* already stopped */ }
+    } };
+  }
+  // one voice to a fighter: a new cry stops the last, but a shout does not cut off a cry of pain, nor the last of a round
+  const RANK = { hurt: 2, burnt: 2, ko: 3, laugh: 3, cackle: 3 };
+  function speak(m, t, f, name, chance) {
+    if (chance !== undefined && Math.random() > chance) return;
+    const was = m.talking[f.key], rank = RANK[name] || 1;
+    if (was && was.until > t) { if (was.rank > rank) return; was.hush(t); }
+    m.talking[f.key] = Object.assign(cry(m, t, f.key, name, side(f)), { rank });
+  }
+
+  // ----- the fight's own sounds -----
+  const side = f => (f.x - W / 2) / (W / 2) * 0.7;          // turned left or right by where the fighter stands
+  // air cut by a blade or a leg: noise through a band that rises and falls. whistle is the blade's own thin note
+  function swish(m, t, pan, from, top, to, long, loud, whistle) {
+    const ac = m.ac, s = loop(m, m.noise, t, t + long + 0.02), g = gain(ac, 0);
+    const sweep = (b, k) => {
+      b.frequency.setValueAtTime(from * k, t); b.frequency.exponentialRampToValueAtTime(top * k, t + long * 0.45);
+      b.frequency.exponentialRampToValueAtTime(to * k, t + long); return b;
+    };
+    s.connect(sweep(filter(ac, 'bandpass', from, 1.1), 1)).connect(g);
+    if (whistle) s.connect(sweep(filter(ac, 'bandpass', from * 2, 12), 2)).connect(gain(ac, whistle)).connect(g);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(loud, t + long * 0.45); g.gain.linearRampToValueAtTime(0, t + long);
+    route(m, g, m.fx, pan, 0.04);
+  }
+  // the blade going in: a short tearing hiss
+  function cut(m, t, pan, loud) {
+    const g = gain(m.ac, 0); g.gain.setValueAtTime(loud, t); g.gain.setTargetAtTime(0, t + 0.01, 0.03);
+    loop(m, m.noise, t, t + 0.25).connect(filter(m.ac, 'bandpass', 3200, 0.9)).connect(g);
+    route(m, g, m.fx, pan, 0.03);
+  }
+  // fire on skin, or on a raised blade: crackle and hiss
+  function sizzle(m, t, pan, loud, long) {
+    const ac = m.ac, g = gain(ac, 0);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(loud, t + 0.02); g.gain.setTargetAtTime(0, t + 0.05, long / 3);
+    loop(m, m.crackle, t, t + long + 0.1).connect(filter(ac, 'highpass', 1500)).connect(g);
+    loop(m, m.noise, t, t + long + 0.1).connect(filter(ac, 'highpass', 4500)).connect(gain(ac, 0.35)).connect(g);
+    route(m, g, m.fx, pan, 0.05);
+  }
+  // the fire leaving the mouth: a roar that flutters, with a crackle in it
+  function flame(m, t, pan) {
+    const ac = m.ac, end = t + 0.62, out = gain(ac, 0), flutter = gain(ac, 0.75);
+    out.gain.setValueAtTime(0, t); out.gain.linearRampToValueAtTime(0.6, t + 0.05); out.gain.setValueAtTime(0.6, t + 0.38); out.gain.linearRampToValueAtTime(0, end);
+    const air = loop(m, m.noise, t, end), snap = loop(m, m.crackle, t, end), shake = loop(m, m.wobble, t, end, 3);
+    air.connect(filter(ac, 'lowpass', 900)).connect(flutter);
+    air.connect(filter(ac, 'bandpass', 2200, 0.8)).connect(gain(ac, 0.25)).connect(flutter);
+    shake.connect(gain(ac, 0.25)).connect(flutter.gain);
+    flutter.connect(out);
+    snap.connect(filter(ac, 'highpass', 1800)).connect(gain(ac, 0.5)).connect(out);
+    const sources = [air, snap, shake, shot(m, m.kit.boom, t, { loud: 0.35, pan, rate: 1.4 })];      // the breath catching light
+    route(m, out, m.fx, pan, 0.1);
+    return { hush(at) {
+      out.gain.cancelScheduledValues(at); out.gain.setValueAtTime(out.gain.value, at); out.gain.linearRampToValueAtTime(0, at + 0.04);
+      for (const s of sources) try { s.stop(at + 0.05); } catch (err) { /* already stopped */ }
+    } };
+  }
+
+  // ----- the crowd at the Ofala: a murmur all through, and voices raised together when a blow lands well -----
+  function murmur(m) {
+    const ac = m.ac, t = ac.currentTime, bed = gain(ac, 0), sources = [];
+    for (const [f, q] of [[520, 1.2], [1050, 1.5], [1900, 1.8]]) {
+      const talk = gain(ac, 0.5), n = loop(m, m.noise, t), w = loop(m, m.wobble, t, 0, rnd(0.2, 0.35));
+      n.connect(filter(ac, 'bandpass', f, q)).connect(talk).connect(bed);
+      w.connect(gain(ac, 0.45)).connect(talk.gain);
+      sources.push(n, w);
+    }
+    route(m, bed, m.crowd, 0.35, 0.2);
+    return { bed, stop(at) { for (const s of sources) s.stop(at); } };
+  }
+  // many voices at once, each on its own note, coming in and dropping out at its own time: "yeah", or "ooh"
+  function cheer(m, t, loud, long, vowel, fall) {
+    const ac = m.ac, end = t + long, throat = gain(ac, 1), out = gain(ac, 0);
+    for (let i = 0; i < 7; i++) {
+      const o = ac.createOscillator(), g = gain(ac, 0), f = rnd(150, 320), from = t + rnd(0, 0.2);
+      o.setPeriodicWave(m.buzz); o.frequency.setValueAtTime(f, t); o.frequency.linearRampToValueAtTime(f * rnd(1 - fall, 1.12 - fall), end);
+      g.gain.setValueAtTime(0, from); g.gain.linearRampToValueAtTime(0.6, from + 0.12); g.gain.linearRampToValueAtTime(0, end - rnd(0, long * 0.4));
+      o.connect(g).connect(throat); o.start(t); o.stop(end);
+    }
+    loop(m, m.noise, t, end).connect(gain(ac, 1)).connect(throat);
+    VOWEL[vowel].forEach((f, k) => throat.connect(filter(ac, 'bandpass', f * 1.12, 3)).connect(gain(ac, [1, -0.7, 0.35, -0.2][k])).connect(out));
+    out.gain.setValueAtTime(0, t); out.gain.linearRampToValueAtTime(loud, t + 0.25);
+    out.gain.linearRampToValueAtTime(loud * 0.7, t + long * 0.5); out.gain.linearRampToValueAtTime(0, end);
+    route(m, out, m.crowd, 0.3, 0.25);
+  }
+  function applause(m, t, loud, long) {
+    const g = gain(m.ac, 0);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(loud, t + 0.3); g.gain.setValueAtTime(loud, t + long * 0.5); g.gain.linearRampToValueAtTime(0, t + long);
+    loop(m, m.claps, t, t + long).connect(filter(m.ac, 'bandpass', 1500, 0.7)).connect(g);
+    route(m, g, m.crowd, 0.25, 0.2);
+  }
+
+  // ----- the band: iron bells, a slit drum, a skin drum and a rattle, twelve pulses to the bar -----
+  // In the manner of West African festival music, but made up for the game: it is not an Ofala rhythm
+  const PULSE = 60 / 104 / 3;
+  const PARTS = ['L.h.hl.H.h.h', '..Tk..t.Kk..', 'XxxXxxXxxXxx'];                  // the bells, the slit drum, the rattle
+  const DRUMS = ['D..s..D.d.s.', 'D..s..Dd.sS.', 'D..s..D.d.s.', 'D..s..SsSdDD'];  // four bars of the skin drum, the last rolling on
+  const HOT = '.s..s..s..s.';                                                       // more drum when the end is near
+  // each letter: what is struck, how hard, and where it stands from left to right
+  const STROKE = { L: ['bellLow', 0.6, -0.25], l: ['bellLow', 0.35, -0.25], H: ['bellHigh', 0.55, -0.2], h: ['bellHigh', 0.32, -0.2],
+    T: ['slitLow', 0.7, 0.2], t: ['slitLow', 0.4, 0.2], K: ['slitHigh', 0.7, 0.25], k: ['slitHigh', 0.4, 0.25],
+    D: ['drum', 0.9, 0], d: ['drum', 0.5, 0], S: ['slap', 0.7, 0.05], s: ['slap', 0.4, 0.05], X: ['shake', 0.45, 0.35], x: ['shake', 0.2, 0.35] };
+  function pulse(m, t, n, hot) {
+    const k = n % 12;
+    for (const line of [...PARTS, DRUMS[Math.floor(n / 12) % 4], hot ? HOT : '']) {
+      const s = STROKE[line[k]];
+      if (s) shot(m, m.kit[s[0]], t + rnd(0, 0.006), { loud: s[1] * rnd(0.85, 1), pan: s[2], bus: m.music, room: 0.1 });
+    }
+  }
+
+  // ----- what the game asks for -----
+  const band = { on: false, next: 0, n: 0 };
+  let woke = 0;
+  return {
+    muted: false, m: null, bed: null,
+    ahead: 0,                 // how far ahead of now a sound is laid down: 0 in play, more to try the sounds one after another offline
+    mixer,
+    // Sound starts with the first tap or key. A phone lets it begin only as a finger lifts,
+    // so for a moment after a touch, sounds are laid down to begin when it does
+    wake() {
+      woke = performance.now();
+      if (!this.m) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        // on an iPhone, sound as a video's is: heard with the ring switch on silent. The speaker button turns it off
+        try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (err) { /* not offered here */ }
+        try { this.m = mixer(new AC()); } catch (err) { return; }      // no sound here: the fight goes on without it
+        this.level();
+      }
+      if (this.m.ac.state !== 'running') Promise.resolve(this.m.ac.resume()).catch(() => {});
+    },
+    sleep() { if (this.m && this.m.ac.state === 'running') this.m.ac.suspend().catch(() => {}); },
+    live() { return !!this.m && !this.muted && (this.m.ac.state === 'running' || performance.now() - woke < 1000); },
+    now() { return this.m.ac.currentTime + this.ahead; },
+    level() {
+      if (!this.m) return;
+      const g = this.m.master.gain, t = this.m.ac.currentTime;
+      g.cancelScheduledValues(t); g.setTargetAtTime(this.muted ? 0 : 0.9, t, 0.03);
+    },
+    crowd(level, rise) { if (this.bed) this.bed.bed.gain.setTargetAtTime(level, this.now(), rise || 0.4); },
+
+    // a blow begins: the air cut, and most times a shout
+    swing(f, move) {
+      if (!this.live()) return;
+      const m = this.m, t = this.now(), p = side(f);
+      if (move === 'slash') { swish(m, t + 0.1, p, 500, 2600, 800, 0.2, 0.35, 2); speak(m, t, f, 'slash', 0.7); }
+      else if (move === 'fly') { swish(m, t, p, 350, 1300, 450, 0.26, 0.4); speak(m, t, f, 'fly'); }
+      else { swish(m, t + 0.05, p, 300, 1100, 380, 0.18, 0.35); speak(m, t, f, move, 0.5); }      // a kick or a sweep
+    },
+    jump(f) { if (!this.live()) return; const t = this.now(); swish(this.m, t, side(f), 250, 700, 300, 0.2, 0.18); speak(this.m, t, f, 'jump', 0.35); },
+    land(f) {
+      if (!this.live()) return;
+      const t = this.now(), pan = side(f);
+      shot(this.m, this.m.kit.thump, t, { loud: 0.3, rate: rnd(0.7, 0.8), pan }); shot(this.m, this.m.kit.dust, t, { loud: 0.35, pan });
+    },
+    stepped(f) { if (this.live()) shot(this.m, this.m.kit.dust, this.now(), { loud: 0.06, rate: rnd(0.8, 1.25), pan: side(f) }); },
+    fell(f) {
+      if (!this.live()) return;
+      const t = this.now(), pan = side(f);
+      shot(this.m, this.m.kit.boom, t, { loud: 0.3, rate: 1.5, pan }); shot(this.m, this.m.kit.dust, t, { loud: 0.45, rate: 0.7, pan });
+    },
+    // the fire: a breath drawn, then the roar as it comes. A blow that lands stops it
+    breathe(f) { if (this.live()) speak(this.m, this.now(), f, 'inhale'); },
+    flame(f) { if (!this.live()) return; const t = this.now(); this.m.flames[f.key] = flame(this.m, t, side(f)); speak(this.m, t, f, 'roar'); },
+    ready(f) { if (this.live()) shot(this.m, this.m.kit.bellHigh, this.now(), { loud: 0.12, rate: 2, pan: side(f) }); },
+    // a blow met a guard: steel rings on steel, a kick thuds on the arms, fire splashes off the blade
+    blocked(foe, move) {
+      if (!this.live()) return;
+      const m = this.m, t = this.now(), pan = side(foe);
+      if (move === MOVES.fire) sizzle(m, t, pan, 0.25, 0.4);
+      else if (move === MOVES.slash) shot(m, any(m.kit.clang), t, { loud: 0.55, rate: rnd(0.95, 1.06), pan, room: 0.35 });
+      else { shot(m, m.kit.thump, t, { loud: 0.4, rate: rnd(1.1, 1.3), pan }); shot(m, any(m.kit.clang), t, { loud: 0.12, rate: rnd(1.2, 1.4), pan, room: 0.2 }); }
+    },
+    // a blow landed: its thud, the blade's cut or the fire's burn, the cry of the one struck, and from the crowd an ooh
+    hit(foe, move) {
+      if (!this.live()) return;
+      const m = this.m, t = this.now(), pan = side(foe), fire = move === MOVES.fire;
+      if (m.flames[foe.key]) { m.flames[foe.key].hush(t); m.flames[foe.key] = null; }
+      if (fire) { sizzle(m, t, pan, 0.5, 0.6); shot(m, m.kit.boom, t, { loud: 0.4, rate: 1.6, pan }); speak(m, t, foe, 'burnt'); }
+      else {
+        shot(m, m.kit.thump, t, { loud: move === MOVES.slash ? 0.6 : 0.85, rate: rnd(0.9, 1.1), pan });
+        if (move === MOVES.slash) cut(m, t, pan, 0.35);
+        speak(m, t + 0.02, foe, 'hurt');
+      }
+      if (fire || move === FLYKICK) cheer(m, t + 0.1, 0.4, 1.1, 'oo', 0.1);
+    },
+    // the last blow of a round: a deep boom, a long cry, the crowd on its feet, and the band stops
+    ko(foe) {
+      band.on = false;
+      if (!this.live()) return;
+      const m = this.m, t = this.now();
+      shot(m, m.kit.boom, t, { loud: 0.8, pan: side(foe), room: 0.3 });
+      speak(m, t + 0.05, foe, 'ko');
+      cheer(m, t + 0.15, 0.6, 2.4, 'ae', 0);
+    },
+    time() {
+      band.on = false;
+      if (!this.live()) return;
+      const t = this.now();
+      shot(this.m, this.m.kit.gong, t, { loud: 0.55, room: 0.4 }); cheer(this.m, t + 0.2, 0.3, 1.6, 'oh', 0.15);
+    },
+    // a round is called: the low bell once for each round, the crowd waiting, and Ekwensu laughing at what is to come
+    round(n, mocker) {
+      band.on = false;
+      if (!this.live()) return;
+      const m = this.m, t = this.now();
+      if (!this.bed) this.bed = murmur(m);
+      this.crowd(0.35);
+      for (let i = 0; i < n; i++) shot(m, m.kit.bellLow, t + 0.15 + i * 0.32, { loud: 0.45, room: 0.3 });
+      if (n === 1 || Math.random() < 0.4) speak(m, t + 0.3 + n * 0.32, mocker, 'chuckle');
+    },
+    // "Fight!": the big drum and the high bell, a shout from the crowd, and the band comes in
+    fight() {
+      if (!this.live()) return;
+      const m = this.m, t = this.now();
+      shot(m, m.kit.boom, t, { loud: 0.45, room: 0.3 }); shot(m, m.kit.bellHigh, t, { loud: 0.35, room: 0.3 });
+      cheer(m, t, 0.4, 1.2, 'ae', 0);
+      this.crowd(0.18, 1);
+      Object.assign(band, { on: true, next: t + PULSE * 3, n: 0 });
+    },
+    win(w) { if (!this.live()) return; const t = this.now(); speak(this.m, t, w, w.key === 'ekwensu' ? 'cackle' : 'laugh'); cheer(this.m, t + 0.1, 0.45, 2, 'ae', 0); },
+    // the match is won: clapping and the bells, and then the crowd goes quiet
+    over() {
+      if (this.bed) { const t = this.now(); this.bed.bed.gain.setTargetAtTime(0, t + 2, 0.8); this.bed.stop(t + 6); this.bed = null; }
+      if (!this.live()) return;
+      const m = this.m, t = this.now();
+      applause(m, t, 1.2, 4);
+      for (const [b, at] of [['bellLow', 0], ['bellHigh', 0.2], ['bellLow', 0.4], ['bellHigh', 0.6], ['bellLow', 0.9]]) shot(m, m.kit[b], t + at, { loud: 0.45, room: 0.3 });
+    },
+    // Ekwensu, having slipped a blow, sometimes laughs at it
+    mock(f) { if (this.live() && Math.random() < 0.35) speak(this.m, this.now() + 0.3, f, 'chuckle'); },
+    // the band plays on: each frame lays down the pulses that fall in the next fifth of a second
+    keepTime(hot) {
+      if (!band.on || !this.m) return;
+      const now = this.m.ac.currentTime;
+      if (band.next < now - 0.1) band.next = now + 0.05;            // after the page slept, the beat is picked up again
+      for (; band.next < now + 0.2; band.next += PULSE, band.n++) if (this.live()) pulse(this.m, band.next, band.n, hot);
+    },
+  };
+})();
 // a phone lets sound begin only when a finger lifts or a key goes down
 for (const t of ['pointerup', 'touchend', 'keydown']) addEventListener(t, () => sound.wake(), true);
 
@@ -489,23 +955,29 @@ function step(dt) {
   if (game.phase === 'title' || game.phase === 'over') { for (const f of [ogun, ekwensu]) f.t += dt; return; }
   if (game.stop > 0) { game.stop -= dt; return; }           // a landed blow holds the picture for a moment
   game.t += dt;
-  if (game.phase === 'ready' && game.t >= 1.3) { game.phase = 'fight'; game.t = 0; say('Fight!', 0.7); sound.bell(); }
+  if (game.phase === 'ready' && game.t >= 1.3) { game.phase = 'fight'; game.t = 0; say('Fight!', 0.7); sound.fight(); }
   if (game.phase === 'fight') {
     game.clock -= dt;
     if (game.clock <= 0) {
       game.clock = 0;
       const ahead = ogun.hp === ekwensu.hp ? null : ogun.hp > ekwensu.hp ? ogun : ekwensu;
-      endRound(ahead, true);
+      endRound(ahead, true); sound.time();
     }
   }
   act(ogun, ekwensu, playerWants(dt), dt); spent(ogun);
   act(ekwensu, ogun, game.phase === 'fight' ? think(ekwensu, ogun, dt) : {}, dt);
   keepApart();
+  for (const f of [ogun, ekwensu]) {
+    // a foot comes down twice in each stride, and one who is beaten falls flat a moment after the blow
+    if (f.state !== 'walk') f.pace = -1;
+    else if (Math.floor(f.t / 0.26) !== f.pace) { f.pace = Math.floor(f.t / 0.26); sound.stepped(f); }
+    if (f.state === 'ko' && !f.fell && f.t >= 0.22 && f.y === 0) { f.fell = true; sound.fell(f); }
+  }
   if (game.phase === 'down') {
     const w = game.winner;
-    if (w && game.t >= 0.9 && w.y === 0 && !MOVES[w.state] && w.state !== 'win' && w.state !== 'ko' && w.state !== 'hit') set(w, 'win');
+    if (w && game.t >= 0.9 && w.y === 0 && !MOVES[w.state] && w.state !== 'win' && w.state !== 'ko' && w.state !== 'hit') { set(w, 'win'); sound.win(w); }
     if (game.t >= 3.0) {
-      if (w && w.wins >= ROUNDS_TO_WIN) { game.phase = 'over'; if (awake) awake.release().catch(() => {}); }
+      if (w && w.wins >= ROUNDS_TO_WIN) { game.phase = 'over'; sound.over(); if (awake) awake.release().catch(() => {}); }
       else { if (w) game.round++; newRound(); }
     }
   }
@@ -663,6 +1135,7 @@ function tick(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
   step(dt); draw();
   if (touchUI) showFire();
+  sound.keepTime(game.phase === 'fight' && (game.clock < 10 || Math.min(ogun.hp, ekwensu.hp) < 30));
   requestAnimationFrame(tick);
 }
 // The claude.ai viewer can swap in a newer copy of this page while it is open; this carries the fight across
