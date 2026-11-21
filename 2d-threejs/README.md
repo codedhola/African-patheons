@@ -8,6 +8,10 @@ Twenty-five 2D fighting-game backgrounds (1600 × 900, SVG in HTML) with Yorùb�
 
 [`stages/README.md`](stages/README.md) has the shared stage spec, what each stage draws on, which details are design choices, and every source.
 
+## `fight/`
+
+[`fight/index.html`](fight/index.html) is a short game: Ògún against Ekwensu in the Ofala arena, the player as Ògún. The fighters are pictures of the 3D figures and the arena is a render of the Ofala model. [`fight/README.md`](fight/README.md) has the keys, how the pictures were made, and what was designed.
+
 ## `gods/`
 
 Two pages, each a single self-contained HTML file.
