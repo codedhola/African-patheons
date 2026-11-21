@@ -8,6 +8,7 @@ build script, such as ogun/build_ogun_game.py.
 
 Texture arrays are kept the way Blender keeps them: rows bottom-up, so row 0 is v = 0.
 """
+import json
 import os
 import struct
 import sys
@@ -22,6 +23,7 @@ from mathutils.bvhtree import BVHTree
 
 REPO = Path(__file__).resolve().parent.parent
 TOOLKIT = REPO / '3d' / 'toolkit'
+SKELETON = Path(__file__).resolve().parent / 'skeleton.json'      # the rest frames every fighter's bones are turned to
 
 
 # ----- scene and mesh helpers ------------------------------------------------
@@ -440,13 +442,17 @@ def game_body(figure_dir, rig_name='game_engine'):
 
     The shape comes from the figure's figure.py (or the toolkit's body.py where a figure
     has none), so the mesh is vertex for vertex the one in its portrait scene. The rig
-    has 53 bones named as Unreal's mannequin names them, with a root on the ground.
+    has 53 bones named as Unreal's mannequin names them, with a root on the ground, and
+    a weapon bone in each hand: 55 bones, the same for every figure.
     """
     for p in (str(TOOLKIT), str(figure_dir)):
         if p in sys.path:
             sys.path.remove(p)
         sys.path.insert(0, p)
+    import importlib
     import body as tk_body
+    importlib.reload(tk_body)                  # back to the toolkit's own shape, in case another figure was made first
+    sys.modules.pop('figure', None)
     try:
         import figure  # noqa: F401  (sets tk_body.MACRO and tk_body.TARGETS)
     except ImportError:
@@ -483,6 +489,13 @@ def game_body(figure_dir, rig_name='game_engine'):
             body.modifiers.remove(m)
     body.data.polygons.foreach_set('use_smooth', [True] * len(body.data.polygons))
     body.data.update()
+
+    # the same skeleton for every fighter, so that they can share one in the engine and with it their clips
+    rig.name = 'Armature'                      # Unreal leaves out a root node of this name, so 'root' below is the root
+    rig.data.bones['Root'].name = 'root'
+    turned = standard_rest(rig)
+    weapon_bones(rig)
+    print('shared skeleton:', turned, 'bones turned to its rest frames', flush=True)
 
     names = [b.name for b in rig.data.bones]
     before = weights(body, names)
@@ -727,6 +740,136 @@ def spin(pb, axis, degrees):
     bpy.context.view_layer.update()
 
 
+# ----- one skeleton for every fighter ------------------------------------------
+
+# Where a held thing sits in the right hand, measured on the pilot and written in the hand
+# bone's own space: the place in hand lengths (wrist to the root of the middle finger), the
+# turn as a quaternion. The bone's Y runs along the thing held, its Z toward a blade's edge.
+GRIP_PLACE = (-0.1598, 0.6872, 0.0761)
+GRIP_TURN = (0.33868, -0.22231, -0.80922, -0.42549)
+
+
+def write_skeleton(rig, made_from, path=SKELETON):
+    """Write down the rest frame of every bone of a rig, as the frames all fighters are to have."""
+    bones = {b.name: dict(parent=b.parent.name if b.parent else None,
+                          turn=[round(v, 6) for v in b.matrix_local.to_quaternion()]) for b in rig.data.bones}
+    lines = ',\n'.join(f'  {json.dumps(name)}: {json.dumps(b)}' for name, b in bones.items())
+    Path(path).write_text('{\n "made_from": %s,\n "bones": {\n%s\n }\n}\n' % (json.dumps(made_from), lines))
+    return len(bones)
+
+
+def standard_rest(rig, path=SKELETON):
+    """Turn each bone's rest frame to the shared skeleton's, and leave its joint where this body has it.
+
+    MPFB fits its rig to each body, and the fit turns some bones differently from one body
+    to the next: the toe bones of a woman's rig lie a quarter turn round from a man's, and
+    her spine's bones lean up to 19 degrees otherwise. A clip gives every fighter the same
+    turns, so on such a rig it would curl the toes under and bend the back. With the same
+    rest frames in every fighter a clip moves each of them as it moved the one it was made
+    on, and each keeps the build and the carriage of its own body. A bone turned this way
+    need not point at its child any more; nothing in a game engine asks that it should.
+    Returns how many bones were turned.
+    """
+    from mathutils import Quaternion
+    if not Path(path).exists():
+        return 0
+    table = json.loads(Path(path).read_text())['bones']
+    for ob in bpy.context.view_layer.objects:
+        ob.select_set(False)
+    bpy.context.view_layer.objects.active = rig
+    bpy.ops.object.mode_set(mode='EDIT')
+    bones = rig.data.edit_bones
+    for eb in bones:
+        eb.use_connect = False
+    turned = 0
+    for eb in bones:
+        if eb.name not in table:
+            continue
+        want = Quaternion(table[eb.name]['turn'])
+        if eb.matrix.to_quaternion().rotation_difference(want).angle < np.radians(0.01):
+            continue
+        frame, head, length = want.to_matrix(), eb.head.copy(), eb.length
+        eb.tail = head + frame @ Vector((0, length, 0))
+        eb.align_roll(frame @ Vector((0, 0, 1)))
+        turned += 1
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.context.view_layer.update()
+    return turned
+
+
+def grip_in_hand(rig, side='r'):
+    """The standard place of a weapon bone, as an armature-space matrix."""
+    from mathutils import Quaternion
+    B = rig.data.bones
+    span = (B['middle_01_r'].head_local - B['hand_r'].head_local).length
+    M = B['hand_r'].matrix_local @ Matrix.Translation(Vector(GRIP_PLACE) * span) @ Quaternion(GRIP_TURN).to_matrix().to_4x4()
+    if side == 'l':
+        flip = Matrix.Diagonal((-1, 1, 1, 1))
+        M = flip @ M @ flip
+    return M
+
+
+def weapon_bones(rig, sides='rl', length=0.10):
+    """Give the rig weapon_r and weapon_l, each a child of its hand, in the standard place.
+
+    Every fighter gets both, armed or not. A clip carries each bone's turn within its
+    parent, so fighters can only share clips if they have the same bones and hold things
+    the same way; a thing made with its grip at its own origin then sits alike in every
+    hand. Returns each bone's armature-space matrix by name.
+    """
+    place = {'weapon_' + s: grip_in_hand(rig, s) for s in sides}
+    for ob in bpy.context.view_layer.objects:
+        ob.select_set(False)
+    bpy.context.view_layer.objects.active = rig
+    bpy.ops.object.mode_set(mode='EDIT')
+    for name, M in place.items():
+        eb = rig.data.edit_bones.get(name) or rig.data.edit_bones.new(name)
+        eb.head = M.translation
+        eb.tail = M.translation + M.to_3x3() @ Vector((0, length, 0))
+        eb.align_roll(M.to_3x3() @ Vector((0, 0, 1)))
+        eb.parent = rig.data.edit_bones['hand_' + name[-1]]
+        eb.use_connect = False
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.context.view_layer.update()
+    return {name: rig.data.bones[name].matrix_local.copy() for name in place}
+
+
+def follow(rig, source, hips='scaled'):
+    """Pose rig as a game engine does when it plays another fighter's clip on a shared skeleton.
+
+    source is that fighter's rig, posed. A clip holds each bone's turn and place within its
+    parent. The engine gives every fighter the turn, and so the same attitude in every limb,
+    but leaves each bone at its own length: in Unreal, Translation Retargeting set to
+    Skeleton. The root goes where the clip puts it. The pelvis has three ways to go, named
+    here as hips: 'scaled' moves it as the clip says in proportion to the fighter's own size
+    (Unreal's Animation Scaled), 'clip' moves it exactly as the clip says (Animation), and
+    'own' leaves it where the fighter's rest pose has it (Skeleton).
+    """
+    S, B, R = source.pose.bones, rig.data.bones, source.data.bones
+    world = {}
+    for name in bones_in_order(rig):
+        b = B[name]
+        own = (b.parent.matrix_local.inverted() @ b.matrix_local) if b.parent else b.matrix_local.copy()
+        if name not in S:
+            local = own
+        else:
+            sp = S[name]
+            if (sp.parent.name if sp.parent else None) != (b.parent.name if b.parent else None):
+                raise ValueError(f'{name} has a different parent on the two rigs')
+            theirs = (sp.parent.matrix.inverted() @ sp.matrix) if sp.parent else sp.matrix.copy()
+            place = own.translation
+            if b.parent is None or (name == 'pelvis' and hips == 'clip'):
+                place = theirs.translation
+            elif name == 'pelvis' and hips == 'scaled':
+                rest = (R[name].parent.matrix_local.inverted() @ R[name].matrix_local).translation
+                place = theirs.translation * (own.translation.length / rest.length)
+            local = Matrix.Translation(place) @ theirs.to_3x3().normalized().to_4x4()
+        world[name] = (world[b.parent.name] @ local) if b.parent else local
+    for name in bones_in_order(rig):
+        rig.pose.bones[name].matrix = world[name]
+        bpy.context.view_layer.update()
+
+
 # ----- animation ---------------------------------------------------------------
 
 def fcurves(action):
@@ -891,22 +1034,33 @@ def close_hand(rig, side, degrees=72, thumb=35):
                 spin(pb, axis, thumb if finger == 'thumb' else degrees)
 
 
+STANCE_SKULL = 1.6582       # how high the head bone starts on the figure the stances were set out on
+
+
+def _own_size(rig):
+    """The stances' places are measured on the pilot; this brings a place to the size of the figure in hand."""
+    s = rig.data.bones['head'].head_local.z / STANCE_SKULL
+    return lambda *place: tuple(s * v for v in place)
+
+
 def stance_guard(rig):
     """A fighter's guard: left side forward, knees bent, hands up."""
     clear_pose(rig)
+    at = _own_size(rig)
     P = rig.pose.bones
     pelvis = P['pelvis']
-    pelvis.matrix = Matrix.Translation((0, 0, -0.075)) @ pelvis.matrix
+    pelvis.matrix = Matrix.Translation(at(0, 0, -0.075)) @ pelvis.matrix
     bpy.context.view_layer.update()
     spin(pelvis, (0, 0, 1), -32)
     spin(P['spine_02'], (0, 0, 1), 10)
     spin(P['spine_03'], (1, 0, 0), 6)
-    reach_limb(rig, 'thigh_l', 'calf_l', 'foot_l', (0.20, -0.30, 0.085), (0.25, -1, 0))
+    ankle = rig.data.bones['foot_l'].head_local.z          # as high as it stands at rest, so the sole is on the floor
+    reach_limb(rig, 'thigh_l', 'calf_l', 'foot_l', at(0.20, -0.30, 0)[:2] + (ankle,), (0.25, -1, 0))
     level_foot(rig, 'l', -8)
-    reach_limb(rig, 'thigh_r', 'calf_r', 'foot_r', (-0.22, 0.30, 0.085), (-0.6, -1, 0))
+    reach_limb(rig, 'thigh_r', 'calf_r', 'foot_r', at(-0.22, 0.30, 0)[:2] + (ankle,), (-0.6, -1, 0))
     level_foot(rig, 'r', -48)
-    reach_limb(rig, 'upperarm_l', 'lowerarm_l', 'hand_l', (0.16, -0.46, 1.50), (0.4, 0.2, -1))
-    reach_limb(rig, 'upperarm_r', 'lowerarm_r', 'hand_r', (-0.20, -0.20, 1.40), (-0.5, 0.4, -1))
+    reach_limb(rig, 'upperarm_l', 'lowerarm_l', 'hand_l', at(0.16, -0.46, 1.50), (0.4, 0.2, -1))
+    reach_limb(rig, 'upperarm_r', 'lowerarm_r', 'hand_r', at(-0.20, -0.20, 1.40), (-0.5, 0.4, -1))
     spin(P['head'], (0, 0, 1), 22)
     for side in 'lr':
         close_hand(rig, side)
@@ -915,14 +1069,16 @@ def stance_guard(rig):
 def stance_kick(rig):
     """A front kick with the right leg, to stretch the hip, the knee and whatever hangs from the waist."""
     clear_pose(rig)
+    at = _own_size(rig)
     P = rig.pose.bones
     spin(P['pelvis'], (1, 0, 0), -10)
     spin(P['spine_02'], (1, 0, 0), -6)
-    reach_limb(rig, 'thigh_l', 'calf_l', 'foot_l', (0.12, 0.10, 0.10), (0.2, -1, 0))
+    ankle = rig.data.bones['foot_l'].head_local.z
+    reach_limb(rig, 'thigh_l', 'calf_l', 'foot_l', at(0.12, 0.10, 0)[:2] + (ankle,), (0.2, -1, 0))
     level_foot(rig, 'l', 20)
-    reach_limb(rig, 'thigh_r', 'calf_r', 'foot_r', (-0.13, -0.86, 1.05), (0, -0.3, 1))
-    reach_limb(rig, 'upperarm_l', 'lowerarm_l', 'hand_l', (0.26, -0.32, 1.42), (0.5, 0.2, -1))
-    reach_limb(rig, 'upperarm_r', 'lowerarm_r', 'hand_r', (-0.42, 0.10, 1.10), (-0.4, 0.6, -0.4))
+    reach_limb(rig, 'thigh_r', 'calf_r', 'foot_r', at(-0.13, -0.86, 1.05), (0, -0.3, 1))
+    reach_limb(rig, 'upperarm_l', 'lowerarm_l', 'hand_l', at(0.26, -0.32, 1.42), (0.5, 0.2, -1))
+    reach_limb(rig, 'upperarm_r', 'lowerarm_r', 'hand_r', at(-0.42, 0.10, 1.10), (-0.4, 0.6, -0.4))
     for side in 'lr':
         close_hand(rig, side)
 

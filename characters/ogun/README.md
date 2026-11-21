@@ -1,6 +1,6 @@
 # Ògún (game character)
 
-Ògún as a fighter: one skinned mesh of 45,455 triangles on a 53-bone game skeleton, five materials on image textures, his àdá as a mesh of its own, and one test clip. He is made from the portrait in [`3d/ogun/`](../../3d/ogun/) by the script in this folder, so the two stay the same man.
+Ògún as a fighter: one skinned mesh of 45,455 triangles on the 55-bone skeleton every fighter shares, five materials on image textures, his àdá as a mesh of its own, and one test clip. He is made from the portrait in [`3d/ogun/`](../../3d/ogun/) by the script in this folder, so the two stay the same man.
 
 He is the pilot for the other figures. **Nothing here has been opened in Unreal yet.** Every check below was made in Blender; [In Unreal](#in-unreal-not-tested) says what to do there and what to look at first.
 
@@ -30,7 +30,7 @@ In each pair the portrait is on the left. The game model is standing in the port
 | Triangles in the figure | 295,836, and 808,156 as Blender exports it | 45,455 |
 | Meshes | 14, one of them skinned | 1, all of it skinned |
 | Hair | 102,183 curves, which FBX drops | A layer over shaded skin, and brows drawn into the skin's colour |
-| Skeleton | 163 bones, the root at the hips | 53 bones and a weapon bone, the root on the ground |
+| Skeleton | 163 bones, the root at the hips | 53 bones and a weapon bone in each hand, the root on the ground |
 | Materials | 12, of which 5 are procedural and 5 are not a plain Principled surface | 5, and 1 for the àdá, all on image maps |
 | Materials that keep a texture through FBX | 1 | 6 |
 | FBX | 20.9 MB, with his dog and àdá | 4.4 MB, and 0.06 MB for the àdá |
@@ -55,7 +55,7 @@ In each pair the portrait is on the left. The game model is standing in the port
 
 **Skeleton.** MPFB's `game_engine` rig: `root` on the ground at the origin, then `pelvis`, `spine_01` to `spine_03`, `neck_01`, `head`, and on each side `clavicle`, `upperarm`, `lowerarm`, `hand`, three bones to a finger, `thigh`, `calf`, `foot` and `ball`. The names are the ones Unreal's mannequin uses. The rest pose is MakeHuman's, with the arms 48° below level. There are no face bones, so the jaw and eyes do not move.
 
-**Weapon bone.** `weapon_r` is a child of `hand_r` with no weights. Its head is the middle of the àdá's grip, it points along the blade, and its Z axis points to the cutting edge. In `SK_Ogun.blend` the àdá is parented to it.
+**Weapon bones.** `weapon_r` and `weapon_l` are children of the hands with no weights. Every fighter has both, in the same place in the hand, so that all of them have the same 55 bones and a thing made for one hand sits alike in any other; see [Sharing movement](../README.md#sharing-movement). The place was measured from this figure: the head of `weapon_r` is the middle of the àdá's grip, it points along the blade, and its Z axis points to the cutting edge. In `SK_Ogun.blend` the àdá is parented to it. `weapon_l` is its mirror and holds nothing.
 
 **Weights.** Every vertex has one to four weights that sum to one.
 - The body has MPFB's weights for this rig, cut to four on the 608 vertices that had five or six.
@@ -99,7 +99,7 @@ Three things were changed by eye against the portrait in the same light:
 - **The fringe has no motion of its own.** It follows the hips and thighs. In [the pose sheet](Renders/Ogun_Poses.png) it drapes over the raised thigh in the kick but does not swing, and in the guard it parts at the forward hip so that the trousers show. Cloth simulation or a few skirt bones in the engine would give it its own movement.
 - **The trousers** are one layer of cloth, drawn two-sided.
 - **Skin** is a plain surface. The portrait's scatters light beneath it.
-- **The clip and the stances** are there to try the rig. They are not the game's animation, and no retargeting from another skeleton has been tried.
+- **The clip and the stances** are there to try the rig. They are not the game's animation. The clip has been played on the bare bodies of the other five figures, in Blender, as an engine plays it on a shared skeleton: see [Sharing movement](../README.md#sharing-movement). No retargeting from another skeleton, such as Unreal's mannequin, has been tried.
 - **There are no LODs, no physics asset and no collision.**
 - **His dog** is not here. It would be a character of its own.
 
@@ -110,7 +110,7 @@ Three things were changed by eye against the portrait in the same light:
 3. Import the 18 textures. Base colour: sRGB on. Normal: tick **Flip Green Channel**, since these are OpenGL maps, as the locations' are. Packed map: sRGB off, compression Masks; red is occlusion, green roughness, blue metal.
 4. Make one parent material with those three maps and an instance for each of the six. Set Two Sided on `Etu` and `Mariwo`. Set Specular to 0.36 on `Skin` and 0.15 on `Hair`.
 5. Import `Export/SM_Ogun_Ada.fbx` as a static mesh and attach it to the bone `weapon_r`. If the blade points the wrong way, turn the attachment: the bone's axes were set in Blender and Unreal names bone axes differently.
-6. Import `Export/A_Ogun_GuardIdle.fbx` as an animation on the skeleton from step 1.
+6. Import `Export/A_Ogun_GuardIdle.fbx` as an animation on the skeleton from step 1. That Skeleton asset is the one every later fighter should be imported onto; [Sharing movement](../README.md#sharing-movement) has the settings.
 7. Let Unreal make two LODs, at about 50% and 25%.
 
 Look first at the scale and the root bone, then at the àdá in the hand, then at the tiled cloth.
@@ -142,7 +142,8 @@ All made in Blender 4.5.15 LTS.
 
 - **Rest pose:** the body's vertices are the portrait's to within 0.01 mm, and the skinning transforms worked out for the carry-back give the portrait's posed skin to within 0.0003 mm of Blender's own.
 - **Mesh:** no n-gons, no loose vertices, no edge with three faces, no flipped neighbours, no zero-area faces, and no face without area in the texture map.
-- **Weights:** no vertex without weights, four at most on any vertex, all summing to one. 52 bones carry weight; `root` and `weapon_r` carry none.
-- **FBX read back:** `SK_Ogun.fbx` gives one armature of 54 bones with the single root `root`, and one skinned mesh of 45,455 triangles, 1.227 × 0.605 × 1.846 m, its lowest point at 0. Colour and normal maps are found for all five materials. `SM_Ogun_Ada.fbx` gives one mesh of 616 triangles, 57.9 cm long. `A_Ogun_GuardIdle.fbx` gives the armature and 61 frames.
-- **Poses:** the portrait's pose, a guard and a front kick were rendered on the game rig from two sides each, in [the pose sheet](Renders/Ogun_Poses.png).
+- **Weights:** no vertex without weights, four at most on any vertex, all summing to one. 52 bones carry weight; `root` and the two weapon bones carry none.
+- **FBX read back:** `SK_Ogun.fbx` gives one armature of 55 bones with the single root `root`, and one skinned mesh of 45,455 triangles, 1.227 × 0.605 × 1.846 m, its lowest point at 0. Colour and normal maps are found for all five materials. `SM_Ogun_Ada.fbx` gives one mesh of 616 triangles, 57.9 cm long. `A_Ogun_GuardIdle.fbx` gives the armature and 61 frames.
+- **Poses:** the portrait's pose, a guard and a front kick were rendered on the game rig from two sides each, in [the pose sheet](Renders/Ogun_Poses.png). In the guard and through the whole clip the lowest point of the bare body is at 0.0 mm: the soles are on the floor.
+- **Shared skeleton:** his rest frames are the ones in [`../skeleton.json`](../skeleton.json), which were taken from him, so the step that turns a fighter's bones to them turns none of his.
 - **Texture paths** in `SK_Ogun.blend` are all relative.

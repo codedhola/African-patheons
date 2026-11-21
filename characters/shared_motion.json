@@ -1,0 +1,138 @@
+{
+ "clip": "A_Ogun_GuardIdle",
+ "made_on": "ogun",
+ "figures": [
+  {
+   "figure": "ekwensu",
+   "height_m": 1.884,
+   "hips_m": 1.019,
+   "bones": 55,
+   "same_bones": true,
+   "lowest_point_mm_hips_own": 77.5,
+   "lowest_point_mm_hips_clip": -35.3,
+   "lowest_point_mm_hips_scaled": -0.4,
+   "frames_looked_at": 13,
+   "lowest_point_mm": [
+    -0.4,
+    -0.4
+   ],
+   "foot_slide_mm": [
+    0.0,
+    0.0
+   ],
+   "hand_travel_mm": 18.9,
+   "arms_in_body_mm": 0.0,
+   "arm_vertices_over_5mm": 0
+  },
+  {
+   "figure": "idemili",
+   "height_m": 1.745,
+   "hips_m": 0.914,
+   "bones": 55,
+   "same_bones": true,
+   "lowest_point_mm_hips_own": 68.2,
+   "lowest_point_mm_hips_clip": 61.1,
+   "lowest_point_mm_hips_scaled": -1.4,
+   "frames_looked_at": 13,
+   "lowest_point_mm": [
+    -1.4,
+    -1.4
+   ],
+   "foot_slide_mm": [
+    0.0,
+    0.0
+   ],
+   "hand_travel_mm": 17.1,
+   "arms_in_body_mm": 0.0,
+   "arm_vertices_over_5mm": 0
+  },
+  {
+   "figure": "ogun",
+   "height_m": 1.81,
+   "hips_m": 0.981,
+   "bones": 55,
+   "same_bones": true,
+   "lowest_point_mm_hips_own": 75.0,
+   "lowest_point_mm_hips_clip": 0.0,
+   "lowest_point_mm_hips_scaled": 0.0,
+   "frames_looked_at": 13,
+   "lowest_point_mm": [
+    0.0,
+    0.0
+   ],
+   "foot_slide_mm": [
+    0.0,
+    0.0
+   ],
+   "hand_travel_mm": 18.2,
+   "arms_in_body_mm": 0.0,
+   "arm_vertices_over_5mm": 0
+  },
+  {
+   "figure": "osoosi",
+   "height_m": 1.716,
+   "hips_m": 0.912,
+   "bones": 55,
+   "same_bones": true,
+   "lowest_point_mm_hips_own": 70.5,
+   "lowest_point_mm_hips_clip": 64.0,
+   "lowest_point_mm_hips_scaled": 0.7,
+   "frames_looked_at": 13,
+   "lowest_point_mm": [
+    0.7,
+    0.7
+   ],
+   "foot_slide_mm": [
+    0.0,
+    0.0
+   ],
+   "hand_travel_mm": 17.0,
+   "arms_in_body_mm": 0.0,
+   "arm_vertices_over_5mm": 0
+  },
+  {
+   "figure": "osun",
+   "height_m": 1.672,
+   "hips_m": 0.869,
+   "bones": 55,
+   "same_bones": true,
+   "lowest_point_mm_hips_own": 65.2,
+   "lowest_point_mm_hips_clip": 102.7,
+   "lowest_point_mm_hips_scaled": -1.0,
+   "frames_looked_at": 13,
+   "lowest_point_mm": [
+    -1.0,
+    -1.0
+   ],
+   "foot_slide_mm": [
+    0.0,
+    0.0
+   ],
+   "hand_travel_mm": 16.1,
+   "arms_in_body_mm": 0.0,
+   "arm_vertices_over_5mm": 0
+  },
+  {
+   "figure": "yemoja",
+   "height_m": 1.652,
+   "hips_m": 0.861,
+   "bones": 55,
+   "same_bones": true,
+   "lowest_point_mm_hips_own": 64.9,
+   "lowest_point_mm_hips_clip": 110.1,
+   "lowest_point_mm_hips_scaled": -0.6,
+   "frames_looked_at": 13,
+   "lowest_point_mm": [
+    -0.6,
+    -0.6
+   ],
+   "foot_slide_mm": [
+    0.0,
+    0.0
+   ],
+   "hand_travel_mm": 16.4,
+   "arms_in_body_mm": 0.0,
+   "arm_vertices_over_5mm": 0
+  }
+ ]
+}

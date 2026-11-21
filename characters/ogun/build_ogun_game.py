@@ -3,7 +3,7 @@
 The portrait in 3d/ogun/ogun.blend is the source. Each stage reads the one before from the
 work folder (GAME_WORK, or work/ beside this script), and the later ones write into this folder:
 
-    body       his body on the 53-bone game rig, in the rest pose
+    body       his body on the game rig every fighter shares, in the rest pose
     source     the portrait's cloth, fronds and iron, carried back to the rest pose
     parts      light versions of each of them, with their texture coordinates
     textures   Textures/: baked from the portrait's own materials, or painted to match
@@ -70,9 +70,7 @@ def save_model():
 def stage_body():
     body, rig = gk.game_body(FIGURE)
     body.name = body.data.name = 'Body'
-    rig.name = 'Armature'                      # Unreal leaves out a root node of this name, so 'root' below is the root
     rig.data.name = 'SKEL_Ogun'
-    rig.data.bones['Root'].name = 'root'
 
     # where his hair and beard grow, measured while the mesh still has every face
     import hair
@@ -818,19 +816,16 @@ def stage_assemble():
             m.object = rig
     gk.set_weights(mesh, gk.weights(mesh, names), names)        # one clean table: four weights at most, summing to one
 
-    # the àdá: its own mesh, held by a bone that carries its grip, blade along the bone and edge toward the bone's Z
+    # the àdá: its own mesh, on the weapon bone every fighter has. The bone's standard place was measured from
+    # this hand, so the blade stays where the portrait holds it: along the bone, its edge toward the bone's Z
     blade = gk.join(list(weapon.objects), bpy.data.objects['G_AdaBlade'])
     blade.name = blade.data.name = 'SM_Ogun_Ada'
-    grip = blade.matrix_world.copy()
-    bpy.context.view_layer.objects.active = rig
-    bpy.ops.object.mode_set(mode='EDIT')
-    eb = rig.data.edit_bones.new('weapon_r')
-    eb.head = grip.translation
-    eb.tail = grip.translation + grip.to_3x3() @ Vector((0, 0, 0.10))
-    eb.align_roll(grip.to_3x3() @ Vector((0, -1, 0)))
-    eb.parent = rig.data.edit_bones['hand_r']
-    eb.use_connect = False
-    bpy.ops.object.mode_set(mode='OBJECT')
+    held = blade.matrix_world.copy()
+    bones = gk.weapon_bones(rig)
+    grip = bones['weapon_r'] @ Matrix(((1, 0, 0, 0), (0, 0, 1, 0), (0, -1, 0, 0), (0, 0, 0, 1)))
+    turned = np.degrees(held.to_quaternion().rotation_difference(grip.to_quaternion()).angle)
+    print('the àdá on the standard weapon bone:', round((grip.translation - held.translation).length * 1000, 3), 'mm and',
+          round(float(turned), 3), 'degrees from where the portrait holds it', flush=True)
     blade.parent = rig
     blade.parent_type = 'BONE'
     blade.parent_bone = 'weapon_r'

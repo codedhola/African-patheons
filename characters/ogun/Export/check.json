@@ -6,7 +6,7 @@
    "ARMATURE": 1,
    "MESH": 1
   },
-  "bones": 54,
+  "bones": 55,
   "root_bones": [
    "root"
   ],
@@ -110,11 +110,11 @@
  },
  {
   "file": "A_Ogun_GuardIdle.fbx",
-  "megabytes": 0.54,
+  "megabytes": 0.55,
   "objects": {
    "ARMATURE": 1
   },
-  "bones": 54,
+  "bones": 55,
   "root_bones": [
    "root"
   ],
