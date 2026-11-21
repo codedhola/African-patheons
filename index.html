@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#140d08">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Ògún and Ekwensu at the Ofala</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* One dark screen: the arena picture, and on a touch screen a stick and four buttons over its lower corners */
+  :root {
+    color-scheme: dark;
+    --night: #140d08;                    /* behind the picture */
+    --earth: #2a1a10;                    /* the canvas until the pictures load */
+    --bark: #6b4a2c;                     /* rims */
+    --cloth: #f4efe6;                    /* text */
+    --dust: #cbb89c;                     /* quieter text */
+    --gold: #e0a63a;                     /* what is held down */
+    --flame: #ff8a2a;                    /* the fire, ready */
+    --ember: rgba(138, 74, 34, 0.9);     /* the fire, coming back */
+    --veil: rgba(20, 10, 5, 0.45);       /* a control laid over the picture */
+    --mist: rgba(244, 239, 230, 0.14);
+    --mist-edge: rgba(244, 239, 230, 0.55);
+    --face: Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { box-sizing: border-box; height: 100%; }
+  *, *::before, *::after { box-sizing: inherit; }
+  body { margin: 0; height: 100%; background: var(--night); color: var(--cloth); font-family: var(--face); }
+  [hidden] { display: none !important; }
+  main { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  canvas { display: block; width: min(100%, calc((100vh - 84px) * 16 / 9)); max-width: 100%; aspect-ratio: 16 / 9;
+    background: var(--earth); }
+  .keys, .moves { margin: 0; line-height: 1.6; color: var(--dust); }
+  .keys { font-size: 14px; text-align: center; }
+  .keys b, .moves b { color: var(--cloth); font-weight: 600; }
+  button { font: inherit; color: inherit; }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  #bar, #pad { display: none; }
+
+  /* ----- on a touch screen ----- */
+  .touch, .touch body { overflow: hidden; overscroll-behavior: none; }
+  .touch main { position: relative; height: 100%; min-height: 0; container-type: size; touch-action: none;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+    --stick: min(38vmin, 170px); --btn: min(16vmin, 74px); --gap: 2vmin; --lift: 4vmin;
+    --d: calc((var(--btn) + var(--gap)) * 0.7071); --cluster: calc(var(--d) * 2 + var(--btn)); }
+  .touch canvas { width: min(100%, calc(100vh * 16 / 9)); width: min(100cqw, 100cqh * 16 / 9); }
+  .touch .keys { display: none; }
+  .touch #bar { display: flex; align-self: stretch; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .moves { flex: 1; min-width: 0; font-size: 13px; }
+  #tools { display: flex; gap: 8px; flex: none; }
+  #tools button { width: 40px; height: 40px; padding: 0; display: grid; place-items: center; border-radius: 50%;
+    border: 1px solid var(--bark); background: var(--veil); }
+  #tools svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  #mute[aria-pressed="true"] .cross, #mute[aria-pressed="false"] .waves { display: none; }
+
+  .touch #pad { display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  #stick { position: absolute; left: max(16px, env(safe-area-inset-left, 0px)); bottom: var(--lift);
+    width: var(--stick); height: var(--stick); border-radius: 50%; pointer-events: auto; touch-action: none; }
+  #stick::before { content: ""; position: absolute; inset: -16%; border-radius: 50%; }   /* a thumb a little outside still counts */
+  #stick svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  #stick .ring { fill: var(--veil); stroke: var(--bark); stroke-width: 1.5; }
+  #stick .way { fill: var(--dust); }
+  #stick .way.on { fill: var(--gold); }
+  #stick .knob { position: absolute; left: 29%; top: 29%; width: 42%; height: 42%; border-radius: 50%; pointer-events: none;
+    background: var(--mist); border: 2px solid var(--mist-edge); transform: translate(var(--kx, 0px), var(--ky, 0px)); }
+  #stick.on .knob { border-color: var(--gold); }
+  #hits { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); bottom: var(--lift);
+    width: var(--cluster); height: var(--cluster); }
+  #hits button { position: absolute; width: var(--btn); height: var(--btn); padding: 0; border-radius: 50%;
+    border: 2px solid var(--bark); background: var(--veil); font-size: calc(var(--btn) * 0.24); font-weight: 600;
+    letter-spacing: 0.02em; pointer-events: auto; touch-action: none; }
+  #hits [data-key="fire"]  { left: var(--d); top: 0; }
+  #hits [data-key="block"] { left: 0; top: var(--d); }
+  #hits [data-key="kick"]  { left: calc(var(--d) * 2); top: var(--d); }
+  #hits [data-key="slash"] { left: var(--d); top: calc(var(--d) * 2); }
+  #hits button.on { background: var(--gold); border-color: var(--gold); color: var(--night); }
+  #hits .fire { background: conic-gradient(var(--ember) calc(var(--ready, 1) * 1turn), var(--veil) 0); }
+  #hits .fire.ready { border-color: var(--flame); }
+  #hits .fire.on { background: var(--flame); border-color: var(--flame); color: var(--night); }
+
+  @media (orientation: portrait) {
+    .touch main { justify-content: flex-start; padding-block: 12px; --lift: 9vmin; }
+  }
+  /* held sideways, sound and full screen sit either side of the round clock, in the gap between the two health bars */
+  @media (orientation: landscape) {
+    .touch .moves { display: none; }
+    .touch #bar { position: absolute; z-index: 2; left: 50%; transform: translate(-50%, -50%);
+      top: 28px; top: calc((100cqh - min(100cqh, 100cqw * 9 / 16)) / 2 + min(100cqh, 100cqw * 9 / 16) * 0.069);
+      width: 156px; width: calc(min(100cqw, 100cqh * 16 / 9) * 0.14 + 36px); }
+    .touch #tools { width: 100%; justify-content: space-between; }
+    .touch #tools button { width: 36px; height: 36px; }
+  }
+</style>
+<script>
+  // the stick and the buttons show on a touch screen, or anywhere with #touch at the end of the address
+  document.documentElement.classList.toggle('touch', location.hash === '#touch' || matchMedia('(pointer: coarse)').matches);
+</script>
+</head>
+<body>
+<main id="play">
+  <canvas id="stage" width="1600" height="900"
+    aria-label="A fighting game. Ògún and Ekwensu fight with machetes in the arena before the Obi's palace at the Ofala festival."></canvas>
+  <div id="bar">
+    <p class="moves"><b>Stick</b>: slide to step, up to jump, down to bend down · <b>Down</b> + <b>Kick</b>: sweep ·
+      <b>Kick</b> in the air: flying kick · <b>Fire</b> fills again in 3.5 s<br>Turn the phone sideways for a bigger picture.</p>
+    <div id="tools">
+      <button type="button" id="mute" aria-pressed="true" aria-label="Sound">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/>
+          <path class="waves" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="cross" d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
+      </button>
+      <button type="button" id="full" aria-label="Full screen" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>
+      </button>
+    </div>
+  </div>
+  <p class="keys"><b>A</b> / <b>D</b> move · <b>W</b> jump · <b>S</b> bend down · <b>J</b> slash · <b>K</b> kick · <b>L</b> block<br>
+    <b>S</b> + <b>K</b> sweep · <b>K</b> in the air: flying kick · <b>S</b>, <b>A</b>, <b>J</b> one after the other: breathe fire · <b>Enter</b> start · <b>M</b> sound</p>
+  <div id="pad">
+    <div id="stick" role="img" aria-label="Stick: slide to step, up to jump, down to bend down">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true">
+        <circle class="ring" r="48"/>
+        <path class="way" data-way="up" d="M0-43l9 12H-9z"/>
+        <path class="way" data-way="down" d="M0 43l9-12H-9z"/>
+        <path class="way" data-way="back" d="M-43 0l12-9v18z"/>
+        <path class="way" data-way="fwd" d="M43 0l-12-9v18z"/>
+      </svg>
+      <span class="knob"></span>
+    </div>
+    <div id="hits">
+      <button type="button" tabindex="-1" data-key="fire" class="fire">Fire</button>
+      <button type="button" tabindex="-1" data-key="block">Block</button>
+      <button type="button" tabindex="-1" data-key="kick">Kick</button>
+      <button type="button" tabindex="-1" data-key="slash">Slash</button>
+    </div>
+  </div>
+</main>
+<script>
+'use strict';
+// ----- the pictures. The cell numbers and the mouths are make_sprites.py's -----
+const W = 1600, H = 900, GROUND = 772;
+const CELL_W = 616, CELL_H = 539, COLUMNS = 6;
+const ORIGIN_X = 264, ORIGIN_Y = 528;            // where a fighter's feet stand in a cell
+const FRAME = { idle0: 0, idle1: 1, walk0: 2, walk1: 3, slash0: 4, slash1: 5, kick0: 6, kick1: 7, block: 8, hit: 9, ko: 10, win: 11,
+  crouch: 12, sweep: 13, jump: 14, flykick: 15, fire: 16 };
+const MOUTH = { ogun: { x: 79, y: 310 }, ekwensu: { x: 82, y: 322 } };      // in the fire pose: pixels ahead of the feet, and above them
+
+function picture(src) { const im = new Image(); im.src = src; return im; }
+const backdrop = picture('img/ofala.webp');
+const sheets = { ogun: picture('img/ogun.webp'), ekwensu: picture('img/ekwensu.webp') };
+
+// ----- the rules -----
+const LEFT = 190, RIGHT = 1350;                   // how far the feet may go: the tree on one side, the crowd on the other
+const APART = 165;                                // as close as two fighters stand
+const SPEED = 330, BACK = 250;                    // pixels a second, forward and back
+const LEAP = 900, FALL = 2800;                    // a jump's first speed upward, and what pulls it down: 145 pixels high, 0.64 s long
+const ROUND_TIME = 60, ROUNDS_TO_WIN = 2, FIRE_WAIT = 3.5;
+// A blow is high, middle or low. A high one passes over a fighter who is bent down; a low one passes under one in the air.
+const MOVES = {
+  slash: { wind: 0.16, live: 0.09, rest: 0.24, reach: 300, hurt: 14, push: 380, at: 250, level: 'high', frames: ['slash0', 'slash1'] },
+  kick:  { wind: 0.11, live: 0.09, rest: 0.17, reach: 245, hurt: 8,  push: 620, at: 215, level: 'mid',  frames: ['kick0', 'kick1'] },
+  sweep: { wind: 0.12, live: 0.10, rest: 0.28, reach: 240, hurt: 7,  push: 300, at: 40,  level: 'low',  frames: ['crouch', 'sweep'] },
+  fire:  { wind: 0.30, live: 0.36, rest: 0.30, reach: 440, hurt: 16, push: 440, at: 320, level: 'high', frames: ['fire', 'fire'], grows: 0.14 },
+};
+const FLYKICK = { reach: 225, hurt: 10, push: 560, at: 200, level: 'mid' };
+
+function fighter(key, name, face) {
+  return { key, name, face, x: 0, y: 0, vy: 0, vx: 0, hp: 100, shown: 100, state: 'idle', t: 0, slide: 0,
+    landed: false, kicking: false, flash: 0, cool: 0, wins: 0 };
+}
+const ogun = fighter('ogun', 'ÒGÚN', 1), ekwensu = fighter('ekwensu', 'EKWENSU', -1);
+const game = { phase: 'title', t: 0, round: 1, clock: ROUND_TIME, banner: '', bannerT: 0, stop: 0, shake: 0, sparks: [], winner: null, time: 0 };
+const ai = { wait: 0, want: {}, judged: false, answered: false, fly: false };
+
+function set(f, state) { f.state = state; f.t = 0; f.landed = false; f.kicking = false; }
+
+function newRound() {
+  ogun.x = 480; ekwensu.x = 1060;
+  for (const f of [ogun, ekwensu]) { f.hp = f.shown = 100; f.slide = f.flash = f.cool = f.y = f.vy = f.vx = 0; set(f, 'idle'); }
+  game.phase = 'ready'; game.t = 0; game.clock = ROUND_TIME; game.winner = null; game.sparks = [];
+  ai.wait = 0; ai.want = {};
+  say('Round ' + game.round, 1.2);
+}
+function newMatch() { ogun.wins = ekwensu.wins = 0; game.round = 1; newRound(); stayAwake(); }
+function say(text, seconds) { game.banner = text; game.bannerT = seconds; }
+
+const bentDown = f => f.state === 'crouch' || f.state === 'sweep';
+
+function strike(f, foe, m) {
+  const gap = Math.abs(foe.x - f.x);
+  const reach = m.grows ? m.reach * Math.min(1, (f.t - m.wind) / m.grows) : m.reach;
+  if (gap > reach || foe.state === 'ko' || foe.state === 'win') return;
+  if (m.level === 'high' && bentDown(foe)) return;          // over the head
+  if (m.level === 'low' && foe.y > 30) return;              // under the feet
+  f.landed = true;
+  const at = { x: f.x + f.face * (gap - 40), y: GROUND - m.at - (m === FLYKICK ? f.y * 0.4 : 0) };
+  const burn = m === MOVES.fire;
+  if (foe.state === 'block') {
+    foe.hp -= m.hurt * (burn ? 0.25 : 0.15); foe.slide = m.push * 0.45; if (!burn) f.slide = m.push * 0.25;
+    game.sparks.push({ ...at, t: 0, kind: 'block' }); sound.block();
+  } else {
+    foe.hp -= m.hurt; foe.slide = m.push; foe.flash = burn ? 0.3 : 0.12; foe.vx = 0; set(foe, 'hit');
+    game.stop = 0.07; game.shake = 0.18;
+    game.sparks.push({ ...at, t: 0, kind: burn ? 'burn' : 'hit' }); sound.hit();
+  }
+  if (foe.hp <= 0) { foe.hp = 0; foe.slide = 520; set(foe, 'ko'); endRound(f); sound.ko(); }
+}
+
+function endRound(winner, onTime) {
+  if (game.phase !== 'fight') return;
+  game.phase = 'down'; game.t = 0; game.winner = winner;
+  if (winner) winner.wins++;
+  say(onTime ? 'Time' : 'K.O.', 1.6);
+}
+
+// what a fighter does with what is asked of it:
+// { move: 1 toward the other or -1 away, block, crouch, jump, slash, kick, fire }
+function act(f, foe, want, dt) {
+  f.t += dt;
+  f.flash = Math.max(0, f.flash - dt);
+  f.cool = Math.max(0, f.cool - dt);
+  if (f.slide > 1) { f.x -= f.face * f.slide * dt; f.slide *= Math.pow(0.0015, dt); }
+  if (f.y > 0 || f.vy > 0) {                                 // in the air
+    f.vy -= FALL * dt; f.y += f.vy * dt; f.x += f.face * f.vx * dt;
+    if (f.y <= 0) { f.y = f.vy = f.vx = 0; if (f.state === 'jump') set(f, 'idle'); }
+  }
+  if (MOVES[f.state]) {
+    const m = MOVES[f.state];
+    if (!f.landed && f.t >= m.wind && f.t < m.wind + m.live) strike(f, foe, m);
+    if (f.t >= m.wind + m.live + m.rest) set(f, 'idle');
+    return;
+  }
+  if (f.state === 'jump') {
+    if (!f.kicking && want.kick && f.t > 0.08 && game.phase === 'fight') { f.kicking = true; sound.swing(); }
+    if (f.kicking && !f.landed) strike(f, foe, FLYKICK);
+    return;
+  }
+  if (f.state === 'hit') { if (f.t >= 0.32 && f.y === 0) set(f, 'idle'); return; }
+  if (f.state === 'ko' || f.state === 'win') return;
+  if (game.phase !== 'fight') { if (f.state !== 'idle') set(f, 'idle'); return; }
+  if (want.fire && f.cool <= 0) { set(f, 'fire'); f.cool = FIRE_WAIT; sound.fire(); return; }
+  if (want.jump) { set(f, 'jump'); f.vy = LEAP; f.vx = (want.move || 0) * (want.move > 0 ? SPEED : BACK) * 0.9; return; }
+  if (want.kick && want.crouch) { set(f, 'sweep'); sound.swing(); return; }
+  if (want.slash) { set(f, 'slash'); sound.swing(); return; }
+  if (want.kick) { set(f, 'kick'); sound.swing(); return; }
+  const next = want.block ? 'block' : want.crouch ? 'crouch' : want.move ? 'walk' : 'idle';
+  if (next !== f.state) set(f, next);
+  if (next === 'walk') f.x += f.face * want.move * (want.move > 0 ? SPEED : BACK) * dt;
+}
+
+function keepApart() {
+  for (const f of [ogun, ekwensu]) f.x = Math.min(RIGHT, Math.max(LEFT, f.x));
+  const short = APART - (ekwensu.x - ogun.x);
+  if (short > 0) {
+    ogun.x -= short / 2; ekwensu.x += short / 2;
+    if (ogun.x < LEFT) { ekwensu.x += LEFT - ogun.x; ogun.x = LEFT; }
+    if (ekwensu.x > RIGHT) { ogun.x -= ekwensu.x - RIGHT; ekwensu.x = RIGHT; }
+  }
+}
+
+// Ekwensu's choices: close in, strike when in reach, sometimes see a blow coming, sometimes answer a miss
+function think(me, foe, dt) {
+  const gap = Math.abs(foe.x - me.x);
+  if (me.state === 'jump') return ai.fly && me.vy < 450 ? { kick: true } : {};
+  const blow = MOVES[foe.state], flying = foe.state === 'jump' && foe.kicking;
+  const coming = (blow && foe.t < blow.wind) || flying;
+  if (coming && !ai.judged && gap < (blow ? blow.reach : FLYKICK.reach + 80) + 20) {
+    ai.judged = true;
+    const r = Math.random(), level = blow ? blow.level : 'mid';
+    const through = blow ? blow.wind + blow.live - foe.t + 0.1 : 0.4;       // until the blow is spent
+    if (level === 'high' && r < 0.26) { ai.want = { crouch: true }; ai.wait = through; }
+    else if (level === 'low' && r < 0.3) { ai.want = { jump: true }; ai.fly = false; ai.wait = 0.1; }
+    else if (r < 0.52) { ai.want = { block: true }; ai.wait = Math.max(0.4, through); }
+  }
+  if (blow && !coming && !ai.answered && foe.t >= blow.wind + blow.live) {
+    ai.answered = true;                             // the other's blow is spent and its guard is open
+    if (Math.random() < 0.35) { ai.want = gap < MOVES.kick.reach ? { kick: true } : gap < MOVES.slash.reach ? { slash: true } : { move: 1 }; ai.wait = 0.2; }
+  }
+  if (!blow && !flying) ai.judged = ai.answered = false;
+  ai.wait -= dt;
+  if (ai.wait <= 0) {
+    ai.wait = 0.14 + Math.random() * 0.24;
+    const r = Math.random(), hot = me.cool <= 0;
+    if (gap > MOVES.slash.reach - 25) {
+      if (hot && gap < MOVES.fire.reach - 30 && r < 0.2) ai.want = { fire: true };
+      else if (gap < 430 && r < 0.3) { ai.want = { jump: true, move: 1 }; ai.fly = true; }
+      else ai.want = r < 0.82 ? { move: 1 } : r < 0.92 ? {} : { move: -1 };
+    } else if (gap < MOVES.kick.reach - 10) {
+      ai.want = r < 0.32 ? { slash: true } : r < 0.56 ? { kick: true } : r < 0.7 ? { crouch: true, kick: true } : r < 0.86 ? { move: -1 } : { block: true };
+    } else {
+      ai.want = r < 0.46 ? { slash: true } : r < 0.62 ? { move: 1 } : r < 0.76 ? { block: true } : r < 0.86 && hot ? { fire: true } : r < 0.93 ? { slash: true } : { move: -1 };
+    }
+  }
+  const want = ai.want;
+  if (want.slash || want.kick || want.fire || want.jump) ai.want = {};       // a blow or a jump is asked for once
+  return want;
+}
+
+// ----- the player's keys, and on a touch screen the stick and the buttons -----
+const held = {}, tapped = {}, trail = [];
+const KEYS = { a: 'back', arrowleft: 'back', d: 'fwd', arrowright: 'fwd', w: 'up', arrowup: 'up', s: 'down', arrowdown: 'down',
+  l: 'block', c: 'block', j: 'slash', z: 'slash', k: 'kick', x: 'kick', enter: 'start', ' ': 'start' };
+function press(name) {
+  if (!held[name]) {
+    tapped[name] = 0.16;                           // a tap is remembered for a moment, so a blow asked for early still comes
+    const now = performance.now();
+    if (name === 'slash') {
+      // down, then back, then slash, each within 0.45 s of the one before: fire
+      const b = trail.findLastIndex(p => p.name === 'back');
+      const d = b < 0 ? -1 : trail.slice(0, b).findLastIndex(p => p.name === 'down');
+      if (d >= 0 && now - trail[b].at < 450 && trail[b].at - trail[d].at < 450) { tapped.slash = 0; tapped.fire = 0.2; trail.length = 0; }
+    }
+    trail.push({ name, at: now });
+    if (trail.length > 8) trail.shift();
+  }
+  held[name] = true;
+  if (game.phase === 'title' || game.phase === 'over') {
+    if (name === 'start' || name === 'slash' || name === 'kick') { sound.wake(); newMatch(); sound.bell(); }
+  }
+}
+function release(name) { held[name] = false; }
+addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if (k === 'm') { mute(!sound.muted); return; }
+  if (KEYS[k]) { e.preventDefault(); if (!e.repeat) press(KEYS[k]); }
+});
+addEventListener('keyup', e => { const k = e.key.toLowerCase(); if (KEYS[k]) release(KEYS[k]); });
+
+const root = document.documentElement, play = document.getElementById('play');
+const canvas = document.getElementById('stage'), ctx = canvas.getContext('2d');
+let touchUI = root.classList.contains('touch');
+addEventListener('pointerdown', e => { if (e.pointerType === 'touch' && !touchUI) { touchUI = true; root.classList.add('touch'); } }, true);
+function hold(el, id) { try { el.setPointerCapture(id); } catch (err) { /* a pointer the browser no longer tracks */ } }
+
+// The stick: where the thumb is from the middle says which ways are held. Each way spans 120°, so a slant holds two:
+// up and forward is a jump forward, down and back is down, then back, toward the fire
+const stick = document.getElementById('stick'), ways = {};
+for (const p of stick.querySelectorAll('.way')) ways[p.dataset.way] = p;
+let thumb = null, aimed = [];
+function aim(dirs) {
+  for (const d of aimed) if (!dirs.includes(d)) { release(d); ways[d].classList.remove('on'); }
+  for (const d of dirs) if (!aimed.includes(d)) { press(d); ways[d].classList.add('on'); }
+  aimed = dirs;
+}
+function steer(e) {
+  const r = stick.getBoundingClientRect(), R = r.width / 2;
+  const dx = e.clientX - r.left - R, dy = e.clientY - r.top - R, far = Math.hypot(dx, dy);
+  const k = Math.min(1, R * 0.5 / (far || 1));
+  stick.style.setProperty('--kx', (dx * k).toFixed(1) + 'px'); stick.style.setProperty('--ky', (dy * k).toFixed(1) + 'px');
+  const dirs = [];
+  if (far > R * 0.25) {
+    const a = Math.atan2(-dy, dx) * 180 / Math.PI;                       // 0 is forward, 90 is up
+    const near = to => Math.abs(((a - to) % 360 + 540) % 360 - 180) < 60;
+    for (const [way, to] of [['down', -90], ['up', 90], ['back', 180], ['fwd', 0]]) if (near(to)) dirs.push(way);
+  }
+  aim(dirs);
+}
+function letGo(e) {
+  if (e && e.pointerId !== thumb) return;
+  thumb = null; stick.classList.remove('on');
+  stick.style.setProperty('--kx', '0px'); stick.style.setProperty('--ky', '0px');
+  aim([]);
+}
+stick.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  if (thumb !== null) return;
+  thumb = e.pointerId; hold(stick, thumb); stick.classList.add('on'); steer(e);
+});
+stick.addEventListener('pointermove', e => { if (e.pointerId === thumb) steer(e); });
+for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) stick.addEventListener(t, letGo);
+
+// the buttons: each answers its own finger, so Block can be held while the stick moves
+const buttons = [...document.querySelectorAll('#hits button')], fingers = new Map();
+for (const b of buttons) {
+  const name = b.dataset.key;
+  b.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    if (fingers.has(b)) return;
+    fingers.set(b, e.pointerId); hold(b, e.pointerId); b.classList.add('on'); press(name);
+  });
+  const up = e => { if (fingers.get(b) !== e.pointerId) return; fingers.delete(b); b.classList.remove('on'); release(name); };
+  for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) b.addEventListener(t, up);
+}
+play.addEventListener('contextmenu', e => { if (touchUI) e.preventDefault(); });
+for (const t of ['gesturestart', 'gesturechange']) document.addEventListener(t, e => { if (touchUI) e.preventDefault(); });
+
+// on the title and at the end, a tap on the picture starts a fight: anywhere off the controls on a touch screen
+play.addEventListener('pointerdown', e => {
+  if (game.phase !== 'title' && game.phase !== 'over') return;
+  if (touchUI ? e.target.closest('#pad, #tools') : e.target !== canvas) return;
+  press('start'); release('start');
+});
+
+function letAllGo() {
+  for (const k in held) held[k] = false;
+  letGo();
+  for (const b of buttons) b.classList.remove('on');
+  fingers.clear();
+}
+addEventListener('blur', letAllGo);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) letAllGo();
+  else if (game.phase !== 'title' && game.phase !== 'over') stayAwake();
+});
+
+function playerWants(dt) {
+  const want = { move: (held.fwd ? 1 : 0) - (held.back ? 1 : 0), block: !!held.block, crouch: !!held.down };
+  for (const [tap, ask] of [['slash', 'slash'], ['kick', 'kick'], ['up', 'jump'], ['fire', 'fire']]) {
+    if (tapped[tap] > 0) { tapped[tap] -= dt; want[ask] = true; }
+  }
+  return want;
+}
+function spent(f) {                                  // a tap that has been answered is not answered twice
+  if (f.state === 'slash') tapped.slash = 0;
+  if (f.state === 'kick' || f.state === 'sweep' || f.kicking) tapped.kick = 0;
+  if (f.state === 'jump') tapped.up = 0;
+  if (f.state === 'fire') tapped.fire = tapped.slash = 0;
+}
+
+// ----- the screen: sound, full screen, staying awake, the fire button filling -----
+const muteButton = document.getElementById('mute'), fullButton = document.getElementById('full');
+function mute(off) { sound.muted = off; muteButton.setAttribute('aria-pressed', String(!off)); }
+muteButton.addEventListener('click', () => mute(!sound.muted));
+
+fullButton.hidden = !(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+fullButton.addEventListener('click', async () => {
+  try {
+    if (document.fullscreenElement || document.webkitFullscreenElement) await (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else {
+      await (root.requestFullscreen || root.webkitRequestFullscreen).call(root);
+      if (screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape');
+    }
+  } catch (err) { /* the browser said no, and the page stays as it was */ }
+});
+
+let awake = null;                                    // keeps a phone's screen lit through a match
+async function stayAwake() {
+  if (awake || !navigator.wakeLock) return;
+  try { awake = await navigator.wakeLock.request('screen'); awake.addEventListener('release', () => { awake = null; }); }
+  catch (err) { awake = null; }
+}
+
+const fireButton = document.querySelector('#hits .fire');
+let fireShown = -1;
+function showFire() {
+  const ready = Math.round((1 - ogun.cool / FIRE_WAIT) * 40) / 40;
+  if (ready === fireShown) return;
+  fireShown = ready;
+  fireButton.style.setProperty('--ready', ready);
+  fireButton.classList.toggle('ready', ready >= 1);
+}
+
+// ----- sound: a few plain tones -----
+const sound = {
+  muted: false, ac: null,
+  wake() {
+    if (!this.ac) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) this.ac = new AC(); }
+    if (this.ac && this.ac.state === 'suspended') Promise.resolve(this.ac.resume()).catch(() => {});
+  },
+  tone(type, from, to, seconds, loud) {
+    if (this.muted || !this.ac) return;
+    const t = this.ac.currentTime, o = this.ac.createOscillator(), g = this.ac.createGain();
+    o.type = type; o.frequency.setValueAtTime(from, t); o.frequency.exponentialRampToValueAtTime(to, t + seconds);
+    g.gain.setValueAtTime(loud, t); g.gain.exponentialRampToValueAtTime(0.001, t + seconds);
+    o.connect(g).connect(this.ac.destination); o.start(t); o.stop(t + seconds);
+  },
+  swing() { this.tone('triangle', 520, 170, 0.12, 0.07); },
+  hit() { this.tone('square', 170, 48, 0.17, 0.16); },
+  block() { this.tone('square', 980, 520, 0.07, 0.09); },
+  fire() { this.tone('sawtooth', 110, 320, 0.3, 0.05); this.tone('sawtooth', 340, 60, 0.9, 0.1); },
+  ko() { this.tone('sawtooth', 230, 38, 0.7, 0.18); },
+  bell() { this.tone('sine', 700, 690, 0.5, 0.14); },
+};
+// a phone lets sound begin only when a finger lifts or a key goes down
+for (const t of ['pointerup', 'touchend', 'keydown']) addEventListener(t, () => sound.wake(), true);
+
+// ----- a step of the game -----
+function step(dt) {
+  game.time += dt;
+  game.bannerT = Math.max(0, game.bannerT - dt);
+  game.shake = Math.max(0, game.shake - dt);
+  for (const s of game.sparks) s.t += dt;
+  game.sparks = game.sparks.filter(s => s.t < 0.22);
+  for (const f of [ogun, ekwensu]) f.shown += (f.hp - f.shown) * Math.min(1, dt * 5);
+  if (game.phase === 'title' || game.phase === 'over') { for (const f of [ogun, ekwensu]) f.t += dt; return; }
+  if (game.stop > 0) { game.stop -= dt; return; }           // a landed blow holds the picture for a moment
+  game.t += dt;
+  if (game.phase === 'ready' && game.t >= 1.3) { game.phase = 'fight'; game.t = 0; say('Fight!', 0.7); sound.bell(); }
+  if (game.phase === 'fight') {
+    game.clock -= dt;
+    if (game.clock <= 0) {
+      game.clock = 0;
+      const ahead = ogun.hp === ekwensu.hp ? null : ogun.hp > ekwensu.hp ? ogun : ekwensu;
+      endRound(ahead, true);
+    }
+  }
+  act(ogun, ekwensu, playerWants(dt), dt); spent(ogun);
+  act(ekwensu, ogun, game.phase === 'fight' ? think(ekwensu, ogun, dt) : {}, dt);
+  keepApart();
+  if (game.phase === 'down') {
+    const w = game.winner;
+    if (w && game.t >= 0.9 && w.y === 0 && !MOVES[w.state] && w.state !== 'win' && w.state !== 'ko' && w.state !== 'hit') set(w, 'win');
+    if (game.t >= 3.0) {
+      if (w && w.wins >= ROUNDS_TO_WIN) { game.phase = 'over'; if (awake) awake.release().catch(() => {}); }
+      else { if (w) game.round++; newRound(); }
+    }
+  }
+}
+
+// ----- drawing -----
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;     // the picture does not shake for those who asked for less motion
+function frameOf(f) {
+  const m = MOVES[f.state];
+  if (m) return m.frames[f.t < m.wind || f.t >= m.wind + m.live + m.rest * 0.55 ? 0 : 1];
+  switch (f.state) {
+    case 'idle': return Math.floor(f.t / 0.45) % 2 ? 'idle1' : 'idle0';
+    case 'walk': return ['walk0', 'idle0', 'walk1', 'idle0'][Math.floor(f.t / 0.13) % 4];
+    case 'jump': return f.kicking ? 'flykick' : f.t < 0.06 ? 'crouch' : 'jump';
+    case 'crouch': return 'crouch';
+    case 'block': return 'block';
+    case 'hit': return 'hit';
+    case 'ko': return f.t < 0.22 || f.y > 0 ? 'hit' : 'ko';
+    case 'win': return 'win';
+  }
+  return 'idle0';
+}
+function drawFighter(f) {
+  const sheet = sheets[f.key];
+  if (!sheet.complete || !sheet.naturalWidth) return;
+  const k = FRAME[frameOf(f)], sx = (k % COLUMNS) * CELL_W, sy = Math.floor(k / COLUMNS) * CELL_H;
+  ctx.save();
+  ctx.translate(Math.round(f.x), GROUND - Math.round(f.y));
+  ctx.scale(f.face, 1);
+  ctx.drawImage(sheet, sx, sy, CELL_W, CELL_H, -ORIGIN_X, -ORIGIN_Y, CELL_W, CELL_H);
+  if (f.flash > 0) {
+    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.55;
+    ctx.drawImage(sheet, sx, sy, CELL_W, CELL_H, -ORIGIN_X, -ORIGIN_Y, CELL_W, CELL_H);
+  }
+  ctx.restore();
+}
+function drawShadow(f) {
+  const down = f.state === 'ko' && f.t >= 0.22 && f.y === 0, small = 1 - Math.min(0.5, f.y / 300);
+  ctx.save();
+  ctx.translate(f.x - f.face * (down ? 30 : 0), GROUND + 6);
+  ctx.scale((down ? 2.6 : 1) * small, small);
+  const g = ctx.createRadialGradient(0, 0, 4, 0, 0, 120);
+  g.addColorStop(0, 'rgba(40,18,6,0.5)'); g.addColorStop(1, 'rgba(40,18,6,0)');
+  ctx.fillStyle = g; ctx.scale(1, 0.2);
+  ctx.beginPath(); ctx.arc(0, 0, 120, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+function glow(x, y, r, inner, alpha) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, `rgba(${inner},${alpha})`); g.addColorStop(1, `rgba(${inner},0)`);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+}
+// the fire a fighter breathes: a stream of puffs from the mouth, pale at the lips and red at the far end.
+// It is laid down twice: first as plain colour, so that it shows against a white wall, then as light
+function drawFire(f) {
+  if (f.state !== 'fire') return;
+  const m = MOVES.fire, mouth = MOUTH[f.key], x0 = f.x + f.face * mouth.x, y0 = GROUND - mouth.y, t = f.t - m.wind;
+  ctx.save();
+  if (t < 0) {                                              // drawing breath: a glow at the lips
+    ctx.globalCompositeOperation = 'lighter';
+    glow(x0, y0, 16 + 10 * (1 + t / m.wind) + 4 * Math.sin(game.time * 40), '255,170,60', 0.8);
+    ctx.restore(); return;
+  }
+  const fade = t > m.live ? 1 - (t - m.live) / 0.14 : 1;
+  if (fade > 0) {
+    const long = (m.reach - mouth.x + 20) * Math.min(1, t / m.grows), flow = (game.time * 2.6) % 1, puffs = 34;
+    for (const pass of ['colour', 'light']) {
+      ctx.globalCompositeOperation = pass === 'light' ? 'lighter' : 'source-over';
+      for (let i = 0; i < puffs; i++) {
+        const u = ((i / puffs) + flow) % 1;
+        const wob = Math.sin(i * 12.9898 + game.time * 21) * (4 + 34 * u) - 30 * u * u;
+        const x = x0 + f.face * u * long, y = y0 + wob;
+        if (pass === 'colour') glow(x, y, 20 + 62 * u, u < 0.45 ? '240,120,20' : '190,45,12', fade * (0.5 - 0.2 * u));
+        else glow(x, y, 10 + 34 * u, u < 0.35 ? '255,235,160' : '255,150,40', fade * (0.6 - 0.45 * u));
+      }
+    }
+    ctx.globalCompositeOperation = 'lighter';
+    glow(x0, y0, 26, '255,240,190', 0.8 * fade);
+  }
+  ctx.restore();
+}
+function drawSpark(s) {
+  const p = s.t / 0.22, r = 26 + 70 * p;
+  ctx.save(); ctx.translate(s.x, s.y); ctx.globalAlpha = 1 - p;
+  if (s.kind === 'burn') { ctx.globalCompositeOperation = 'lighter'; glow(0, 0, 60 + 90 * p, '255,150,40', 0.8); ctx.restore(); return; }
+  ctx.strokeStyle = s.kind === 'hit' ? '#fff3c4' : '#cfe0ff'; ctx.lineWidth = s.kind === 'hit' ? 7 : 4; ctx.lineCap = 'round';
+  for (let i = 0; i < 8; i++) {
+    const a = i * Math.PI / 4 + 0.3;
+    ctx.beginPath(); ctx.moveTo(Math.cos(a) * r * 0.45, Math.sin(a) * r * 0.45); ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); ctx.stroke();
+  }
+  ctx.restore();
+}
+function text(s, x, y, size, align, fill, weight) {
+  ctx.font = `${weight || 700} ${size}px Andika, 'Noto Sans', 'Segoe UI', system-ui, sans-serif`;
+  ctx.textAlign = align || 'center'; ctx.textBaseline = 'middle';
+  ctx.lineJoin = 'round'; ctx.lineWidth = Math.max(4, size / 7); ctx.strokeStyle = 'rgba(24,12,6,0.85)';
+  ctx.strokeText(s, x, y); ctx.fillStyle = fill || '#f4efe6'; ctx.fillText(s, x, y);
+}
+function drawBar(f, x, right) {
+  const w = 560, h = 30, y = 46;
+  ctx.fillStyle = 'rgba(24,12,6,0.82)'; ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
+  ctx.fillStyle = '#4a2a1a'; ctx.fillRect(x, y, w, h);
+  const trail = w * Math.max(0, f.shown) / 100, now = w * Math.max(0, f.hp) / 100;
+  ctx.fillStyle = '#f4efe6'; ctx.fillRect(right ? x + w - trail : x, y, trail, h);
+  ctx.fillStyle = f.hp > 30 ? '#e0a63a' : '#c2452d'; ctx.fillRect(right ? x + w - now : x, y, now, h);
+  text(f.name, right ? x + w : x, y + h + 26, 26, right ? 'right' : 'left');
+  // the fire: a flame-coloured mark by the name, filling as the breath comes back
+  const wide = ctx.measureText(f.name).width, fx = right ? x + w - wide - 24 : x + wide + 24, fy = y + h + 26, ready = 1 - f.cool / FIRE_WAIT;
+  ctx.beginPath(); ctx.arc(fx, fy, 10, 0, Math.PI * 2); ctx.fillStyle = 'rgba(24,12,6,0.82)'; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(fx, fy); ctx.arc(fx, fy, 10, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ready); ctx.closePath();
+  ctx.fillStyle = ready >= 1 ? '#ff8a2a' : '#8a4a22'; ctx.fill();
+  ctx.beginPath(); ctx.arc(fx, fy, 10, 0, Math.PI * 2); ctx.lineWidth = 2; ctx.strokeStyle = '#f4efe6'; ctx.stroke();
+  for (let i = 0; i < ROUNDS_TO_WIN; i++) {
+    ctx.beginPath(); ctx.arc(right ? x + 14 + i * 30 : x + w - 14 - i * 30, y + h + 26, 9, 0, Math.PI * 2);
+    ctx.fillStyle = i < f.wins ? '#e0a63a' : 'rgba(24,12,6,0.82)'; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = '#f4efe6'; ctx.stroke();
+  }
+}
+function draw() {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (backdrop.complete && backdrop.naturalWidth) ctx.drawImage(backdrop, 0, 0, W, H);
+  else { ctx.fillStyle = '#b98558'; ctx.fillRect(0, 0, W, H); }
+  if (game.shake > 0 && !calm) ctx.translate((Math.random() - 0.5) * 14 * game.shake / 0.18, (Math.random() - 0.5) * 8 * game.shake / 0.18);
+  drawShadow(ogun); drawShadow(ekwensu);
+  // the one who is down, or who is not striking, goes behind
+  const busy = f => !!MOVES[f.state] || f.kicking;
+  const order = (ogun.state === 'ko' || (busy(ekwensu) && !busy(ogun))) ? [ogun, ekwensu] : [ekwensu, ogun];
+  for (const f of order) drawFighter(f);
+  drawFire(ogun); drawFire(ekwensu);
+  for (const s of game.sparks) drawSpark(s);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+  if (game.phase === 'title' || game.phase === 'over') {
+    ctx.fillStyle = 'rgba(20,10,5,0.55)'; ctx.fillRect(0, 0, W, H);
+    if (game.phase === 'title') {
+      text('ÒGÚN  ·  EKWENSU', W / 2, 190, 104);
+      text('at the Ofala', W / 2, 285, 48, 'center', '#e0a63a', 600);
+    } else {
+      text(game.winner.name + ' wins', W / 2, 190, 104);
+      text(`${ogun.wins} – ${ekwensu.wins}`, W / 2, 285, 52, 'center', '#e0a63a', 600);
+    }
+    const ask = touchUI ? 'Tap' : 'Press Enter';
+    if (Math.floor(performance.now() / 500) % 2) text(game.phase === 'title' ? ask + ' to fight' : ask + ' to fight again', W / 2, 840, 40);
+    return;
+  }
+  drawBar(ogun, 60, false); drawBar(ekwensu, W - 60 - 560, true);
+  ctx.beginPath(); ctx.arc(W / 2, 62, 44, 0, Math.PI * 2); ctx.fillStyle = 'rgba(24,12,6,0.82)'; ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = '#e0a63a'; ctx.stroke();
+  text(String(Math.ceil(game.clock)), W / 2, 64, 44);
+  if (game.bannerT > 0) text(game.banner, W / 2, 360, 120);
+}
+
+let last = performance.now();
+function tick(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  step(dt); draw();
+  if (touchUI) showFire();
+  requestAnimationFrame(tick);
+}
+// The claude.ai viewer can swap in a newer copy of this page while it is open; this carries the fight across
+try {
+  window.claude?.hot?.snapshot?.(() => ({ game: { ...game, winner: game.winner && game.winner.key, sparks: [] },
+    ogun: { ...ogun }, ekwensu: { ...ekwensu }, muted: sound.muted }));
+} catch (err) { /* outside the viewer there is nothing to carry */ }
+function start(saved) {
+  if (saved && saved.game) {
+    Object.assign(ogun, saved.ogun); Object.assign(ekwensu, saved.ekwensu);
+    Object.assign(game, saved.game, { winner: { ogun, ekwensu }[saved.game.winner] || null });
+    mute(!!saved.muted);
+  } else { ogun.x = 480; ekwensu.x = 1060; }
+  requestAnimationFrame(tick);
+}
+if (window.claude?.hot?.ready) window.claude.hot.ready(start); else start(window.claude?.hot?.data ?? {});
+</script>
+</body>
+</html>
